@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <title>Sign In Admin</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="Login Admin">
+  <meta name="author" content="code@Home">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row header-sign-in">
+      <div class="col-md-10 offset-md-1 form-sign-in">
+        <div class="row">
+          <div class="col-md-6 d-none d-sm-block">
+            <img class="icon-header" height="276" src="assets/images/illustration_login.png" alt="">
+          </div>
+          <div class="col-md-4">
+            <p class="title-form">
+              Sign In
+            </p>
+            <form action="/signin" method="post">
+              <div class="form-group content-sign-in">
+                <label class="title-input-type-primary-tiketsaya" for="username">Username</label>
+                <input type="text" class="form-control input-type-primary-tiketsaya" id="username" name="username"
+                  aria-describedby="username" placeholder="Enter username" required>
+              </div>
+              <div class="form-group">
+                <label class="title-input-type-primary-tiketsaya" for="password">Password</label>
+                <input type="password" class="form-control input-type-primary-tiketsaya" id="password" name="password"
+                  placeholder="Password" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-primary-tiketsaya">Sign In</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if(action === "view") { %>
+  <script type="text/javascript">
+    swal("Oops!", "Incorrect username and password!", "error");
+  </script>
+  <% } %>
+
+</body>
+
+</html>
