@@ -12,4 +12,4 @@
 1. Signin
    <img src="screenshot/00. Login All Users.png">
 2. Guru
-   <img src="02. Guru (Read).png">
+   <img src="screenshot/02. Guru (Read).png">
