@@ -9,6 +9,7 @@ const session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+let guruRouter = require('./routes/guru');
 
 var app = express();
 
@@ -31,11 +32,19 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: true }
 }))
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  res.locals.stuff = {
+    url: req.originalUrl
+  }
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/', usersRouter);
+app.use('/', guruRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

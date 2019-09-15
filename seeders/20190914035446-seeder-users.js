@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const password = bcrypt.hashSync("rahasia", 10);
+    const passwordDefault = bcrypt.hashSync("15312376", 10);
     return queryInterface.bulkInsert(
       "Users",
       [
@@ -20,6 +21,14 @@ module.exports = {
           password: password,
           role: "guru",
           status: "Active",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          username: "itce",
+          password: passwordDefault,
+          role: "guru",
+          status: "Nonactive",
           createdAt: new Date(),
           updatedAt: new Date()
         },
