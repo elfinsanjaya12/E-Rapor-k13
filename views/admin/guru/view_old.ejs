@@ -31,7 +31,7 @@
                   <th>Aksi</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="show_data">
                 <% for (let i = 0; i < guru.length; i++ ) { %>
                 <tr>
                   <td><%= i + 1 %></td>
@@ -104,13 +104,13 @@
         method: "POST",
         data: $(this).serialize(),
         success: function () {
+          successTambah();
           swal({
             title: "Success",
             text: "Success Tambah Data Guru",
             icon: "success",
             button: "Oke",
           });
-          successTambah();
         },
       })
     })

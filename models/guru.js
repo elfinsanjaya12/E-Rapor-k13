@@ -1,4 +1,6 @@
 'use strict';
+const bcrypt = require("bcrypt");
+
 module.exports = (sequelize, DataTypes) => {
   const Guru = sequelize.define('Guru', {
     nip: DataTypes.STRING,
@@ -13,5 +15,34 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "UserId"
     });
   };
+
+  // hooks
+  Guru.afterCreate(async guru => {
+    const { nip } = guru
+    const password = bcrypt.hashSync(nip, 10);
+    try {
+      const user = await sequelize.models.User.create({
+        username: nip,
+        role: 'guru',
+        password: password,
+        status: 'Nonactive',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+
+      const guru = await sequelize.models.Guru.update({
+        UserId: user.id,
+      }, {
+        where: {
+          nip: nip
+        }
+      })
+      return guru
+
+    } catch (e) {
+      throw new Error(e)
+    }
+  })
+
   return Guru;
 };
