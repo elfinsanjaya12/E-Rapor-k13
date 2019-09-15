@@ -1,3 +1,4 @@
+<% stuff = typeof stuff !== 'object' ? {} : stuff %>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 
@@ -31,31 +32,31 @@
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu" data-widget="tree">
       <!-- Optionally, you can add icons to the links -->
-      <li class="active">
-        <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+      <li class="<% if ( stuff.url == "/admin" ) { %> active <% } %>">
+        <a href="/admin"> <i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
       </li>
-      <li>
-        <a href="#"><i class="fa fa-user"></i> <span>Guru</span></a>
+      <li class="<% if ( stuff.url == "/admin/guru" ) { %> active <% } %>">
+        <a href="/admin/guru"><i class="fa fa-user"></i> <span>Guru</span></a>
       </li>
-      <li>
+      <li class="<% if ( stuff.url == "/admin/siswa" ) { %> active <% } %>">
         <a href="#"><i class="fa fa-users"></i> <span>Siswa</span></a>
       </li>
-      <li>
+      <li class="<% if ( stuff.url == "/admin/matpel" ) { %> active <% } %>">
         <a href="#"><i class="fa fa-link"></i> <span>Mata Pelajaran</span></a>
       </li>
-      <li>
+      <li class="<% if ( stuff.url == "/admin/kelas" ) { %> active <% } %>">
         <a href="#"><i class="fa fa-home"></i> <span>Kelas</span></a>
       </li>
-      <li>
+      <li class="<% if ( stuff.url == "/admin/eksta" ) { %> active <% } %>">
         <a href="#"><i class="fa fa-edit"></i> <span>Ekstrakurikuler</span></a>
       </li>
-      <li>
+      <li class="<% if ( stuff.url == "/admin/kel-kelas" ) { %> active <% } %>">
         <a href="#"><i class="fa fa-user-plus"></i> <span>Kelompok Kelas</span></a>
       </li>
-      <li>
+      <li class="<% if ( stuff.url == "/admin/kel-matpel" ) { %> active <% } %>">
         <a href="#"><i class="fa fa-book"></i> <span>Kelompok Mata Pelajaran</span></a>
       </li>
-      <li>
+      <li class="<% if ( stuff.url == "/admin/kel-wali-kelas" ) { %> active <% } %>">
         <a href="#"><i class="fa fa-user-secret"></i> <span>Kelompok Wali Kelas</span></a>
       </li>
     </ul>
