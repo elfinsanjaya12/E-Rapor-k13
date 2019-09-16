@@ -29,3 +29,30 @@ exports.actionCreate = async (req, res) => {
   });
   res.redirect("/admin/guru");
 }
+
+exports.actionFind = async (req, res) => {
+  const { id } = req.params;
+  Astor.findOne({ where: { id: { [Op.eq]: id } } }).then((editGuru) => {
+    res.render('/admin/guru/guru', {
+      editGuru: editGuru
+    });
+  });
+}
+
+exports.actionUpdate = async (req, res) => {
+  const { id, nip, nama, jk } = req.body
+
+  const updateGuru = await Guru.findOne({
+    where: {
+      id: { [Op.eq]: id }
+    }
+  })
+
+  if (updateGuru) {
+    updateGuru.nip = nip
+    updateGuru.nama = nama
+    updateGuru.jk = jk
+    await updateGuru.save()
+  }
+  res.redirect('/admin/guru')
+}

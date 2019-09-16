@@ -49,7 +49,9 @@
                     </span>
                   </td>
                   <td>
-                    <a href="" class="btn btn-success btn-sm">
+                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                      data-nip="<%= guru[i].nip %>" data-id="<%= guru[i].id %>" data-nama="<%= guru[i].nama %>"
+                      data-jk="<%= guru[i].jk %>">
                       <span class="glyphicon glyphicon-pencil"></span>
                       Edit
                     </a>
@@ -89,6 +91,9 @@
 <!-- iclude modal add -->
 <%- include add_modal.ejs %>
 
+<!-- include modal edit -->
+<%- include edit_modal.ejs %>
+
 <%- include ../../partials/admin_layout/footer.ejs %>
 <!-- page script -->
 <script>
@@ -115,6 +120,22 @@
       })
     })
   })
+
+  //showing data to edit modal      
+  $('#guru').on('click', '.edit', function () {
+    var id = $(this).data('id');
+    var nip = $(this).data('nip');
+    var nama = $(this).data('nama');
+    var jk = $(this).data('jk');
+
+    $('#EditModal').modal('show');
+    $('.nama').val(nama);
+    $('.nip').val(nip);
+    $("select").val(jk);
+    $('.id').val(id);
+  });
+
+
 </script>
 <script>
   $(function () {
