@@ -56,3 +56,19 @@ exports.actionUpdate = async (req, res) => {
   }
   res.redirect('/admin/guru')
 }
+
+exports.actionDetele = (req, res) => {
+  let { id } = req.params;
+  console.log(id)
+  Guru.findOne({ where: { id: { [Op.eq]: id } } }).then(async (guru) => {
+    let UserId = guru.UserId
+    const user = await User.findOne({ where: { id: { [Op.eq]: UserId } } })
+    user.destroy()
+    guru.destroy().then(() => {
+      res.redirect('/admin/guru');
+    })
+  }).catch((err) => {
+    console.log(err)
+    res.redirect('/admin/guru');
+  });
+}

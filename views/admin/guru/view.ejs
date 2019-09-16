@@ -55,10 +55,11 @@
                       <span class="glyphicon glyphicon-pencil"></span>
                       Edit
                     </a>
-                    <a href="" class="btn btn-danger btn-sm">
+                    <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= guru[i].id %>`)"
+                      data-id="<%= guru[i].id %>">
                       <span class="glyphicon glyphicon-trash"></span>
                       Delete
-                    </a>
+                    </button>
                     <% if(guru[i].status === "Active") { %>
                     <a href="" class="btn btn-primary btn-sm">
                       <span class="glyphicon glyphicon-user"></span>
@@ -98,10 +99,15 @@
 <!-- page script -->
 <script>
   $(document).ready(function () {
+    // datatable
+    $('#guru').DataTable()
+
+    // redirect halaman guru
     function successTambah() {
       window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/guru')
     }
 
+    // function simpan
     $('#simpan_guru').on('submit', function (event) {
       event.preventDefault();
       $.ajax({
@@ -135,10 +141,25 @@
     $('.id').val(id);
   });
 
+  // detele guru 
+  function delete_guru(id) {
+    console.log(id)
+    let idGuru = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Guru ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      console.log("masuk pak eko" + idGuru)
+      if (willDelete) {
+        window.location.assign(`/admin/guru/delete/${idGuru}`);
+      }
+    });
+  }
 
-</script>
-<script>
-  $(function () {
-    $('#guru').DataTable()
-  })
+
+
+
 </script>
