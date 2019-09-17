@@ -1,6 +1,6 @@
 const { Guru, User } = require("../models");
 const Op = require("sequelize").Op;
-const swal = require('sweetalert2')
+
 const include = {
   include: [{ model: User }]
 }
@@ -8,6 +8,7 @@ const include = {
 exports.viewGuru = async (req, res) => {
   try {
     const userLogin = req.session.user
+
     const guru = await Guru.findAll({ ...include })
 
     res.render("admin/guru/view", {

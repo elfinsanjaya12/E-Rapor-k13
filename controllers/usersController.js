@@ -4,10 +4,15 @@ const Op = require("sequelize").Op;
 
 /* GET login page from template adminlte. */
 exports.viewSignin = async (req, res) => {
-  res.render("index", { action: "false" });
+  if (req.session.user == null || req.session.user == undefined) {
+    res.render("login", { action: "false" });
+  } else {
+    res.redirect('/admin')
+  }
 }
 
 exports.actionLogin = async (req, res) => {
+
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username: { [Op.eq]: username } } });
 
@@ -20,6 +25,7 @@ exports.actionLogin = async (req, res) => {
         role: user.role,
         status: user.status
       }
+
       if (user.role === "admin") {
         res.redirect("/admin");
       } else if (user.role === "guru") {
@@ -33,4 +39,9 @@ exports.actionLogin = async (req, res) => {
   } else {
     res.render("login", { action: "view" });
   }
+}
+
+exports.actionLogout = async (req, res) => {
+  req.session.destroy()
+  res.redirect('/signin');
 }

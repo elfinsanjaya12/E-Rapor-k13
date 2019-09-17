@@ -8,7 +8,9 @@ let {
   actionUpdateStatus
 } = require("../controllers/guruController")
 
-router.get("/admin/guru", viewGuru)
+const auth = require('../middlewares/auth')
+
+router.get("/admin/guru", auth.isLogin, viewGuru)
 router.post("/admin/guru", actionCreate)
 router.post("/admin/guru/update", actionUpdate)
 router.get("/admin/guru/delete/:id", actionDetele)
