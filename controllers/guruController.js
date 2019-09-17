@@ -72,3 +72,39 @@ exports.actionDetele = (req, res) => {
     res.redirect('/admin/guru');
   });
 }
+
+exports.actionUpdateStatus = async (req, res) => {
+  let { id } = req.params
+  let guru = await Guru.findOne({
+    ...include,
+    where: {
+      id: { [Op.eq]: id }
+    }
+  })
+  if (guru.User.status === "Active") {
+    const user = await User.findOne({
+      where: {
+        id: { [Op.eq]: guru.UserId }
+      }
+    })
+    if (user && guru) {
+      user.status = "Nonactive"
+      guru.status = "Nonactive"
+      await user.save()
+    }
+    res.redirect("/admin/guru")
+  } else {
+    const user = await User.findOne({
+      where: {
+        id: { [Op.eq]: guru.UserId }
+      }
+    })
+    if (user && guru) {
+      user.status = "Active"
+      guru.status = "Active"
+      await user.save()
+
+    }
+    res.redirect("/admin/guru")
+  }
+}

@@ -60,16 +60,18 @@
                       <span class="glyphicon glyphicon-trash"></span>
                       Delete
                     </button>
-                    <% if(guru[i].status === "Active") { %>
-                    <a href="" class="btn btn-primary btn-sm">
+                    <% if(guru[i].User.status === "Active") { %>
+                    <button class="btn btn-primary btn-sm" onclick="update_status(`<%= guru[i].id %>`)"
+                      data-id="<%= guru[i].id %>">
                       <span class="glyphicon glyphicon-user"></span>
                       Nonactive User
-                    </a>
+                    </button>
                     <% } else { %>
-                    <a href="" class="btn btn-warning btn-sm">
+                    <button class="btn btn-warning btn-sm" onclick="update_status(`<%= guru[i].id %>`)"
+                      data-id="<%= guru[i].id %>">
                       <span class="glyphicon glyphicon-user"></span>
                       Active User
-                    </a>
+                    </button>
                     <% } %>
                   </td>
                 </tr>
@@ -143,8 +145,6 @@
 
   // detele guru 
   function delete_guru(id) {
-    console.log(id)
-    let idGuru = id;
     swal({
       title: "Yakin Ingin Menghapus Data Guru ini?",
       text: "Data yang dihapus, tidak bisa kembali lagi.",
@@ -152,13 +152,26 @@
       buttons: true,
       dangerMode: true
     }).then(willDelete => {
-      console.log("masuk pak eko" + idGuru)
       if (willDelete) {
         window.location.assign(`/admin/guru/delete/${idGuru}`);
       }
     });
   }
 
+  // detele guru 
+  function update_status(id) {
+    let idGuru = id;
+    swal({
+      title: "Yakin Ingin Change Status?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        window.location.assign(`/admin/guru/status/${idGuru}`);
+      }
+    });
+  }
 
 
 
