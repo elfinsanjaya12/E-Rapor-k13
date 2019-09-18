@@ -1,0 +1,83 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-lihat-matpel-aktip" data-toggle="tab">Mata Pelajaran Aktip</a></li>
+            <li><a href="#tab-lihat-matpel-tidak-aktip" data-toggle="tab">Mata Pelajaran Tidak Aktip</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="active tab-pane" id="tab-lihat-matpel-aktip">
+              <div class="box-body table-responsive no-padding">
+                <div class="box-body">
+                  <div style="margin: 0 20px 20px 20px;">
+                    <!-- <button class="btn btn-success">Tambah</button> -->
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                      Tambah
+                    </button>
+                  </div>
+                  <table id="mata_pelajaran" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Nip</th>
+                        <th>Nama / Username</th>
+                        <th>Status User</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab-lihat-matpel-tidak-aktip">
+              <div class="box-body">
+                <div class="box-body table-responsive no-padding">
+                  <table id="mata_pelajaran_status" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Nip</th>
+                        <th>Nama / Username</th>
+                        <th>Status User</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#mata_pelajaran').DataTable()
+    $('#mata_pelajaran_status').DataTable()
+  })
+</script>
