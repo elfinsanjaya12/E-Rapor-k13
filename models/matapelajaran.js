@@ -12,5 +12,29 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "TahunId"
     });
   };
+
+  // hooks
+  // MataPelajaran.afterCreate(async matpel => {
+  //   const { tahun } = matpel
+  //   try {
+  //     const tahun = await sequelize.models.Tahun.create({
+  //       tahun: tahun,
+  //       status: "Active"
+  //     })
+
+  //     const mata_pelajaran = await sequelize.models.MataPelajaran.update({
+  //       TahunId: tahun.id,
+  //     }, {
+  //       where: {
+  //         id: 
+  //       }
+  //     })
+  //     return guru
+
+  //   } catch (e) {
+  //     throw new Error(e)
+  //   }
+  // })
+
   return MataPelajaran;
 };

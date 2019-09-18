@@ -24,3 +24,19 @@ exports.viewMatPel = async (req, res) => {
   }
 }
 
+exports.actionCreate = async (req, res) => {
+  const { kode, nama, nilaikkm, tahun } = req.body;
+
+  const thn = await Tahun.create({
+    tahun: tahun,
+    status: "Active"
+  })
+
+  await MataPelajaran.create({
+    kode: kode,
+    nama: nama,
+    nilaikkm: nilaikkm,
+    TahunId: thn.id
+  });
+  res.redirect("/admin/mata-pelajaran");
+}
