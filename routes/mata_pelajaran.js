@@ -3,7 +3,8 @@ var router = express.Router();
 let {
   viewMatPel,
   actionCreate,
-  actionUpdate
+  actionUpdate,
+  actionDetele
 } = require("../controllers/matpelController")
 
 const auth = require('../middlewares/auth')
@@ -12,5 +13,6 @@ const auth = require('../middlewares/auth')
 router.get("/admin/mata-pelajaran", auth.isLogin, viewMatPel)
 router.post("/admin/mata-pelajaran/create", actionCreate)
 router.post("/admin/mata-pelajaran/update", actionUpdate)
+router.get("/admin/mata-pelajaran/delete/:id", actionDetele)
 
 module.exports = router;

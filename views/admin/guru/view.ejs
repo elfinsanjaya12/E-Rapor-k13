@@ -129,6 +129,23 @@
     })
   })
 
+  // detele guru 
+  function delete_guru(id) {
+    let idGuru = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Guru ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        window.location.assign(`/admin/guru/delete/${idGuru}`);
+      }
+    });
+  }
+
+
   //showing data to edit modal      
   $('#guru').on('click', '.edit', function () {
     var id = $(this).data('id');
@@ -142,21 +159,6 @@
     $("select").val(jk);
     $('.id').val(id);
   });
-
-  // detele guru 
-  function delete_guru(id) {
-    swal({
-      title: "Yakin Ingin Menghapus Data Guru ini?",
-      text: "Data yang dihapus, tidak bisa kembali lagi.",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
-      if (willDelete) {
-        window.location.assign(`/admin/guru/delete/${idGuru}`);
-      }
-    });
-  }
 
   // detele guru 
   function update_status(id) {

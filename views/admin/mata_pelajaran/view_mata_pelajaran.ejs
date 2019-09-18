@@ -62,7 +62,7 @@
                             <span class=" glyphicon glyphicon-pencil"></span>
                             Edit
                           </a>
-                          <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= matpel[i].id %>`)"
+                          <button class="btn btn-danger btn-sm" onclick="delete_matpel(`<%= matpel[i].id %>`)"
                             data-id="<%= matpel[i].id %>">
                             <span class="glyphicon glyphicon-trash"></span>
                             Delete
@@ -182,4 +182,20 @@
       $('.id').val(id);
     });
   })
+  // detele guru 
+  function delete_matpel(id) {
+
+    let idMatpel = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Mata Pelajaran ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        window.location.assign(`/admin/mata-pelajaran/delete/${idMatpel}`);
+      }
+    });
+  }
 </script>

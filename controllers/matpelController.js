@@ -70,3 +70,18 @@ exports.actionUpdate = async (req, res) => {
   }
   res.redirect('/admin/mata-pelajaran')
 }
+
+exports.actionDetele = (req, res) => {
+  let { id } = req.params;
+  MataPelajaran.findOne({ where: { id: { [Op.eq]: id } } }).then(async (matpel) => {
+    let TahunId = matpel.TahunId
+    const tahun = await Tahun.findOne({ where: { id: { [Op.eq]: TahunId } } })
+    tahun.destroy()
+    matpel.destroy().then(() => {
+      res.redirect('/admin/mata-pelajaran');
+    })
+  }).catch((err) => {
+    console.log(err)
+    res.redirect('/admin/mata-pelajaran');
+  });
+}
