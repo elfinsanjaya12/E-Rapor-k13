@@ -85,3 +85,36 @@ exports.actionDetele = (req, res) => {
     res.redirect('/admin/mata-pelajaran');
   });
 }
+
+exports.actionUpdateStatus = async (req, res) => {
+  let { id } = req.params
+  let matpel = await MataPelajaran.findOne({
+    ...include,
+    where: {
+      id: { [Op.eq]: id }
+    }
+  })
+  if (matpel.Tahun.status === "Active") {
+    const tahun = await Tahun.findOne({
+      where: {
+        id: { [Op.eq]: matpel.TahunId }
+      }
+    })
+    if (tahun) {
+      tahun.status = "Nonactive"
+      await tahun.save()
+    }
+    res.redirect("/admin/mata-pelajaran")
+  } else {
+    const tahun = await Tahun.findOne({
+      where: {
+        id: { [Op.eq]: matpel.TahunId }
+      }
+    })
+    if (tahun) {
+      tahun.status = "Active"
+      await tahun.save()
+    }
+    res.redirect("/admin/mata-pelajaran")
+  }
+}

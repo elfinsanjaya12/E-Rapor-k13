@@ -71,7 +71,7 @@
                           <button class="btn btn-primary btn-sm" onclick="update_status(`<%= matpel[i].id %>`)"
                             data-id="<%= matpel[i].id %>">
                             <span class="glyphicon glyphicon-user"></span>
-                            Nonactive User
+                            Nonactive Mata Pelajaran
                           </button>
                           <% }  %>
                         </td>
@@ -129,7 +129,7 @@
                           <button class="btn btn-warning btn-sm" onclick="update_status(`<%= matpel[i].id %>`)"
                             data-id="<%= matpel[i].id %>">
                             <span class="glyphicon glyphicon-user"></span>
-                            Active User
+                            Active Mata Pelajaran
                           </button>
                           <% }  %>
                         </td>
@@ -198,4 +198,20 @@
       }
     });
   }
+
+  // detele guru 
+  function update_status(id) {
+    let idMatpel = id;
+    swal({
+      title: "Yakin Ingin Change Status?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(updataStatus => {
+      if (updataStatus) {
+        window.location.assign(`/admin/mata-pelajaran/status/${idMatpel}`);
+      }
+    });
+  }
+
 </script>
