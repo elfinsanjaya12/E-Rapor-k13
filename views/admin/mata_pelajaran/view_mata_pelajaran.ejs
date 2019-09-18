@@ -55,8 +55,11 @@
                           </span>
                         </td>
                         <td>
-                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
-                            <span class="glyphicon glyphicon-pencil"></span>
+                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                            data-kode="<%= matpel[i].kode %>" data-id="<%= matpel[i].id %>"
+                            data-nama="<%= matpel[i].nama %>" data-nilaikkm="<%= matpel[i].nilaikkm %>"
+                            data-tahun="<%= matpel[i].Tahun.tahun %>">
+                            <span class=" glyphicon glyphicon-pencil"></span>
                             Edit
                           </a>
                           <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= matpel[i].id %>`)"
@@ -111,7 +114,9 @@
                           </span>
                         </td>
                         <td>
-                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                            data-kode="<%= matpel[i].kode %>" data-id="<%= matpel[i].id %>"
+                            data-nama="<%= matpel[i].nama %>" data-nilaikkm="<%= matpel[i].nilaikkm %>">
                             <span class="glyphicon glyphicon-pencil"></span>
                             Edit
                           </a>
@@ -151,6 +156,9 @@
 <!-- iclude modal add -->
 <%- include add_modal.ejs %>
 
+<!-- include modal edit -->
+<%- include edit_modal.ejs %>
+
 <%- include ../../partials/admin_layout/footer.ejs %>
 <!-- page script -->
 <script>
@@ -158,5 +166,20 @@
     // datatable
     $('#mata_pelajaran').DataTable()
     $('#mata_pelajaran_status').DataTable()
+
+    //showing data to edit modal      
+    $('#mata_pelajaran').on('click', '.edit', function () {
+      var id = $(this).data('id');
+      var kode = $(this).data('kode');
+      var nama = $(this).data('nama');
+      var nilaikkm = $(this).data('nilaikkm');
+      var tahun = $(this).data('tahun');
+      $('#modal-edit').modal('show');
+      $('.nama').val(nama);
+      $('.kode').val(kode);
+      $('.nilaikkm').val(nilaikkm);
+      $('.tahun').val(tahun);
+      $('.id').val(id);
+    });
   })
 </script>

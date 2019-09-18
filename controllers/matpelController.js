@@ -40,3 +40,33 @@ exports.actionCreate = async (req, res) => {
   });
   res.redirect("/admin/mata-pelajaran");
 }
+
+
+exports.actionUpdate = async (req, res) => {
+  const { id, kode, nama, nilaikkm, tahun } = req.body
+
+
+  const updateMataPelajaran = await MataPelajaran.findOne({
+    where: {
+      id: { [Op.eq]: id }
+    }
+  })
+  if (updateMataPelajaran) {
+    updateMataPelajaran.kode = kode
+    updateMataPelajaran.nama = nama
+    updateMataPelajaran.nilaikkm = nilaikkm
+    await updateMataPelajaran.save()
+  }
+
+  const updateTahun = await Tahun.findOne({
+    where: {
+      id: { [Op.eq]: updateMataPelajaran.id }
+    }
+  })
+
+  if (updateTahun) {
+    updateTahun.tahun = tahun
+    await updateTahun.save()
+  }
+  res.redirect('/admin/mata-pelajaran')
+}
