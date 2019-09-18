@@ -34,7 +34,47 @@
                       </tr>
                     </thead>
                     <tbody>
-
+                      <% for (let i = 0; i < matpel.length; i++ ) { %>
+                      <% if(matpel[i].Tahun.status === "Active") { %>
+                      <tr>
+                        <td><%= i + 1 %></td>
+                        <td><%= matpel[i].kode %></td>
+                        <td>
+                          <%= matpel[i].nama %>
+                        </td>
+                        <td>
+                          <%= matpel[i].Tahun.tahun %>
+                        </td>
+                        <td>
+                          <span class="pull-right-container">
+                            <% if(matpel[i].Tahun.status === "Active") { %>
+                            <small class="label pull-center bg-green"> <%= matpel[i].Tahun.status %></small>
+                            <% } else { %>
+                            <small class="label pull-center bg-yellow"> <%= matpel[i].Tahun.status %></small>
+                            <% }  %>
+                          </span>
+                        </td>
+                        <td>
+                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Edit
+                          </a>
+                          <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= matpel[i].id %>`)"
+                            data-id="<%= matpel[i].id %>">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Delete
+                          </button>
+                          <% if(matpel[i].Tahun.status === "Active") { %>
+                          <button class="btn btn-primary btn-sm" onclick="update_status(`<%= matpel[i].id %>`)"
+                            data-id="<%= matpel[i].id %>">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Nonactive User
+                          </button>
+                          <% }  %>
+                        </td>
+                      </tr>
+                      <% } %>
+                      <% } %>
                     </tbody>
                   </table>
                 </div>
@@ -56,6 +96,41 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <% for (let i = 0; i < matpel.length; i++ ) { %>
+                      <% if(matpel[i].Tahun.status === "Nonactive") { %>
+                      <tr>
+                        <td><%= i + 1 %></td>
+                        <td><%= matpel[i].kode %></td>
+                        <td><%= matpel[i].nama %></td>
+                        <td><%= matpel[i].Tahun.tahun %></td>
+                        <td>
+                          <span class="pull-right-container">
+                            <% if(matpel[i].Tahun.status === "Nonactive") { %>
+                            <small class="label pull-center bg-yellow"> <%= matpel[i].Tahun.status %></small>
+                            <% } %>
+                          </span>
+                        </td>
+                        <td>
+                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Edit
+                          </a>
+                          <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= matpel[i].id %>`)"
+                            data-id="<%= matpel[i].id %>">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Delete
+                          </button>
+                          <% if(matpel[i].Tahun.status === "Nonactive") { %>
+                          <button class="btn btn-warning btn-sm" onclick="update_status(`<%= matpel[i].id %>`)"
+                            data-id="<%= matpel[i].id %>">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Active User
+                          </button>
+                          <% }  %>
+                        </td>
+                      </tr>
+                      <% } %>
+                      <% } %>
 
                     </tbody>
                   </table>

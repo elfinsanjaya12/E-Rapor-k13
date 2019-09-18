@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   MataPelajaran.associate = function (models) {
     // associations can be defined here
+    MataPelajaran.belongsTo(sequelize.models.Tahun, {
+      foreignKey: "TahunId"
+    });
   };
   return MataPelajaran;
 };

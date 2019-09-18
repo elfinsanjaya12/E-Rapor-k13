@@ -6,7 +6,8 @@ let {
 
 const auth = require('../middlewares/auth')
 
-router.get("/admin/mata-pelajaran", viewMatPel)
+
+router.get("/admin/mata-pelajaran", auth.isLogin, viewMatPel)
 
 
 module.exports = router;
