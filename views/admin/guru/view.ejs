@@ -122,14 +122,15 @@
             text: "Success Tambah Data Guru",
             icon: "success",
             button: "Oke",
-          });
-          successTambah();
+          }).then(suksesDelete => {
+            successTambah();
+          });            
         },
       })
     })
   })
 
-  // detele guru 
+  // Delete guru 
   function delete_guru(id) {
     let idGuru = id;
     swal({
@@ -140,11 +141,17 @@
       dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
-        window.location.assign(`/admin/guru/delete/${idGuru}`);
+        swal({
+            title: "Success",
+            text: "Success Delete Data Guru",
+            icon: "success",
+            button: "Oke",
+          }).then(suksesDelete => {
+            window.location.assign(`/admin/guru/delete/${idGuru}`);
+          });          
       }
     });
   }
-
 
   //showing data to edit modal      
   $('#guru').on('click', '.edit', function () {
@@ -160,18 +167,24 @@
     $('.id').val(id);
   });
 
-  // detele guru 
+  // Change Status 
   function update_status(id) {
     let idGuru = id;
     swal({
       title: "Yakin Ingin Change Status?",
       icon: "warning",
       buttons: true,
-      dangerMode: true
+      dangerMode: true,      
     }).then(willDelete => {
       if (willDelete) {
-        window.location.assign(`/admin/guru/status/${idGuru}`);
-      }
+        swal({
+            title: "Success",
+            text: "Success Change Status",
+            icon: "success",            
+          }).then(suksesChange => {
+            window.location.assign(`/admin/guru/status/${idGuru}`);
+          });                
+      }      
     });
   }
 
