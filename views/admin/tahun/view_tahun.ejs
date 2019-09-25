@@ -17,7 +17,7 @@
           <div class="box-body">
             <div style="margin: 0 20px 20px 20px;">
               <!-- <button class="btn btn-success">Tambah</button> -->
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
                 Tambah
               </button>
             </div>
@@ -84,11 +84,39 @@
   <!-- /.content -->
 </div>
 
+<!-- iclude modal add -->
+<%- include add_modal.ejs %>
+
 <%- include ../../partials/admin_layout/footer.ejs %>
 <!-- page script -->
 <script>
   $(document).ready(function () {
     // datatable
     $('#tahun').DataTable()
+
+    // redirect halaman tahun
+    function halamanTahun() {
+      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/tahun')
+    }
+
+    // function simpan
+    $('#simpan_tahun').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/tahun/create",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Success",
+            text: "Success Tambah Data Tahun",
+            icon: "success",
+            button: "Oke",
+          }).then(sukses => {
+            halamanTahun();
+          });
+        },
+      })
+    })
   })
 </script>
