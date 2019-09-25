@@ -5,6 +5,10 @@ module.exports = {
     return queryInterface.bulkInsert('Tahuns', [
       {
         tahun: "2019",
+        kepala_sekolah: "kepala sekolah",
+        nip: '14141241241',
+        tgl_raport: new Date(),
+        semester: "Satu",
         status: "Active",
         createdAt: new Date(),
         updatedAt: new Date()
@@ -12,6 +16,20 @@ module.exports = {
       {
         tahun: "2018",
         status: "Nonactive",
+        kepala_sekolah: "kepala sekolah",
+        nip: '14141241241',
+        semester: "Dua",
+        tgl_raport: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        tahun: "2018",
+        status: "Nonactive",
+        kepala_sekolah: "kepala sekolah",
+        nip: '14141241241',
+        semester: "Satu",
+        tgl_raport: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
       }

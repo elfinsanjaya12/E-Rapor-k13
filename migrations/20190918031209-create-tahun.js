@@ -11,6 +11,18 @@ module.exports = {
       tahun: {
         type: Sequelize.STRING
       },
+      kepala_sekolah: {
+        type: Sequelize.STRING
+      },
+      nip: {
+        type: Sequelize.STRING
+      },
+      tgl_raport: {
+        type: Sequelize.DATE
+      },
+      semester: {
+        type: Sequelize.STRING
+      },
       status: {
         type: Sequelize.STRING
       },
