@@ -46,7 +46,7 @@
                       <span class="glyphicon glyphicon-pencil"></span>
                       Edit
                     </a>
-                    <button class="btn btn-danger btn-sm" onclick="update_status(`<%= kelas[i].id %>`)"
+                    <button class="btn btn-danger btn-sm" onclick="delete_kelas(`<%= kelas[i].id %>`)"
                       data-id="<%= kelas[i].id %>">
                       <span class="glyphicon glyphicon-remove"></span>
                       Hapus
@@ -119,5 +119,29 @@
       $('.tingkat').val(tingkat);
     });
   })
+
+  // Delete guru 
+  function delete_kelas(id) {
+    let idKelas = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Kelas ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Success",
+          text: "Success Delete Data Kelas",
+          icon: "success",
+          button: "Oke",
+        }).then(suksesDelete => {
+          window.location.assign(`/admin/kelas/delete/${idKelas}`);
+        });
+      }
+    });
+  }
+
 
 </script>

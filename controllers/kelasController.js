@@ -40,3 +40,10 @@ exports.actionUpdate = async (req, res) => {
   }
   res.redirect('/admin/kelas')
 }
+
+exports.actionDetele = async (req, res) => {
+  let { id } = req.params;
+  const kelas = await Kelas.findOne({ where: { id: { [Op.eq]: id } } })
+  kelas.destroy()
+  res.redirect('/admin/kelas');
+}
