@@ -58,7 +58,10 @@
                   </td>
 
                   <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                      data-nip="<%= tahun[i].nip %>" data-id="<%= tahun[i].id %>"
+                      data-kepala="<%= tahun[i].kepala_sekolah %>" data-tgl="<%= tahun[i].tgl_raport %>"
+                      data-semester="<%= tahun[i].semester %>" data-tahun="<%= tahun[i].tahun %>">
                       <span class="glyphicon glyphicon-pencil"></span>
                       Edit
                     </a>
@@ -86,6 +89,9 @@
 
 <!-- iclude modal add -->
 <%- include add_modal.ejs %>
+
+<!-- iclude modal edit -->
+<%- include edit_modal.ejs %>
 
 <%- include ../../partials/admin_layout/footer.ejs %>
 <!-- page script -->
@@ -118,5 +124,46 @@
         },
       })
     })
+
+    //showing data to e edit modal 
+    $('#tahun').on('click', '.edit', function () {
+      const id = $(this).data('id');
+      const nip = $(this).data('nip');
+      const kepala_sekolah = $(this).data('kepala');
+      const tgl_raport = $(this).data('tgl');
+      const tahun = $(this).data('tahun');
+      const semester = $(this).data('semester');
+
+
+      $('#edit-modal').modal('show');
+      $('.id').val(id);
+      $('.nip').val(nip);
+      $('.kepala_sekolah').val(kepala_sekolah);
+      $('.tgl_raport').val(tgl_raport);
+      $('.tahun').val(tahun);
+      $('.semester').val(semester);
+    });
   })
+
+  // Change Status 
+  function update_status(id) {
+    let idTahun = id;
+    swal({
+      title: "Yakin Ingin Change Status?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Success",
+          text: "Success Change Status",
+          icon: "success",
+        }).then(suksesChange => {
+          window.location.assign(`/admin/tahun/status/${idTahun}`);
+        });
+      }
+    });
+  }
+
 </script>

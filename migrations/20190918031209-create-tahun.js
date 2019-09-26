@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       tgl_raport: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       semester: {
         type: Sequelize.STRING
