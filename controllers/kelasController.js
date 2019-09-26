@@ -13,8 +13,13 @@ exports.viewKelas = async (req, res) => {
       kelas: kelas,
     })
 
-
   } catch (err) {
     throw err
   }
+}
+
+exports.actionCreate = async (req, res) => {
+  const { tingkat, nama } = req.body
+  await Kelas.create({ tingkat, nama })
+  res.redirect("/admin/kelas");
 }

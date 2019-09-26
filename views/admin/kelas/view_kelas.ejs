@@ -18,6 +18,7 @@
             <div style="margin: 0 20px 20px 20px;">
               <!-- <button class="btn btn-success">Tambah</button> -->
               <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
+                <span class="glyphicon glyphicon-plus"></span>
                 Tambah
               </button>
             </div>
@@ -65,6 +66,9 @@
   <!-- /.content -->
 </div>
 
+<!-- include  add modal -->
+<%- include add_modal.ejs %>
+
 <%- include ../../partials/admin_layout/footer.ejs %>
 <!-- page script -->
 <script>
@@ -77,6 +81,25 @@
       window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/kelas')
     }
 
+    // function simpan
+    $('#simpan_kelas').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/kelas/create",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Success",
+            text: "Success Tambah Data Kelas",
+            icon: "success",
+            button: "Oke",
+          }).then(sukses => {
+            halamankelas();
+          });
+        },
+      })
+    })
   })
 
 </script>
