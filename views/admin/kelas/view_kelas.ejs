@@ -40,7 +40,9 @@
                     <%= kelas[i].nama %>
                   </td>
                   <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                      data-id="<%= kelas[i].id %>" data-tingkat="<%= kelas[i].tingkat %>"
+                      data-nama="<%= kelas[i].nama %>">
                       <span class="glyphicon glyphicon-pencil"></span>
                       Edit
                     </a>
@@ -68,6 +70,9 @@
 
 <!-- include  add modal -->
 <%- include add_modal.ejs %>
+
+<!-- include  edit modal -->
+<%- include edit_modal.ejs %>
 
 <%- include ../../partials/admin_layout/footer.ejs %>
 <!-- page script -->
@@ -100,6 +105,19 @@
         },
       })
     })
+
+    //showing data to e edit modal 
+    $('#kelas').on('click', '.edit', function () {
+      const id = $(this).data('id');
+      const nama = $(this).data('nama');
+      const tingkat = $(this).data('tingkat');
+
+
+      $('#edit-modal').modal('show');
+      $('.id').val(id);
+      $('.nama').val(nama);
+      $('.tingkat').val(tingkat);
+    });
   })
 
 </script>

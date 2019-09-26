@@ -23,3 +23,20 @@ exports.actionCreate = async (req, res) => {
   await Kelas.create({ tingkat, nama })
   res.redirect("/admin/kelas");
 }
+
+exports.actionUpdate = async (req, res) => {
+  const { id, tingkat, nama } = req.body
+
+  const updateKelas = await Kelas.findOne({
+    where: {
+      id: { [Op.eq]: id }
+    }
+  })
+
+  if (updateKelas) {
+    updateKelas.tingkat = tingkat
+    updateKelas.nama = nama
+    await updateKelas.save()
+  }
+  res.redirect('/admin/kelas')
+}
