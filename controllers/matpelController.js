@@ -16,6 +16,7 @@ exports.viewMatPel = async (req, res) => {
     })
 
     res.render('admin/mata_pelajaran/view_mata_pelajaran', {
+      title: "E-Raport | MatPel",
       user: userLogin,
       matpel: matpel,
     })

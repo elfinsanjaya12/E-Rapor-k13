@@ -12,6 +12,7 @@ exports.viewGuru = async (req, res) => {
     const guru = await Guru.findAll({ ...include })
 
     res.render("admin/guru/view", {
+      title: "E-Raport | Guru",
       user: userLogin,
       guru: guru,
     })

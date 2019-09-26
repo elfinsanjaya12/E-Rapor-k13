@@ -12,6 +12,7 @@ exports.viewTahun = async (req, res) => {
     })
 
     res.render('admin/tahun/view_tahun', {
+      title: "E-Raport | Tahun",
       user: userLogin,
       tahun: tahun
     })
