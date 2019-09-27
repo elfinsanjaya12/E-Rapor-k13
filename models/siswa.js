@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Siswa.afterCreate(async siswa => {
     const { nis } = siswa
-    console.log(nis)
+
     const password = bcrypt.hashSync(nis, 10);
     try {
       const user = await sequelize.models.User.create({
@@ -57,7 +57,6 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: new Date(),
         updatedAt: new Date()
       })
-      console.log(user)
 
       const siswa = await sequelize.models.Siswa.update({
         UserId: user.id,
@@ -66,7 +65,6 @@ module.exports = (sequelize, DataTypes) => {
           nis: nis
         }
       })
-      console.log(siswa)
       return siswa
 
     } catch (e) {
