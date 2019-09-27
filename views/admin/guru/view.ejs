@@ -57,7 +57,7 @@
                     </a>
                     <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= guru[i].id %>`)"
                       data-id="<%= guru[i].id %>">
-                      <span class="glyphicon glyphicon-trash"></span>
+                      <span class="glyphicon glyphicon-remove"></span>
                       Delete
                     </button>
                     <% if(guru[i].User.status === "Active") { %>
@@ -124,7 +124,7 @@
             button: "Oke",
           }).then(suksesDelete => {
             successTambah();
-          });            
+          });
         },
       })
     })
@@ -142,13 +142,13 @@
     }).then(willDelete => {
       if (willDelete) {
         swal({
-            title: "Success",
-            text: "Success Delete Data Guru",
-            icon: "success",
-            button: "Oke",
-          }).then(suksesDelete => {
-            window.location.assign(`/admin/guru/delete/${idGuru}`);
-          });          
+          title: "Success",
+          text: "Success Delete Data Guru",
+          icon: "success",
+          button: "Oke",
+        }).then(suksesDelete => {
+          window.location.assign(`/admin/guru/delete/${idGuru}`);
+        });
       }
     });
   }
@@ -174,17 +174,17 @@
       title: "Yakin Ingin Change Status?",
       icon: "warning",
       buttons: true,
-      dangerMode: true,      
+      dangerMode: true,
     }).then(willDelete => {
       if (willDelete) {
         swal({
-            title: "Success",
-            text: "Success Change Status",
-            icon: "success",            
-          }).then(suksesChange => {
-            window.location.assign(`/admin/guru/status/${idGuru}`);
-          });                
-      }      
+          title: "Success",
+          text: "Success Change Status",
+          icon: "success",
+        }).then(suksesChange => {
+          window.location.assign(`/admin/guru/status/${idGuru}`);
+        });
+      }
     });
   }
 
