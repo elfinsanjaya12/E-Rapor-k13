@@ -22,6 +22,9 @@ let setWaliKelasRouter = require('./routes/set_wali_kelas')
 // guru
 let adminGuruRouter = require('./routes/admin_guru');
 
+// siswa
+let adminSiswaRouter = require('./routes/admin_siswa');
+
 var app = express();
 
 // view engine setup
@@ -65,6 +68,7 @@ app.use('/', setKelasRouter);
 app.use('/', setMataPelajaranRouter);
 app.use('/', setWaliKelasRouter);
 app.use('/', adminGuruRouter);
+app.use('/', adminSiswaRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
