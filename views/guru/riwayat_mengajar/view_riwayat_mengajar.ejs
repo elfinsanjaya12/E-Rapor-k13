@@ -1,0 +1,58 @@
+<%- include ../../partials/guru_layout/header.ejs %>
+<%- include ../../partials/guru_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title">Data Riwayat Mengajar</h3>
+          </div>
+
+          <div class="box-body">
+
+            <table id="ekstra" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tahun Ajaran</th>
+                  <th>Mata Pelajaran</th>
+                  <th>Kelas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2015</td>
+                  <td>Matematika</td>
+                  <td>Kelas 1a</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+
+<%- include ../../partials/guru_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#ekstra').DataTable()
+  })
+</script>

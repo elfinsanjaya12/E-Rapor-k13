@@ -29,9 +29,9 @@ exports.actionLogin = async (req, res) => {
       if (user.role === "admin") {
         res.redirect("/admin");
       } else if (user.role === "guru") {
-        res.redirect("/siswa");
-      } else if (user.role === "siswa") {
         res.redirect("/guru");
+      } else if (user.role === "siswa") {
+        res.redirect("/siswa");
       }
     } else {
       res.redirect("/signin");
