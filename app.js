@@ -15,6 +15,7 @@ let tahunRouter = require('./routes/tahun')
 let kelasRouter = require('./routes/kelas')
 let ekstraRouter = require('./routes/ekstra')
 let siswaRouter = require('./routes/siswa')
+let setKelasRouter = require('./routes/set_kelas')
 
 var app = express();
 
@@ -55,6 +56,7 @@ app.use('/', tahunRouter);
 app.use('/', kelasRouter);
 app.use('/', ekstraRouter);
 app.use('/', siswaRouter);
+app.use('/', setKelasRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
