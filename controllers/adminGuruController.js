@@ -50,3 +50,33 @@ exports.viewRaport = async (req, res) => {
     throw err
   }
 }
+
+exports.viewNilaiSikap = async (req, res) => {
+  try {
+    res.render("guru/input_nilai_sikap/view_input_nilai_sikap", {
+      title: "E-Raport | Input Nilai Sikap",
+    })
+  } catch (err) {
+    throw err
+  }
+}
+
+exports.viewNilaiEktra = async (req, res) => {
+  try {
+    res.render("guru/input_nilai_ektrakulikuler/view_input_nilai_ektrakulikuler", {
+      title: "E-Raport | Input Nilai Ektrakulikuler",
+    })
+  } catch (err) {
+    throw err
+  }
+}
+
+exports.viewValidasiNilai = async (req, res) => {
+  try {
+    res.render("guru/validasi_nilai/view_validasi_nilai", {
+      title: "E-Raport | Input Nilai Ektrakulikuler",
+    })
+  } catch (err) {
+    throw err
+  }
+}
