@@ -1,5 +1,6 @@
 const { Guru, User } = require("../models");
 const Op = require("sequelize").Op;
+const bcrypt = require("bcryptjs");
 
 const include = {
   include: [{ model: User }]
@@ -7,15 +8,23 @@ const include = {
 
 exports.viewGuru = async (req, res) => {
   try {
+    const alertMessage = req.flash('alertMessage');
+    const alertStatus = req.flash('alertStatus');
+    const alert = { message: alertMessage, status: alertStatus };
     const userLogin = req.session.user
 
-    const guru = await Guru.findAll({ ...include })
-
-    res.render("admin/guru/view", {
-      title: "E-Raport | Guru",
-      user: userLogin,
-      guru: guru,
-    })
+    if (userLogin.role === "admin") {
+      const guru = await Guru.findAll({ ...include })
+      res.render("admin/guru/view", {
+        title: "E-Raport | Guru",
+        user: userLogin,
+        guru: guru,
+        alert: alert
+      })
+    } else {
+      req.session.destroy()
+      res.redirect('/signin');
+    }
   } catch (err) {
     throw err
   }
@@ -23,40 +32,64 @@ exports.viewGuru = async (req, res) => {
 
 exports.actionCreate = async (req, res) => {
   const { nip, nama, jk } = req.body;
-  await Guru.create({
-    nip: nip,
-    nama: nama,
-    jk: jk,
-    status: 'Nonactive'
-  });
-  res.redirect("/admin/guru");
-}
+  const password = bcrypt.hashSync(nip, 10);
+  try {
+    const cek_guru = await Guru.findOne({ where: { nip: { [Op.eq]: nip } } })
+    if (cek_guru) {
+      req.flash('alertMessage', 'NIP guru sudah ada yang memakai, silahkan ganti dengan yang lain!');
+      req.flash('alertStatus', 'danger');
+      res.redirect('/admin/guru');
+    } else {
 
-exports.actionFind = async (req, res) => {
-  const { id } = req.params;
-  Astor.findOne({ where: { id: { [Op.eq]: id } } }).then((editGuru) => {
-    res.render('/admin/guru/guru', {
-      editGuru: editGuru
-    });
-  });
+      User.create({
+        username: nip,
+        role: 'guru',
+        password: password,
+        status: 'Nonactive'
+      }).then((user) => {
+        Guru.create({
+          nip: nip,
+          nama: nama,
+          jk: jk,
+          status: 'Nonactive',
+          UserId: user.id
+        }).then(() => {
+          req.flash('alertMessage', `Sukses Menambahkan Data Guru Baru dengan Nama : ${nama} dan NIP: ${nip}`);
+          req.flash('alertStatus', 'success');
+          res.redirect("/admin/guru")
+        })
+      }).catch((err) => {
+        res.redirect("/admin/guru")
+      });
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 exports.actionUpdate = async (req, res) => {
   const { id, nip, nama, jk } = req.body
 
-  const updateGuru = await Guru.findOne({
-    where: {
-      id: { [Op.eq]: id }
-    }
-  })
+  try {
+    const updateGuru = await Guru.findOne({
+      where: {
+        id: { [Op.eq]: id }
+      }
+    })
 
-  if (updateGuru) {
-    updateGuru.nip = nip
-    updateGuru.nama = nama
-    updateGuru.jk = jk
-    await updateGuru.save()
+    if (updateGuru) {
+      updateGuru.nip = nip
+      updateGuru.nama = nama
+      updateGuru.jk = jk
+      await updateGuru.save()
+    }
+    req.flash('alertMessage', `Sukses Mengubah Data Guru dengan Nama : ${nama} dan NIP: ${nip}`);
+    req.flash('alertStatus', 'success');
+    res.redirect('/admin/guru')
+
+  } catch (error) {
+    console.log(error)
   }
-  res.redirect('/admin/guru')
 }
 
 exports.actionDetele = (req, res) => {

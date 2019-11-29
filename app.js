@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 /* add package */
 const session = require('express-session');
+const flash = require("connect-flash");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -48,6 +49,7 @@ app.use(cookieParser());
 // }))
 app.use(session({ secret: 'keyboard cat', cookie: {} }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 app.use(function (req, res, next) {
   res.locals.stuff = {

@@ -1,5 +1,5 @@
 'use strict';
-const bcrypt = require("bcryptjs");
+// const bcrypt = require("bcryptjs");
 
 module.exports = (sequelize, DataTypes) => {
   const Guru = sequelize.define('Guru', {
@@ -17,32 +17,32 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // hooks
-  Guru.afterCreate(async guru => {
-    const { nip } = guru
-    const password = bcrypt.hashSync(nip, 10);
-    try {
-      const user = await sequelize.models.User.create({
-        username: nip,
-        role: 'guru',
-        password: password,
-        status: 'Nonactive',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+  // Guru.afterCreate(async guru => {
+  //   const { nip } = guru
+  //   const password = bcrypt.hashSync(nip, 10);
+  //   try {
+  //     const user = await sequelize.models.User.create({
+  //       username: nip,
+  //       role: 'guru',
+  //       password: password,
+  //       status: 'Nonactive',
+  //       createdAt: new Date(),
+  //       updatedAt: new Date()
+  //     })
 
-      const guru = await sequelize.models.Guru.update({
-        UserId: user.id,
-      }, {
-        where: {
-          nip: nip
-        }
-      })
-      return guru
+  //     const guru = await sequelize.models.Guru.update({
+  //       UserId: user.id,
+  //     }, {
+  //       where: {
+  //         nip: nip
+  //       }
+  //     })
+  //     return guru
 
-    } catch (e) {
-      throw new Error(e)
-    }
-  })
+  //   } catch (e) {
+  //     throw new Error(e)
+  //   }
+  // })
 
   return Guru;
 };
