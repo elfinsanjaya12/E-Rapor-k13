@@ -4,8 +4,12 @@ const Op = require("sequelize").Op;
 
 /* GET login page from template adminlte. */
 exports.viewSignin = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   if (req.session.user == null || req.session.user == undefined) {
-    res.render("login", { action: "false" });
+    console.log(alert)
+    res.render("login", { alert: alert });
   } else {
     res.redirect('/admin')
   }
@@ -34,10 +38,14 @@ exports.actionLogin = async (req, res) => {
         res.redirect("/siswa");
       }
     } else {
+      req.flash('alertMessage', 'Mohon Maaf Session Anda Salah Silahkan Login Kembali!');
+      req.flash('alertStatus', 'danger');
       res.redirect("/signin");
     }
   } else {
-    res.render("login", { action: "view" });
+    req.flash('alertMessage', 'Username dan Password tidak valid');
+    req.flash('alertStatus', 'danger');
+    res.redirect("/signin");
   }
 }
 
