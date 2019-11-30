@@ -4,13 +4,13 @@ module.exports = (sequelize, DataTypes) => {
     kode: DataTypes.STRING,
     nama: DataTypes.STRING,
     nilaikkm: DataTypes.INTEGER,
-    TahunId: DataTypes.INTEGER
+    // KelasId: DataTypes.INTEGER
   }, {});
   MataPelajaran.associate = function (models) {
     // associations can be defined here
-    MataPelajaran.belongsTo(sequelize.models.Tahun, {
-      foreignKey: "TahunId"
-    });
+    // MataPelajaran.belongsTo(sequelize.models.Kelas, {
+    //   foreignKey: "KelasId"
+    // });
   };
 
   // hooks

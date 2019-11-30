@@ -2,153 +2,34 @@
 <%- include ../../partials/admin_layout/sidebar.ejs %>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-
   <!-- Main content -->
   <section class="content">
     <div class="row">
-      <div class="col-md-12">
-        <div class="nav-tabs-custom">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab-lihat-matpel-aktip" data-toggle="tab">Mata Pelajaran Aktip</a></li>
-            <li><a href="#tab-lihat-matpel-tidak-aktip" data-toggle="tab">Mata Pelajaran Tidak Aktip</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="active tab-pane" id="tab-lihat-matpel-aktip">
-              <div class="box-body table-responsive no-padding">
-                <div class="box-body">
-                  <div style="margin: 0 20px 20px 20px;">
-                    <!-- <button class="btn btn-success">Tambah</button> -->
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add">
-                      Tambah
-                    </button>
-                  </div>
-                  <table id="mata_pelajaran" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>No</th>
-                        <th>Kode Singkat</th>
-                        <th>Nama</th>
-                        <th>Tahun</th>
-                        <th>Status Matpel</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% for (let i = 0; i < matpel.length; i++ ) { %>
-                      <% if(matpel[i].Tahun.status === "Active") { %>
-                      <tr>
-                        <td><%= i + 1 %></td>
-                        <td><%= matpel[i].kode %></td>
-                        <td>
-                          <%= matpel[i].nama %>
-                        </td>
-                        <td>
-                          <%= matpel[i].Tahun.tahun %>
-                        </td>
-                        <td>
-                          <span class="pull-right-container">
-                            <% if(matpel[i].Tahun.status === "Active") { %>
-                            <small class="label pull-center bg-green"> <%= matpel[i].Tahun.status %></small>
-                            <% } else { %>
-                            <small class="label pull-center bg-yellow"> <%= matpel[i].Tahun.status %></small>
-                            <% }  %>
-                          </span>
-                        </td>
-                        <td>
-                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
-                            data-kode="<%= matpel[i].kode %>" data-id="<%= matpel[i].id %>"
-                            data-nama="<%= matpel[i].nama %>" data-nilaikkm="<%= matpel[i].nilaikkm %>"
-                            data-tahun="<%= matpel[i].Tahun.tahun %>">
-                            <span class=" glyphicon glyphicon-pencil"></span>
-                            Edit
-                          </a>
-                          <button class="btn btn-danger btn-sm" onclick="delete_matpel(`<%= matpel[i].id %>`)"
-                            data-id="<%= matpel[i].id %>">
-                            <span class="glyphicon glyphicon-trash"></span>
-                            Delete
-                          </button>
-                          <% if(matpel[i].Tahun.status === "Active") { %>
-                          <button class="btn btn-primary btn-sm" onclick="update_status(`<%= matpel[i].id %>`)"
-                            data-id="<%= matpel[i].id %>">
-                            <span class="glyphicon glyphicon-user"></span>
-                            Nonactive Mata Pelajaran
-                          </button>
-                          <% }  %>
-                        </td>
-                      </tr>
-                      <% } %>
-                      <% } %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <!-- /.tab-pane -->
-            <div class="tab-pane" id="tab-lihat-matpel-tidak-aktip">
-              <div class="box-body">
-                <div class="box-body table-responsive no-padding">
-                  <table id="mata_pelajaran_status" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>No</th>
-                        <th>Kode Singkat</th>
-                        <th>Nama</th>
-                        <th>Tahun</th>
-                        <th>Status Matpel</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% for (let i = 0; i < matpel.length; i++ ) { %>
-                      <% if(matpel[i].Tahun.status === "Nonactive") { %>
-                      <tr>
-                        <td><%= i + 1 %></td>
-                        <td><%= matpel[i].kode %></td>
-                        <td><%= matpel[i].nama %></td>
-                        <td><%= matpel[i].Tahun.tahun %></td>
-                        <td>
-                          <span class="pull-right-container">
-                            <% if(matpel[i].Tahun.status === "Nonactive") { %>
-                            <small class="label pull-center bg-yellow"> <%= matpel[i].Tahun.status %></small>
-                            <% } %>
-                          </span>
-                        </td>
-                        <td>
-                          <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
-                            data-kode="<%= matpel[i].kode %>" data-id="<%= matpel[i].id %>"
-                            data-nama="<%= matpel[i].nama %>" data-nilaikkm="<%= matpel[i].nilaikkm %>">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            Edit
-                          </a>
-                          <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= matpel[i].id %>`)"
-                            data-id="<%= matpel[i].id %>">
-                            <span class="glyphicon glyphicon-trash"></span>
-                            Delete
-                          </button>
-                          <% if(matpel[i].Tahun.status === "Nonactive") { %>
-                          <button class="btn btn-warning btn-sm" onclick="update_status(`<%= matpel[i].id %>`)"
-                            data-id="<%= matpel[i].id %>">
-                            <span class="glyphicon glyphicon-user"></span>
-                            Active Mata Pelajaran
-                          </button>
-                          <% }  %>
-                        </td>
-                      </tr>
-                      <% } %>
-                      <% } %>
-
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-body -->
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-link"></i></i> <span style="margin-left: 10px;"> Data Mata Pelajaran
+              </span></h3>
           </div>
-          <!-- /.box -->
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add">
+                <i class="icon fa fa-plus"></i> Tambah
+              </button>
+            </div>
+            <!-- include table  -->
+            <%- include table_mata_pelajaran.ejs %>
+          </div>
+          <!-- /.box-body -->
         </div>
-        <!-- /.col -->
+        <!-- /.box -->
       </div>
-      <!-- /.row -->
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
   </section>
   <!-- /.content -->
 </div>
@@ -165,7 +46,29 @@
   $(document).ready(function () {
     // datatable
     $('#mata_pelajaran').DataTable()
-    $('#mata_pelajaran_status').DataTable()
+
+    // function simpan
+    $('#simpan_matpel').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/mata-pelajaran",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Data Guru",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(() => {
+            // console.log(suksesDelete)
+            window.location.assign(`/admin/mata-pelajaran`);
+          });
+        },
+      })
+    })
 
     //showing data to edit modal      
     $('#mata_pelajaran').on('click', '.edit', function () {
@@ -173,12 +76,10 @@
       var kode = $(this).data('kode');
       var nama = $(this).data('nama');
       var nilaikkm = $(this).data('nilaikkm');
-      var tahun = $(this).data('tahun');
       $('#modal-edit').modal('show');
       $('.nama').val(nama);
       $('.kode').val(kode);
       $('.nilaikkm').val(nilaikkm);
-      $('.tahun').val(tahun);
       $('.id').val(id);
     });
   })
@@ -192,25 +93,17 @@
       icon: "warning",
       buttons: true,
       dangerMode: true
-    }).then(willDelete => {
-      if (willDelete) {
+    }).then(() => {
+      swal({
+        title: "Informasi",
+        text: "Success Tambah Data Guru",
+        position: 'top-left',
+        icon: 'success',
+        buttons: false,
+        timer: 2000
+      }).then(() => {
         window.location.assign(`/admin/mata-pelajaran/delete/${idMatpel}`);
-      }
-    });
-  }
-
-  // detele guru 
-  function update_status(id) {
-    let idMatpel = id;
-    swal({
-      title: "Yakin Ingin Change Status?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true
-    }).then(updataStatus => {
-      if (updataStatus) {
-        window.location.assign(`/admin/mata-pelajaran/status/${idMatpel}`);
-      }
+      });
     });
   }
 

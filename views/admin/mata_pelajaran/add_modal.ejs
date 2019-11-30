@@ -1,5 +1,5 @@
 <!-- Modal Update Product-->
-<form action="/admin/mata-pelajaran/create" method="post">
+<form id="simpan_matpel">
   <div class="modal fade" id="modal-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -12,7 +12,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label for="kode">Kode</label>
+            <label for="kode">Kode Singkat</label>
             <input type="text" name="kode" class="form-control" placeholder="Masukan Kode" required>
           </div>
 
@@ -25,15 +25,8 @@
             <label for="nilaikkm">Nilai KKM</label>
             <input type="number" name="nilaikkm" class="form-control" placeholder="Masukan Nilai KKM" required>
           </div>
-
-          <div class="form-group">
-            <label for="tahun">Tahun Aktip</label>
-            <input type="number" name="tahun" class="form-control" placeholder="Masukan Tahun Aktip" required>
-          </div>
-
         </div>
         <div class="modal-footer">
-          <input type="hidden" name="id" class="id">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Simpan</button>
         </div>

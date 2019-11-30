@@ -7,15 +7,15 @@ module.exports = {
         kode: "IPA",
         nama: "Ilmu Pengetahun Alam",
         nilaikkm: 75,
-        TahunId: 1,
+        // KelasId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        kode: "IPA",
-        nama: "Ilmu Pengetahun Alam",
+        kode: "IPS",
+        nama: "Ilmu Pengetahun Sosial",
         nilaikkm: 75,
-        TahunId: 2,
+        // KelasId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }

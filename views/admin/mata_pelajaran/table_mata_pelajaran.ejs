@@ -1,0 +1,34 @@
+<table id="mata_pelajaran" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Kode Singkat</th>
+      <th>Nama</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < matpel.length; i++ ) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td><%= matpel[i].kode %></td>
+      <td>
+        <%= matpel[i].nama %>
+      </td>
+      <td>
+        <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit" data-nip="<%= matpel[i].nip %>"
+          data-id="<%= matpel[i].id %>" data-nama="<%= matpel[i].nama %>" data-kode="<%= matpel[i].kode %>"
+          data-nilaikkm="<%= matpel[i].nilaikkm %>">
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+        </a>
+        <button class="btn btn-danger btn-sm" onclick="delete_matpel(`<%= matpel[i].id %>`)"
+          data-id="<%= matpel[i].id %>">
+          <span class="glyphicon glyphicon-remove"></span>
+          Delete
+        </button>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
