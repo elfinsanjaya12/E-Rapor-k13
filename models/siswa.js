@@ -1,5 +1,4 @@
 'use strict';
-const bcrypt = require("bcryptjs");
 
 module.exports = (sequelize, DataTypes) => {
   const Siswa = sequelize.define('Siswa', {
@@ -43,34 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "UserId"
     });
   };
-
-  Siswa.afterCreate(async siswa => {
-    const { nis } = siswa
-
-    const password = bcrypt.hashSync(nis, 10);
-    try {
-      const user = await sequelize.models.User.create({
-        username: nis,
-        role: 'siswa',
-        password: password,
-        status: 'Nonactive',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
-
-      const siswa = await sequelize.models.Siswa.update({
-        UserId: user.id,
-      }, {
-        where: {
-          nis: nis
-        }
-      })
-      return siswa
-
-    } catch (e) {
-      throw new Error(e)
-    }
-  })
 
   return Siswa;
 };

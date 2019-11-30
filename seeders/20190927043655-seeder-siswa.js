@@ -16,7 +16,7 @@ module.exports = {
       no_telp: "082377954408",
       asal_sekolah: "SD 3 Raja Basa",
       alamat_asal_sekolah: "Lampung",
-      diterima_kelas: "7",
+      diterima_kelas: "VII",
       tgl_diterima: new Date(),
       di_terima_semester: "Satu",
       no_ijazah: "123124",
