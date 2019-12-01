@@ -22,37 +22,8 @@
                 Tambah
               </button>
             </div>
-            <table id="ekstra" class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nama</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for (let i = 0; i < ekstra.length; i++ ) { %>
-                <tr>
-                  <td><%= i + 1 %></td>
-                  <td>
-                    <%= ekstra[i].nama %>
-                  </td>
-                  <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
-                      data-id="<%= ekstra[i].id %>" data-nama="<%= ekstra[i].nama %>">
-                      <span class="glyphicon glyphicon-pencil"></span>
-                      Edit
-                    </a>
-                    <button class="btn btn-danger btn-sm" onclick="delete_ekstra(`<%= ekstra[i].id %>`)"
-                      data-id="<%= ekstra[i].id %>">
-                      <span class="glyphicon glyphicon-remove"></span>
-                      Hapus
-                    </button>
-                  </td>
-                </tr>
-                <% } %>
-              </tbody>
-            </table>
+            <!-- include table -->
+            <%- include table_ekstra.ejs %>
           </div>
           <!-- /.box-body -->
         </div>
