@@ -5,17 +5,32 @@ module.exports = {
 
     return queryInterface.bulkInsert('Ekstrakulikullers', [
       {
-        nama: "Tari",
+        nama: "Kepramukaan",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nama: "BBQ",
+        nama: "Paskibra",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nama: "Pramuka",
+        nama: "Rohani Islam",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        nama: "PMR",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        nama: "Drum Band",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        nama: "Bola Basket",
         createdAt: new Date(),
         updatedAt: new Date()
       }

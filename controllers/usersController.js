@@ -8,7 +8,6 @@ exports.viewSignin = async (req, res) => {
   const alertStatus = req.flash('alertStatus');
   const alert = { message: alertMessage, status: alertStatus };
   if (req.session.user == null || req.session.user == undefined) {
-    console.log(alert)
     res.render("login", { alert: alert });
   } else {
     res.redirect('/admin')

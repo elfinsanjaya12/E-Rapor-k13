@@ -33,14 +33,15 @@ module.exports = (sequelize, DataTypes) => {
     no_wali: DataTypes.STRING,
     pkj_wali: DataTypes.STRING,
     foto: DataTypes.STRING,
-    UserId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER,
+
   }, {});
   Siswa.associate = function (models) {
-    // associations can be defined here
     // associations can be defined here
     Siswa.belongsTo(sequelize.models.User, {
       foreignKey: "UserId"
     });
+
   };
 
   return Siswa;

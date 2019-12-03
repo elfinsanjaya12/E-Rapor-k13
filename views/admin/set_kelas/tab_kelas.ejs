@@ -1,0 +1,43 @@
+<table id="kelas" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Tingkat</th>
+      <th>Kelas</th>
+      <th>Kouta</th>
+      <th>Tahun</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% for (let i = 0; i < k_kelas.length; i++ ) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td>
+        <%= k_kelas[i].Kela.tingkat %>
+      </td>
+      <td>
+        <%= k_kelas[i].Kela.nama %>
+      </td>
+      <td>
+        <%= k_kelas[i].kouta %> / 32
+      </td>
+      <td>
+        <%= k_kelas[i].Tahun.tahun %>
+      </td>
+      <td>
+        <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+        </a>
+        <button class="btn btn-danger btn-sm" onclick="delete_k_kelas(`<%= k_kelas[i].id %>`)">
+          <span class="glyphicon glyphicon-remove"></span>
+          Hapus
+        </button>
+      </td>
+    </tr>
+    <% } %>
+
+  </tbody>
+</table>

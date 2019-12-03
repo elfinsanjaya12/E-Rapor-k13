@@ -5,38 +5,38 @@ module.exports = {
 
     return queryInterface.bulkInsert('Kelas', [
       {
-        tingkat: "1",
-        nama: "Kelas 1a",
+        tingkat: "X",
+        nama: "Kelas X a",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        tingkat: "2",
-        nama: "Kelas 2a",
+        tingkat: "XI",
+        nama: "Kelas XI a",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        tingkat: "3",
-        nama: "Kelas 3a",
+        tingkat: "XII",
+        nama: "Kelas XII a",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        tingkat: "1",
-        nama: "Kelas 1b",
+        tingkat: "X",
+        nama: "Kelas X b",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        tingkat: "2",
-        nama: "Kelas 1b",
+        tingkat: "XI",
+        nama: "Kelas XI b",
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        tingkat: "3",
-        nama: "Kelas 1b",
+        tingkat: "XII",
+        nama: "Kelas XII b",
         createdAt: new Date(),
         updatedAt: new Date()
       },

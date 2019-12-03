@@ -23,6 +23,7 @@
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.18.4",
-    "sweetalert2": "^8.17.1"
+    "sweetalert2": "^8.17.1",
+    "uuid": "^3.3.3"
   }
 }

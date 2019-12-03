@@ -2,9 +2,11 @@ const { Guru, User } = require("../models");
 const Op = require("sequelize").Op;
 
 exports.viewHome = async (req, res) => {
+  const userLogin = req.session.user
   try {
     res.render("guru/home/view_home", {
       title: "E-Raport | Guru",
+      user: userLogin
     })
   } catch (err) {
     throw err
