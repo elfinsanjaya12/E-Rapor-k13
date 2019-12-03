@@ -35,3 +35,22 @@ exports.viewSetKelas = async (req, res) => {
     throw err
   }
 }
+
+
+exports.viewAddSetKelas = (req, res) => {
+  const userLogin = req.session.user
+  if (userLogin.role === "admin") {
+    Kelas.findAll().then((kelas) => {
+      res.render("admin/set_kelas/tambah_set_kelas", {
+        title: "E-Raport | Tambah Set Kelas",
+        user: userLogin,
+        kelas: kelas,
+      })
+    }).catch((err) => {
+
+    });
+  } else {
+    req.session.destroy()
+    res.redirect('/signin');
+  }
+}

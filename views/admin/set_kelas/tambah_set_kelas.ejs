@@ -1,40 +1,66 @@
 <%- include ../../partials/admin_layout/header.ejs %>
 <%- include ../../partials/admin_layout/sidebar.ejs %>
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
 
-  <!-- Main content -->
+<div class="content-wrapper">
   <section class="content">
     <div class="row">
-
       <div class="col-xs-12">
         <div class="box box-solid box-primary">
-          <!-- /.box-header -->
           <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-user-plus"></i> Tambah Siswa</h3>
-          </div>
-
-          <div class="box-body">
-            <div style="margin: 0 20px 20px 20px;">
-              <!-- <button class="btn btn-success">Tambah</button> -->
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
-                <span class="glyphicon glyphicon-plus"></span>
-                Tambah
-              </button>
+            <h3 class="box-title"><i class="fa fa-user-plus"></i> Tambah Set Kelas</h3>
+            <div class="pull-right">
+              <a href="/admin/set-kelas" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Kembali
+              </a>
             </div>
-
-
-
           </div>
-          <!-- /.box-body -->
+          <div class="box-body">
+            <form role="form" action="" method="POST">
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label>Pilih Kelas</label>
+                      <select required name="KelasId" class="form-control">
+                        <option value="" class="bg-blue"></option>
+                        <% for(let i = 0; i < kelas.length; i++) { %>
+                        <option value="<%= kelas[i].id %>"><%= kelas[i].nama %></option>
+                        <% } %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-sm-5">
+                    <div class="box box-solid box-primary" style="height: 320px;">
+                      <!-- /.box-header -->
+                      <div class=" box-header with-border">
+                        <h3 class="box-title">
+                          Pilih Siswa
+                        </h3>
+                      </div>
+                      <div class="box-body">
+
+                      </div>
+                      <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-success">Simpan</button>
+              </div>
+            </form>
+          </div>
         </div>
-        <!-- /.box -->
       </div>
-      <!-- /.col -->
     </div>
-    <!-- /.row -->
   </section>
-  <!-- /.content -->
 </div>
 
 
