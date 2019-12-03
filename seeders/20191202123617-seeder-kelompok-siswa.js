@@ -1,10 +1,9 @@
 'use strict';
-const uuid = require('uuid/v4'); // ES5
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Kelompok_kelas', [
       {
-        id: uuid(),
         KelasId: 1,
         SiswaId: 1,
         TahunId: 1,
@@ -13,7 +12,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: uuid(),
         KelasId: 1,
         SiswaId: 1,
         TahunId: 1,
@@ -22,7 +20,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: uuid(),
         KelasId: 1,
         SiswaId: 1,
         TahunId: 1,
@@ -31,7 +28,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: uuid(),
         KelasId: 1,
         SiswaId: 1,
         TahunId: 1,
@@ -40,7 +36,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: uuid(),
         KelasId: 2,
         SiswaId: 1,
         TahunId: 1,
@@ -49,7 +44,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: uuid(),
+
         KelasId: 2,
         SiswaId: 1,
         TahunId: 1,
