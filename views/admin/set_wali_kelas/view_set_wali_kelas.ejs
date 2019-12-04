@@ -3,15 +3,26 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
+  <section class="content-header">
+    <% if(alert.message != '') { %>
+    <br>
+    <div class="alert alert-<%= alert.status %> alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-check"></i> <%= alert.message %></h4>
+    </div>
+    <% } %>
+  </section>
+
+
   <!-- Main content -->
   <section class="content">
     <div class="row">
 
       <div class="col-xs-12">
-        <div class="box">
+        <div class="box box-solid box-primary">
           <!-- /.box-header -->
           <div class="box-header">
-            <h3 class="box-title">Set Wali Kelas</h3>
+            <h3 class="box-title"><i class="fa fa-user-secret"></i> Set Wali Kelas</h3>
           </div>
 
           <div class="box-body">
@@ -22,34 +33,8 @@
                 Tambah
               </button>
             </div>
-            <table id="ekstra" class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nama Kelas</th>
-                  <th>Nama Guru</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Kelas 1a</td>
-                  <td>Jono</td>
-                  <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
-                      <span class="glyphicon glyphicon-pencil"></span>
-                      Edit
-                    </a>
-                    <button class="btn btn-danger btn-sm">
-                      <span class="glyphicon glyphicon-remove"></span>
-                      Hapus
-                    </button>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
+            <!-- include table set wali kelas -->
+            <%- include table_set_wali_kelas %>
           </div>
           <!-- /.box-body -->
         </div>
@@ -64,7 +49,7 @@
 
 
 <!-- include add modal -->
-
+<%- include add_modal.ejs %>
 
 <!-- include edit modal -->
 

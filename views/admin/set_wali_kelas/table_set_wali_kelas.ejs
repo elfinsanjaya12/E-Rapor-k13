@@ -1,0 +1,35 @@
+<table id="ekstra" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama Kelas</th>
+      <th>Nama Guru</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% for (let i = 0; i < wali_kelas.length; i++ ) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td>
+        <%= wali_kelas[i].Kela.nama %>
+      </td>
+      <td>
+        <%= wali_kelas[i].Guru.nama %>
+      </td>
+
+      <td>
+        <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+        </a>
+        <button class="btn btn-danger btn-sm" onclick="delete_wali_kelas(`<%= wali_kelas[i].id %>`)">
+          <span class="glyphicon glyphicon-remove"></span>
+          Hapus
+        </button>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

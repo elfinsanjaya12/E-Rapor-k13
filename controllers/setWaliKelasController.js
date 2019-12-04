@@ -1,16 +1,87 @@
+const { Kelas, Guru, kelompok_wali_kelas, Tahun } = require("../models");
+const Op = require("sequelize").Op;
+
 exports.viewSetWaliKelas = async (req, res) => {
   try {
+    const alertMessage = req.flash('alertMessage');
+    const alertStatus = req.flash('alertStatus');
+    const alert = { message: alertMessage, status: alertStatus };
     const userLogin = req.session.user
 
-    // const kelas = await Kelas.findAll()
-
-    res.render('admin/set_wali_kelas/view_set_wali_kelas', {
-      title: "E-Raport | Set Mata Pelajaran",
-      user: userLogin,
-      // kelas: kelas,
-    })
+    if (userLogin.role === "admin") {
+      const kelas = await Kelas.findAll();
+      const guru = await Guru.findAll()
+      const wali_kelas = await kelompok_wali_kelas.findAll({
+        include: [
+          { model: Kelas },
+          { model: Guru }
+        ]
+      })
+      res.render('admin/set_wali_kelas/view_set_wali_kelas', {
+        title: "E-Raport | Set Wali Kelas",
+        user: userLogin,
+        wali_kelas: wali_kelas,
+        kelas: kelas,
+        guru: guru,
+        alert: alert
+      })
+    } else {
+      req.session.destroy()
+      res.redirect('/signin');
+    }
 
   } catch (err) {
     throw err
+  }
+}
+
+
+exports.actionCreateWaliKelas = async (req, res) => {
+  const { KelasId, GuruId } = req.body
+  try {
+    const cek_wali_kelas = await kelompok_wali_kelas.findOne({
+      where: {
+        [Op.or]: [
+          { KelasId: { [Op.eq]: KelasId } },
+          { GuruId: { [Op.eq]: GuruId } }
+        ]
+      }
+    })
+
+    if (cek_wali_kelas) {
+      req.flash('alertMessage', 'Kelas sudah memiliki wali kelas!');
+      req.flash('alertStatus', 'danger');
+      res.redirect('/admin/set-wali-kelas');
+    } else {
+      Tahun.findOne({
+        where: {
+          status: { [Op.eq]: "Active" }
+        }
+      }).then((tahun) => {
+        if (tahun) {
+          kelompok_wali_kelas.create({
+            KelasId,
+            GuruId,
+            TahunId: tahun.id
+          }).then(() => {
+            req.flash('alertMessage', 'Success Tambah Wali Kelas');
+            req.flash('alertStatus', 'success');
+            res.redirect('/admin/set-wali-kelas');
+          }).catch((err) => {
+            req.flash('alertMessage', `err.message`);
+            req.flash('alertStatus', 'danger');
+            res.redirect('/admin/set-wali-kelas');
+          });
+        }
+      }).catch((err) => {
+        req.flash('alertMessage', `err.message`);
+        req.flash('alertStatus', 'danger');
+        res.redirect('/admin/set-wali-kelas');
+      });
+    }
+
+
+  } catch (error) {
+    console.log(error)
   }
 }
