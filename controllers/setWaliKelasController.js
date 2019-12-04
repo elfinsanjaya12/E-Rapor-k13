@@ -85,3 +85,10 @@ exports.actionCreateWaliKelas = async (req, res) => {
     console.log(error)
   }
 }
+
+exports.actionDetele = async (req, res) => {
+  let { id } = req.params;
+  const wali_kelas = await kelompok_wali_kelas.findOne({ where: { id: { [Op.eq]: id } } })
+  wali_kelas.destroy()
+  res.redirect('/admin/set-wali-kelas');
+}

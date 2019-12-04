@@ -20,11 +20,13 @@
       </td>
 
       <td>
-        <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
+        <!-- <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+          data-id="<%= wali_kelas[i].id %>" data-KelasId="<%= wali_kelas[i].Kela.nama %>"
+          data-GuruId="<%= wali_kelas[i].Guru.nama %>">
           <span class="glyphicon glyphicon-pencil"></span>
           Edit
-        </a>
-        <button class="btn btn-danger btn-sm" onclick="delete_wali_kelas(`<%= wali_kelas[i].id %>`)">
+        </a> -->
+        <button class="btn btn-danger btn-sm" onclick="delete_set_wali_kelas(`<%= wali_kelas[i].id %>`)">
           <span class="glyphicon glyphicon-remove"></span>
           Hapus
         </button>

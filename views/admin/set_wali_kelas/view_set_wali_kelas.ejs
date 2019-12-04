@@ -52,6 +52,7 @@
 <%- include add_modal.ejs %>
 
 <!-- include edit modal -->
+<%- include edit_modal.ejs %>
 
 
 <%- include ../../partials/admin_layout/footer.ejs %>
@@ -77,8 +78,9 @@
           swal({
             title: "Success",
             text: "Success Tambah Data Ekstra",
-            icon: "success",
-            button: "Oke",
+            icon: 'success',
+            buttons: false,
+            timer: 2000
           }).then(sukses => {
             halamanEkstra();
           });
@@ -89,19 +91,22 @@
     //showing data to e edit modal 
     $('#ekstra').on('click', '.edit', function () {
       const id = $(this).data('id');
-      const nama = $(this).data('nama');
+      const KelasId = $(this).data('KelasId');
+      const GuruId = $(this).data('GuruId');
+
 
       $('#edit-modal').modal('show');
       $('.id').val(id);
-      $('.nama').val(nama);
+      $("select").val(KelasId);
+      $("select").val(GuruId);
     });
   })
 
   // Delete guru 
-  function delete_ekstra(id) {
-    let idekstra = id;
+  function delete_set_wali_kelas(id) {
+
     swal({
-      title: "Yakin Ingin Menghapus Data ekstra ini?",
+      title: "Yakin Ingin Menghapus Data Wali Kelas ini?",
       text: "Data yang dihapus, tidak bisa kembali lagi.",
       icon: "warning",
       buttons: true,
@@ -110,11 +115,13 @@
       if (willDelete) {
         swal({
           title: "Success",
-          text: "Success Delete Data ekstra",
+          text: "Success Delete Data Wali Kelas",
           icon: "success",
-          button: "Oke",
+          icon: 'success',
+          buttons: false,
+          timer: 2000
         }).then(suksesDelete => {
-          window.location.assign(`/admin/ekstra/delete/${idekstra}`);
+          window.location.assign(`/admin/set-wali-kelas/delete/${id}`);
         });
       }
     });
