@@ -19,7 +19,7 @@
             <div style="margin: 0 20px 20px 20px;">
               <a href="/admin/set-kelas/tambah" class="btn btn-success">
                 <span class="glyphicon glyphicon-plus"></span>
-                Tambah
+                Lihat Kelas
               </a>
             </div>
             <div class="row">
@@ -37,24 +37,22 @@
                     <table class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>Nama</th>
-                          <th>Aksi</th>
+                          <th class="text-center">No</th>
+                          <th class="text-center">NIS</th>
+                          <th class="text-center">Nama</th>
                         </tr>
                       </thead>
                       <tbody>
                         <% var no = 0 %>
                         <% for (var x = 0; x < k_kelas.length; x++ ) { %>
                         <% if (kelas[i].id === k_kelas[x].KelasId) { %>
-                        <tr>
+                        <tr class="text-center">
                           <td><%= no += 1 %></td>
                           <td>
-                            <%= k_kelas[x].Siswa.nama %>
+                            <%= k_kelas[x].Siswa.nis %>
                           </td>
                           <td>
-                            <button class="btn btn-danger btn-sm" onclick="delete_k_kelas(`<%= k_kelas[x].id %>`)">
-                              <span class="glyphicon glyphicon-remove"></span>
-                            </button>
+                            <%= k_kelas[x].Siswa.nama %>
                           </td>
                         </tr>
                         <% } %>

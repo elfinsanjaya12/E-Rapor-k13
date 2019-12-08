@@ -1,27 +1,33 @@
 <%- include ../../partials/admin_layout/header.ejs %>
 <%- include ../../partials/admin_layout/sidebar.ejs %>
-
+<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+
+  <!-- Main content -->
   <section class="content">
     <div class="row">
+
       <div class="col-xs-12">
         <div class="box box-solid box-primary">
+
           <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-user-plus"></i> Tambah Set Kelas</h3>
-            <div class="pull-right">
-              <a href="/admin/set-kelas" class="btn btn-success btn-xs">
-                <span class="glyphicon glyphicon-arrow-left"></span>
-                Kembali
-              </a>
-            </div>
+            <h3 class="box-title"><i class="fa fa-user-plus"></i> Data kelas</h3>
           </div>
+
+
           <div class="box-body">
+            <!-- include table list kelas -->
             <%- include table_list_kelas.ejs %>
           </div>
+
         </div>
+        <!-- /.box -->
       </div>
+      <!-- /.col -->
     </div>
+    <!-- /.row -->
   </section>
+  <!-- /.content -->
 </div>
 
 

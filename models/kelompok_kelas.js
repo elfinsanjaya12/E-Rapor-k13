@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
     KelasId: DataTypes.INTEGER,
     SiswaId: DataTypes.INTEGER,
     TahunId: DataTypes.INTEGER,
-    kouta: DataTypes.INTEGER
   }, {});
   kelompok_kelas.associate = function (models) {
     // associations can be defined here

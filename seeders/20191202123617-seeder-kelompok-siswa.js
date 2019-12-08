@@ -7,51 +7,44 @@ module.exports = {
         KelasId: 1,
         SiswaId: 1,
         TahunId: 1,
-        kouta: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        KelasId: 1,
-        SiswaId: 1,
-        TahunId: 1,
-        kouta: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        KelasId: 1,
-        SiswaId: 1,
-        TahunId: 1,
-        kouta: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        KelasId: 1,
-        SiswaId: 1,
-        TahunId: 1,
-        kouta: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         KelasId: 2,
-        SiswaId: 1,
+        SiswaId: 2,
         TahunId: 1,
-        kouta: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
-      {
-
-        KelasId: 2,
-        SiswaId: 1,
-        TahunId: 1,
-        kouta: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
+      // {
+      //   KelasId: 1,
+      //   SiswaId: 1,
+      //   TahunId: 1,
+      //   createdAt: new Date(),
+      //   updatedAt: new Date()
+      // },
+      // {
+      //   KelasId: 1,
+      //   SiswaId: 1,
+      //   TahunId: 1,
+      //   createdAt: new Date(),
+      //   updatedAt: new Date()
+      // },
+      // {
+      //   KelasId: 2,
+      //   SiswaId: 1,
+      //   TahunId: 1,
+      //   createdAt: new Date(),
+      //   updatedAt: new Date()
+      // },
+      // {
+      //   KelasId: 2,
+      //   SiswaId: 1,
+      //   TahunId: 1,
+      //   createdAt: new Date(),
+      //   updatedAt: new Date()
+      // },
     ], {});
   },
 

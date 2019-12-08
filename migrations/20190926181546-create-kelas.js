@@ -14,6 +14,9 @@ module.exports = {
       nama: {
         type: Sequelize.STRING
       },
+      kouta: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

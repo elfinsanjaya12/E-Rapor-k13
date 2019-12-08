@@ -37,9 +37,7 @@ module.exports = {
           key: "id"
         }
       },
-      kouta: {
-        type: Sequelize.INTEGER
-      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

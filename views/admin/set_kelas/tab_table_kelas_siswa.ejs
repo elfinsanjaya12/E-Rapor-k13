@@ -1,0 +1,35 @@
+<div class="active tab-pane" id="activity">
+  <div class="box-body table-responsive no-padding">
+    <table id="kelas_siswa" class="table table-hover">
+      <thead>
+        <th>No.</th>
+        <th>Nisn</th>
+        <th>Nama</th>
+        <th>Aksi</th>
+      </thead>
+      <tbody>
+        <% for (var i = 0; i < kelas_siswa.length; i++) { %>
+        <tr>
+          <td>
+            <%= i+1 %>
+          </td>
+          <td>
+            <%= kelas_siswa[i].Siswa.nisn %>
+          </td>
+          <td>
+            <%= kelas_siswa[i].Siswa.nama %>
+          </td>
+          <td>
+
+            <button class="btn btn-danger btn-sm"
+              onclick="delete_siswa_in_kelas(`<%= kelas_siswa[i].id %>`,`<%= kelas_siswa[i].SiswaId %>`,`<%= kelas_siswa[i].KelasId %>`)">
+              <span class="glyphicon glyphicon-remove"></span>
+              Delete
+            </button>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
