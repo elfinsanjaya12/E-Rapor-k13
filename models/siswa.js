@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     pkj_wali: DataTypes.STRING,
     foto: DataTypes.STRING,
     UserId: DataTypes.INTEGER,
-
+    isHaveKelas: DataTypes.STRING
   }, {});
   Siswa.associate = function (models) {
     // associations can be defined here

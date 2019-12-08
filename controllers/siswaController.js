@@ -103,7 +103,8 @@ exports.actionCreate = async (req, res) => {
         alamat_wali: alamat_wali,
         no_wali: no_wali,
         pkj_wali: pkj_wali,
-        UserId: user.id
+        UserId: user.id,
+        isHaveKelas: "N"
         // foto: foto,
       }).then(() => {
         req.flash('alertMessage', `Sukses Menambahkan Data Siswa Baru dengan Nama : ${nama} dan NIS: ${nis}`);
