@@ -14,7 +14,13 @@ exports.viewSetWaliKelas = async (req, res) => {
       const wali_kelas = await kelompok_wali_kelas.findAll({
         include: [
           { model: Kelas },
-          { model: Guru }
+          { model: Guru },
+          {
+            model: Tahun,
+            where: {
+              status: { [Op.eq]: "Active" }
+            }
+          },
         ]
       })
       res.render('admin/set_wali_kelas/view_set_wali_kelas', {
