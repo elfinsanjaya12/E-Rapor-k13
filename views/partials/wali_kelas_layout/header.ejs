@@ -25,13 +25,7 @@
   <!-- Google Font -->
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- <link rel="stylesheet" href="/stylesheets/sweetalert2.css">
-  <link rel="stylesheet" href="/stylesheets/sweetalert2.min.css">
-  <script src="/javascripts/sweetalert2.all.min.js"></script>
-  <script src="/javascripts/sweetalert2.all.js"></script>
-  <script src="/javascripts/sweetalert2.js"></script>
-  <script src="/javascripts/sweetalert2.min.js"></script> -->
-  <script src="/javascripts/sweetalert.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <style>
     .example-modal .modal {
@@ -47,14 +41,10 @@
     .example-modal .modal {
       background: transparent !important;
     }
-
-    .swal2-modal {
-      margin-top: 0 !important;
-    }
   </style>
 </head>
 
-<body class="hold-transition skin-blue-light sidebar-mini">
+<body class="hold-transition skin-purple-light sidebar-mini">
   <div class="wrapper">
 
     <header class="main-header">
@@ -81,20 +71,12 @@
                 <span class="hidden-xs"><%= user.role %></span>
               </a>
               <ul class="dropdown-menu">
-                <!-- User image -->
-                <li class="user-header">
-                  <img src="/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
-                  <p>
-                    Username : <%= user.username %>
-
-                  </p>
-                </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                  <!-- <div class="pull-left">
+                  <div class="pull-left">
                     <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  </div> -->
+                  </div>
                   <div class="pull-right">
                     <a href="/logout" class="btn btn-default btn-flat">Sign Out</a>
                   </div>

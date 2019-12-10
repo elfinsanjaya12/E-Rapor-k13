@@ -20,8 +20,10 @@ let setKelasRouter = require('./routes/set_kelas')
 let setMataPelajaranRouter = require('./routes/set_mata_pelajaran')
 let setWaliKelasRouter = require('./routes/set_wali_kelas')
 
-// guru
-let adminGuruRouter = require('./routes/admin_guru');
+// wali kelas
+let adminWaliKelasRouter = require('./routes/admin_wali_kelas');
+
+const adminGuruRouter = require('./routes/admin_guru');
 
 // siswa
 let adminSiswaRouter = require('./routes/admin_siswa');
@@ -69,8 +71,9 @@ app.use('/', siswaRouter);
 app.use('/', setKelasRouter);
 app.use('/', setMataPelajaranRouter);
 app.use('/', setWaliKelasRouter);
-app.use('/', adminGuruRouter);
+app.use('/', adminWaliKelasRouter);
 app.use('/', adminSiswaRouter);
+app.use('/', adminGuruRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

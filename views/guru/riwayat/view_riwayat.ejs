@@ -1,0 +1,49 @@
+<%- include ../../partials/guru_layout/header.ejs %>
+<%- include ../../partials/guru_layout/sidebar.ejs %>
+
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-bookmark"></i> Data Riwayat Mengajar</h3>
+          </div>
+          <div class="box-body">
+            <table id="riwayat" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tahun Ajaran</th>
+                  <th>Mata Pelajaran</th>
+                  <th>Kelas</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let i = 0; i < riwayat.length; i++ ) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td><%= riwayat[i].Tahun.tahun %></td>
+                  <td><%= riwayat[i].MataPelajaran.nama %></td>
+                  <td><%= riwayat[i].Kela.nama %></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<%- include ../../partials/guru_layout/footer.ejs %>
