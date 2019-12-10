@@ -1,4 +1,4 @@
-const { Kelas, Guru, kelompok_wali_kelas, Tahun } = require("../models");
+const { Kelas, Guru, kelompok_wali_kelas, Tahun, User } = require("../models");
 const Op = require("sequelize").Op;
 
 exports.viewSetWaliKelas = async (req, res) => {
@@ -69,10 +69,30 @@ exports.actionCreateWaliKelas = async (req, res) => {
             KelasId,
             GuruId,
             TahunId: tahun.id
-          }).then(() => {
-            req.flash('alertMessage', 'Success Tambah Wali Kelas');
-            req.flash('alertStatus', 'success');
-            res.redirect('/admin/set-wali-kelas');
+          }).then((guru) => {
+            Guru.findOne({
+              where: { id: { [Op.eq]: guru.GuruId } }
+            }).then((user) => {
+              console.log("masuk")
+              User.findOne({ where: { id: { [Op.eq]: user.UserId } } }).then((update_user) => {
+                if (update_user) {
+
+                  update_user.update({ role: "wali kelas" }).then(() => {
+                    req.flash('alertMessage', 'Success Tambah Wali Kelas');
+                    req.flash('alertStatus', 'success');
+                    res.redirect('/admin/set-wali-kelas');
+                  })
+                }
+              }).catch((err) => {
+                req.flash('alertMessage', `err.message`);
+                req.flash('alertStatus', 'danger');
+                res.redirect('/admin/set-wali-kelas');
+              });
+            }).catch((err) => {
+              req.flash('alertMessage', `err.message`);
+              req.flash('alertStatus', 'danger');
+              res.redirect('/admin/set-wali-kelas');
+            });
           }).catch((err) => {
             req.flash('alertMessage', `err.message`);
             req.flash('alertStatus', 'danger');
@@ -85,8 +105,6 @@ exports.actionCreateWaliKelas = async (req, res) => {
         res.redirect('/admin/set-wali-kelas');
       });
     }
-
-
   } catch (error) {
     console.log(error)
   }

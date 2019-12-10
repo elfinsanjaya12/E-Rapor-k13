@@ -31,10 +31,12 @@ exports.actionLogin = async (req, res) => {
 
       if (user.role === "admin") {
         res.redirect("/admin");
-      } else if (user.role === "guru") {
-        res.redirect("/guru");
+      } else if (user.role === "wali kelas") {
+        res.redirect("/wali-kelas");
       } else if (user.role === "siswa") {
         res.redirect("/siswa");
+      } else if (user.role === "guru") {
+        res.redirect("/guru");
       }
     } else {
       req.flash('alertMessage', 'Mohon Maaf Session Anda Salah Silahkan Login Kembali!');

@@ -14,6 +14,7 @@ exports.viewHome = async (req, res) => {
 }
 
 exports.viewMatpelDiampuh = async (req, res) => {
+  console.log("oke")
   try {
     res.render("wali_kelas/matpel_diampuh/view_matpel_diampuh", {
       title: "E-Raport | Matpel Diampuh",
