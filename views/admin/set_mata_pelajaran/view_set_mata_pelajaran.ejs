@@ -2,6 +2,15 @@
 <%- include ../../partials/admin_layout/sidebar.ejs %>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+  <section class="content-header">
+    <% if(alert.message != '') { %>
+    <br>
+    <div class="alert alert-<%= alert.status %> alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-check"></i> <%= alert.message %></h4>
+    </div>
+    <% } %>
+  </section>
 
   <!-- Main content -->
   <section class="content">
@@ -22,33 +31,8 @@
               Tambah
             </button>
           </div>
-          <table id="ekstra" class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Nama Guru</th>
-                <th>Mata Pelajaran - Kelas</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Joni</td>
-                <td>Matematika - Kelas 1a</td>
-                <td>
-                  <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                    Edit
-                  </a>
-                  <button class="btn btn-danger btn-sm">
-                    <span class="glyphicon glyphicon-remove"></span>
-                    Hapus
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <%- include table_set_mata_pelajaran.ejs %>
+
         </div>
         <!-- /.box-body -->
       </div>
@@ -63,6 +47,7 @@
 
 
 <!-- include add modal -->
+<%- include add_modal.ejs %>
 
 
 <!-- include edit modal -->
@@ -73,49 +58,12 @@
 <script>
   $(document).ready(function () {
     // datatable
-    $('#ekstra').DataTable()
-
-    // redirect halaman ekstra
-    function halamanEkstra() {
-      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/ekstra')
-    }
-
-    // function simpan
-    $('#simpan_ekstra').on('submit', function (event) {
-      event.preventDefault();
-      $.ajax({
-        url: "/admin/ekstra/create",
-        method: "POST",
-        data: $(this).serialize(),
-        success: function () {
-          swal({
-            title: "Success",
-            text: "Success Tambah Data Ekstra",
-            icon: "success",
-            button: "Oke",
-          }).then(sukses => {
-            halamanEkstra();
-          });
-        },
-      })
-    })
-
-    //showing data to e edit modal 
-    $('#ekstra').on('click', '.edit', function () {
-      const id = $(this).data('id');
-      const nama = $(this).data('nama');
-
-      $('#edit-modal').modal('show');
-      $('.id').val(id);
-      $('.nama').val(nama);
-    });
+    $('#kelompok').DataTable()
   })
 
-  // Delete guru 
-  function delete_ekstra(id) {
-    let idekstra = id;
+  function delete_set_matpel_guru(id) {
     swal({
-      title: "Yakin Ingin Menghapus Data ekstra ini?",
+      title: "Yakin Ingin Menghapus ini?",
       text: "Data yang dihapus, tidak bisa kembali lagi.",
       icon: "warning",
       buttons: true,
@@ -124,11 +72,12 @@
       if (willDelete) {
         swal({
           title: "Success",
-          text: "Success Delete Data ekstra",
+          text: "Success Delete Data",
           icon: "success",
-          button: "Oke",
+          buttons: false,
+          timer: 2000
         }).then(suksesDelete => {
-          window.location.assign(`/admin/ekstra/delete/${idekstra}`);
+          window.location.assign(`/admin/set-matpel/${id}`);
         });
       }
     });
