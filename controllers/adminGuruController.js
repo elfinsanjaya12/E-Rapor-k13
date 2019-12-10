@@ -4,7 +4,7 @@ const Op = require("sequelize").Op;
 exports.viewHome = async (req, res) => {
   const userLogin = req.session.user
   try {
-    res.render("guru/home/view_home", {
+    res.render("wali_kelas/home/view_home", {
       title: "E-Raport | Guru",
       user: userLogin
     })
@@ -15,7 +15,7 @@ exports.viewHome = async (req, res) => {
 
 exports.viewMatpelDiampuh = async (req, res) => {
   try {
-    res.render("guru/matpel_diampuh/view_matpel_diampuh", {
+    res.render("wali_kelas/matpel_diampuh/view_matpel_diampuh", {
       title: "E-Raport | Matpel Diampuh",
     })
   } catch (err) {
@@ -25,7 +25,7 @@ exports.viewMatpelDiampuh = async (req, res) => {
 
 exports.viewRiwayatMengajar = async (req, res) => {
   try {
-    res.render("guru/riwayat_mengajar/view_riwayat_mengajar", {
+    res.render("wali_kelas/riwayat_mengajar/view_riwayat_mengajar", {
       title: "E-Raport | Matpel Diampuh",
     })
   } catch (err) {
@@ -35,7 +35,7 @@ exports.viewRiwayatMengajar = async (req, res) => {
 
 exports.viewAbsen = async (req, res) => {
   try {
-    res.render("guru/absen/view_absen", {
+    res.render("wali_kelas/absen/view_absen", {
       title: "E-Raport | Absen",
     })
   } catch (err) {
@@ -45,7 +45,7 @@ exports.viewAbsen = async (req, res) => {
 
 exports.viewRaport = async (req, res) => {
   try {
-    res.render("guru/raport/view_raport", {
+    res.render("wali_kelas/raport/view_raport", {
       title: "E-Raport | Absen",
     })
   } catch (err) {
@@ -55,7 +55,7 @@ exports.viewRaport = async (req, res) => {
 
 exports.viewNilaiSikap = async (req, res) => {
   try {
-    res.render("guru/input_nilai_sikap/view_input_nilai_sikap", {
+    res.render("wali_kelas/input_nilai_sikap/view_input_nilai_sikap", {
       title: "E-Raport | Input Nilai Sikap",
     })
   } catch (err) {
@@ -65,7 +65,7 @@ exports.viewNilaiSikap = async (req, res) => {
 
 exports.viewNilaiEktra = async (req, res) => {
   try {
-    res.render("guru/input_nilai_ektrakulikuler/view_input_nilai_ektrakulikuler", {
+    res.render("wali_kelas/input_nilai_ektrakulikuler/view_input_nilai_ektrakulikuler", {
       title: "E-Raport | Input Nilai Ektrakulikuler",
     })
   } catch (err) {
@@ -75,7 +75,7 @@ exports.viewNilaiEktra = async (req, res) => {
 
 exports.viewValidasiNilai = async (req, res) => {
   try {
-    res.render("guru/validasi_nilai/view_validasi_nilai", {
+    res.render("wali_kelas/validasi_nilai/view_validasi_nilai", {
       title: "E-Raport | Input Nilai Ektrakulikuler",
     })
   } catch (err) {
