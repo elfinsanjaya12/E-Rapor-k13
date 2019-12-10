@@ -20,7 +20,6 @@
                   <th>Tahun Ajaran</th>
                   <th>Mata Pelajaran</th>
                   <th>Kelas</th>
-                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,3 +46,10 @@
 </div>
 
 <%- include ../../partials/guru_layout/footer.ejs %>
+
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#riwayat').DataTable()
+  })
+</script>
