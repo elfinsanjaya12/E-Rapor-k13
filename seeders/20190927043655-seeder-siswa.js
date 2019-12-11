@@ -71,7 +71,7 @@ module.exports = {
         pkj_wali: "Bos",
         foto: "",
         UserId: 4,
-        isHaveKelas: "Y"
+        isHaveKelas: "N"
       }
     ], {});
 

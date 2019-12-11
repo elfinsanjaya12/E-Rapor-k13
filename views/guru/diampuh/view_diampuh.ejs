@@ -1,0 +1,29 @@
+<%- include ../../partials/guru_layout/header.ejs %>
+<%- include ../../partials/guru_layout/sidebar.ejs %>
+
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-book"></i> Mata Pelajaran Diampuh</h3>
+          </div>
+          <div class="box-body">
+            <%- include table_diampuh.ejs %>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<%- include ../../partials/guru_layout/footer.ejs %>
