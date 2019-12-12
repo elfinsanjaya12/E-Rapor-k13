@@ -81,6 +81,11 @@ exports.viewMatpelDiampuh = async (req, res) => {
 exports.viewMatpelPengetahuan = async (req, res) => {
   const { KelasId } = req.params
   const userLogin = req.session.user
+  const kelas = await Kelas.findOne({
+    where: {
+      id: { [Op.eq]: KelasId }
+    },
+  })
   kelompok_kelas.findAll({
     where: {
       KelasId: { [Op.eq]: KelasId }
@@ -111,7 +116,7 @@ exports.viewMatpelPengetahuan = async (req, res) => {
       title: "E-Raport | Guru",
       user: userLogin,
       kelompok_siswa,
-      kelas: kelompok_siswa[0].Kela.nama,
+      kelas: kelas.nama
       // nilai
     })
   })
