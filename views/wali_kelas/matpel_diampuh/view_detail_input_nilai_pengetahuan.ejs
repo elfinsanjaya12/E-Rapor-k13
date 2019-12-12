@@ -1,0 +1,91 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-users"></i> Data nilai <%= siswa.nama %>
+            </h3>
+            <div class="pull-right">
+              <a href="/guru/matpel" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-home"></span>
+                home
+              </a>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                  <ul class="nav nav-tabs">
+                    <li class="active">
+                      <a href="#activity" data-toggle="tab"><i class="fa fa-users"></i> Daftar
+                        Nilai Pengetahuan
+                      </a>
+                    </li>
+                    <% if(nilai === 0){ %>
+                    <li>
+                      <a href="#input-siswa" data-toggle="tab"><i class="fa fa-user-plus"></i>
+                        Input Nilai Siswa
+                      </a>
+                    </li>
+                    <%}%>
+                  </ul>
+                  <div class="tab-content">
+                    <%- include tab_table_nilai_pengetahuan.ejs %>
+                    <%- include tab_input_nilai_pengetahuan.ejs %>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+</section>
+<!-- /.content -->
+</div>
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#all_siswa').DataTable()
+    $('#kelas_siswa').DataTable()
+  })
+
+  function delete_nilai(id, SiswaId) {
+    swal({
+      title: "Yakin Ingin Menghapus Nilai Siswa?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then((willOke) => {
+      if (willOke) {
+        swal({
+          title: "Informasi",
+          text: "Success Delete",
+          position: 'top-left',
+          icon: 'success',
+          buttons: false,
+          timer: 2000
+        }).then(() => {
+          window.location.assign(`/wali-kelas/matpel-diampuh/pengetahuan/${id}/${SiswaId}`);
+        });
+      }
+    });
+  }
+</script>

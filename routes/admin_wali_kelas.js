@@ -3,6 +3,10 @@ var router = express.Router();
 let {
   viewHome,
   viewMatpelDiampuh,
+  viewMatpelPengetahuan,
+  viewDetailNilai,
+  actionCreateNilai,
+  actionDeteleNilai,
   viewRiwayatMengajar,
   viewAbsen,
   viewRaport,
@@ -13,14 +17,22 @@ let {
 
 const auth = require('../middlewares/auth')
 
-router.get("/wali-kelas", auth.isLogin, viewHome)
-router.get("/wali-kelas/matpel-diampuh", auth.isLogin, viewMatpelDiampuh)
-router.get("/wali-kelas/riwayat", auth.isLogin, viewRiwayatMengajar)
-router.get("/wali-kelas/input-absen", auth.isLogin, viewAbsen)
-router.get("/wali-kelas/raport", auth.isLogin, viewRaport)
-router.get("/wali-kelas/input-nilai-sikap", auth.isLogin, viewNilaiSikap)
-router.get("/wali-kelas/ekstra", auth.isLogin, viewNilaiEktra)
-router.get("/wali-kelas/validasi", auth.isLogin, viewValidasiNilai)
+router.use(auth.isLogin)
+router.get("/wali-kelas", viewHome)
+router.get("/wali-kelas/matpel-diampuh", viewMatpelDiampuh)
+router.get("/wali-kelas/matpel-diampuh/pengetahuan/:KelasId", viewMatpelPengetahuan)
+router.get("/wali-kelas/matpel-diampuh/input-nilai/:SiswaId", viewDetailNilai)
+router.post("/wali-kelas/matpel-diampuh/pengetahuan/input-nilai", actionCreateNilai)
+router.get("/wali-kelas/matpel-diampuh/pengetahuan/:id/:SiswaId", actionDeteleNilai)
+
+
+
+router.get("/wali-kelas/riwayat", viewRiwayatMengajar)
+router.get("/wali-kelas/input-absen", viewAbsen)
+router.get("/wali-kelas/raport", viewRaport)
+router.get("/wali-kelas/input-nilai-sikap", viewNilaiSikap)
+router.get("/wali-kelas/ekstra", viewNilaiEktra)
+router.get("/wali-kelas/validasi", viewValidasiNilai)
 
 
 module.exports = router;

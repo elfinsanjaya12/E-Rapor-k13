@@ -1,0 +1,35 @@
+<div class="tab-pane" id="input-siswa">
+  <div class="box-body table-responsive no-padding">
+    <form role="form" action="/wali-kelas/matpel-diampuh/pengetahuan/input-nilai" method="POST">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="latihan" class="control-label">Latihan</label>
+            <input type="number" name="latihan" class="form-control" id="latihan" required>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="uts" class="control-label">UTS</label>
+            <input type="number" name="uts" class="form-control" id="uts" required>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="uas" class="control-label">UAS</label>
+            <input type="number" name="uas" class="form-control" id="uas" required>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+        <input name="SiswaId" type="hidden" value="<%= siswa.id %>" />
+        <input name="GuruId" type="hidden" value="<%= kelas_guru.GuruId %>" />
+        <input name="MatpelId" type="hidden" value="<%= kelas_guru.MatpelId %>" />
+        <input name="TahunId" type="hidden" value="<%= kelas_guru.TahunId %>" />
+        <button type="submit" class="btn btn-primary pull-left">
+          Simpan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

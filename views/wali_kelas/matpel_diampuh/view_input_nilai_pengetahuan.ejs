@@ -2,36 +2,35 @@
 <%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
 
 <div class="content-wrapper">
-
-  <!-- Main content -->
   <section class="content">
     <div class="row">
-
       <div class="col-xs-12">
         <div class="box box-solid box-primary">
           <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-book"></i> Mata Pelajaran Diampuh</h3>
+            <h3 class="box-title"><i class="fa fa-book"></i> <%= kelas %> || Input Nilai Pengetahuan</h3>
+            <div class="pull-right">
+              <a href="/wali_kelas/matpel" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Kembali
+              </a>
+            </div>
           </div>
           <div class="box-body">
-            <%- include table_matpel_diampuh.ejs %>
+            <%- include table_kelompok_siswa_pengetahuan.ejs %>
           </div>
-          <!-- /.box-body -->
         </div>
-        <!-- /.box -->
       </div>
-      <!-- /.col -->
     </div>
-    <!-- /.row -->
   </section>
-  <!-- /.content -->
 </div>
 
 
 <%- include ../../partials/wali_kelas_layout/footer.ejs %>
-<!-- page script -->
 <script>
   $(document).ready(function () {
     // datatable
-    $('#matpel-diampuh').DataTable()
+    $('#kelompok_siswa').DataTable()
   })
+
+
 </script>
