@@ -26,13 +26,21 @@ module.exports = {
         {
           username: "itce",
           password: password,
-          role: "guru",
-          status: "Nonactive",
+          role: "wali kelas",
+          status: "Active",
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           username: "ega",
+          password: password,
+          role: "siswa",
+          status: "Active",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          username: "iwan",
           password: password,
           role: "siswa",
           status: "Active",

@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('Gurus', [
       {
         nip: "1489898989",
-        nama: "elfin sanjaya",
+        nama: "Fidin",
         jk: "pria",
         status: "Active",
         UserId: 2,

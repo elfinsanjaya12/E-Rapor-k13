@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('Siswas', [
       {
         nis: "1234556",
-        nama: 'Elfin Sanjaya',
+        nama: 'Ega',
         nisn: "123456789909",
         jk: "Pria",
         tgl_lahir: new Date(),
@@ -70,7 +70,7 @@ module.exports = {
         no_wali: "08328274823",
         pkj_wali: "Bos",
         foto: "",
-        UserId: 4,
+        UserId: 5,
         isHaveKelas: "N"
       }
     ], {});
