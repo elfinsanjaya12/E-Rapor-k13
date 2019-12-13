@@ -1,0 +1,30 @@
+<table id="kelompok_siswa" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class="text-center">No</th>
+      <th class="text-center">NIS</th>
+      <th class="text-center">Nama Siswa</th>
+      <!-- <th class="text-center">Nilai Akhir</th> -->
+      <th class="text-center">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < kelompok_siswa.length; i++ ) { %>
+    <tr class="text-center">
+      <td><%= i + 1 %></td>
+      <td><%= kelompok_siswa[i].Siswa.nis %></td>
+      <td><%= kelompok_siswa[i].Siswa.nama %></td>
+      <!-- <td>
+        
+      </td> -->
+      <td>
+        <a href="/wali-kelas/matpel-diampuh/input-nilai/keterampilan/<%= kelompok_siswa[i].SiswaId %>"
+          class="btn btn-success btn-sm">
+          <span class="glyphicon glyphicon-plus"></span>
+          Input Nilai
+        </a>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

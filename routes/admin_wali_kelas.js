@@ -3,10 +3,16 @@ var router = express.Router();
 let {
   viewHome,
   viewMatpelDiampuh,
+  //== input nilai pengetahuan ==\\
   viewMatpelPengetahuan,
   viewDetailNilai,
   actionCreateNilai,
   actionDeteleNilai,
+  //== input nilai keterampilan ==\\
+  viewMatpelKeterampilan,
+  viewDetailNilaiKeterampilan,
+  actionCreateNilaiKeterampilan,
+  actionDeteleNilaiKeterampilan,
   viewRiwayatMengajar,
   viewAbsen,
   viewRaport,
@@ -20,10 +26,16 @@ const auth = require('../middlewares/auth')
 router.use(auth.isLogin)
 router.get("/wali-kelas", viewHome)
 router.get("/wali-kelas/matpel-diampuh", viewMatpelDiampuh)
+//== input nilai pengetahuan ==\\
 router.get("/wali-kelas/matpel-diampuh/pengetahuan/:KelasId", viewMatpelPengetahuan)
 router.get("/wali-kelas/matpel-diampuh/input-nilai/:SiswaId", viewDetailNilai)
 router.post("/wali-kelas/matpel-diampuh/pengetahuan/input-nilai", actionCreateNilai)
 router.get("/wali-kelas/matpel-diampuh/pengetahuan/:id/:SiswaId", actionDeteleNilai)
+//== input nilai keterampilan ==\\
+router.get("/wali-kelas/matpel-diampuh/keterampilan/:KelasId", viewMatpelKeterampilan)
+router.get("/wali-kelas/matpel-diampuh/input-nilai/keterampilan/:SiswaId", viewDetailNilaiKeterampilan)
+router.post("/wali-kelas/matpel-diampuh/keterampilan/input-nilai", actionCreateNilaiKeterampilan)
+router.get("/wali-kelas/matpel-diampuh/keterampilan/:id/:SiswaId", actionDeteleNilaiKeterampilan)
 
 
 
