@@ -1,4 +1,10 @@
-const { Kelas, kelompok_kelas, Tahun, Siswa } = require("../models");
+const {
+  Kelas,
+  kelompok_kelas,
+  Tahun,
+  Siswa,
+  NilaiAbsen
+} = require("../models");
 const Op = require("sequelize").Op;
 
 const include = {
@@ -101,6 +107,13 @@ exports.actionDeteleSiswaKelompok = async (req, res) => {
         id: { [Op.eq]: id },
       }
     })
+
+    const detele_siswa_nilai_absen = await NilaiAbsen.findOne({
+      where: {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: KelasId },
+      }
+    })
     // update kouta kelas 
     const update_kouta_kelas = await Kelas.findOne({ where: { id: { [Op.eq]: KelasId } } })
     if (update_kouta_kelas) {
@@ -114,6 +127,7 @@ exports.actionDeteleSiswaKelompok = async (req, res) => {
       await update_siswa.save()
     }
     detele_siswa.destroy();
+    detele_siswa_nilai_absen.destroy();
     res.redirect(`/admin/set-kelas/${KelasId}`)
   } catch (error) {
     console.log(error)
@@ -130,6 +144,17 @@ exports.actionAddSiswaInKelas = async (req, res) => {
       SiswaId: SiswaId,
       TahunId: tahun.id
     }).then(async (update_kouta_siswa) => {
+      // create table nilai absen
+
+      await NilaiAbsen.create({
+        KelasId: KelasId,
+        SiswaId: SiswaId,
+        TahunId: tahun.id,
+        s: 0,
+        a: 0,
+        i: 0
+      })
+
       // cek kelas 
       const update_kelas = await Kelas.findOne({
         where: {
@@ -149,9 +174,10 @@ exports.actionAddSiswaInKelas = async (req, res) => {
       })
       // update isHaveKelas siswa
       if (update_siswa) {
-        update_siswa.isHaveKelas = "Y",
-          await update_siswa.save()
+        update_siswa.isHaveKelas = "Y";
+        await update_siswa.save()
       }
+
       res.redirect(`/admin/set-kelas/${KelasId}`)
     }).catch((err) => {
       console.log(err)
