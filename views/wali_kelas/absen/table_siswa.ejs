@@ -1,0 +1,37 @@
+<table id="absen" class="table table-bordered table-striped mailbox-messages">
+  <thead>
+    <tr>
+      <th>
+        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+      </th>
+      <th>No</th>
+      <th>Nama</th>
+      <th>Sakit</th>
+      <th>Izin</th>
+      <th>Tanpa Keterangan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < get_nilai_absen.length; i++ ) { %>
+    <tr>
+      <td><input class="check_box" type="checkbox" id="<%= get_nilai_absen[i].id %>" data-no="<%= i+1 %>"
+          data-nama="<%= get_nilai_absen[i].Siswa.nama %>" data-s="<%= get_nilai_absen[i].s %>"
+          data-i="<%= get_nilai_absen[i].i %>" data-a="<%= get_nilai_absen[i].a %>">
+      </td>
+      <td><%= i + 1 %></td>
+      <td>
+        <%= get_nilai_absen[i].Siswa.nama %>
+      </td>
+      <td>
+        <%= get_nilai_absen[i].s %>
+      </td>
+      <td>
+        <%= get_nilai_absen[i].i %>
+      </td>
+      <td>
+        <%= get_nilai_absen[i].a %>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

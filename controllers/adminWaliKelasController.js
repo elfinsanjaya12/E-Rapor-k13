@@ -1,13 +1,15 @@
 const {
   Guru,
   kelompok_matpel_guru,
+  kelompok_wali_kelas,
   Tahun,
   Kelas,
   MataPelajaran,
   kelompok_kelas,
   Siswa,
   NilaiPengetahuan,
-  NilaiKeterampilan
+  NilaiKeterampilan,
+  NilaiAbsen,
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -234,7 +236,7 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
     KelasId: { [Op.eq]: kelas_siswa.KelasId }
   })
 
-  NilaiPengetahuan.findOne({
+  NilaiKeterampilan.findOne({
     where: {
       SiswaId: { [Op.eq]: SiswaId }
     },
@@ -287,7 +289,7 @@ exports.actionCreateNilaiKeterampilan = (req, res) => {
     keterangan = "Kurang Baik Memahami Materi";
   }
 
-  NilaiPengetahuan.create({
+  NilaiKeterampilan.create({
     latihan: latihan,
     uts: uts,
     uas: uas,
@@ -306,7 +308,7 @@ exports.actionCreateNilaiKeterampilan = (req, res) => {
 
 exports.actionDeteleNilaiKeterampilan = (req, res) => {
   const { id, SiswaId } = req.params
-  NilaiPengetahuan.findOne({
+  NilaiKeterampilan.findOne({
     where: { id: { [Op.eq]: id } }
   }).then((nilai) => {
     nilai.destroy();
@@ -340,15 +342,69 @@ exports.viewRiwayatMengajar = async (req, res) => {
   })
 }
 
+// =============== awal absen ============== \\
 exports.viewAbsen = async (req, res) => {
-  try {
-    res.render("wali_kelas/absen/view_absen", {
-      title: "E-Raport | Absen",
+  const userLogin = req.session.user
+  Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  }).then((guru) => {
+    kelompok_wali_kelas.findOne({
+      where: {
+        GuruId: { [Op.eq]: guru.id }
+      }
+    }).then((nilai_absen) => {
+      NilaiAbsen.findAll({
+        where: { KelasId: { [Op.eq]: nilai_absen.KelasId } },
+        include: [
+          { model: Tahun },
+          { model: Kelas },
+          { model: Siswa }
+        ]
+      }).then((get_nilai_absen) => {
+        res.render("wali_kelas/absen/view_absen", {
+          title: "E-Raport | Absen",
+          user: userLogin,
+          get_nilai_absen
+        })
+      })
     })
-  } catch (err) {
-    throw err
+  })
+}
+
+exports.actionCreateNilaiAbsen = async (req, res) => {
+  const s = parseInt(req.body.s);
+  const i = parseInt(req.body.i);
+  const a = parseInt(req.body.a);
+  const dataSiswa = req.body.id;
+
+  if (typeof dataSiswa === 'string' || dataSiswa instanceof String) {
+    await NilaiAbsen.update({
+      s: s,
+      i: i,
+      a: a
+    }, {
+      where: {
+        id: { [Op.eq]: parseInt(req.body.id) }
+      }
+    });
+    res.redirect("/wali-kelas/input-absen")
+  } else {
+    for (let i = 0; i < dataSiswa.length; i++) {
+      await NilaiAbsen.update({
+        s: s,
+        i: i,
+        a: a
+      }, {
+        where: {
+          id: { [Op.eq]: req.body.id[i] }
+        }
+      });
+    }
+    res.redirect("/wali-kelas/input-absen")
   }
 }
+
+// =============== akhir absen ============== \\
 
 exports.viewRaport = async (req, res) => {
   try {

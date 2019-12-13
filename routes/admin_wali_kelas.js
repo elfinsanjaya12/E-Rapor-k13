@@ -14,7 +14,9 @@ let {
   actionCreateNilaiKeterampilan,
   actionDeteleNilaiKeterampilan,
   viewRiwayatMengajar,
+  // input nilai absen
   viewAbsen,
+  actionCreateNilaiAbsen,
   viewRaport,
   viewNilaiSikap,
   viewNilaiEktra,
@@ -36,11 +38,13 @@ router.get("/wali-kelas/matpel-diampuh/keterampilan/:KelasId", viewMatpelKeteram
 router.get("/wali-kelas/matpel-diampuh/input-nilai/keterampilan/:SiswaId", viewDetailNilaiKeterampilan)
 router.post("/wali-kelas/matpel-diampuh/keterampilan/input-nilai", actionCreateNilaiKeterampilan)
 router.get("/wali-kelas/matpel-diampuh/keterampilan/:id/:SiswaId", actionDeteleNilaiKeterampilan)
+// == input nilai absen ==\\
+router.get("/wali-kelas/input-absen", viewAbsen)
+router.post("/wali-kelas/input-absen", actionCreateNilaiAbsen)
 
 
 
 router.get("/wali-kelas/riwayat", viewRiwayatMengajar)
-router.get("/wali-kelas/input-absen", viewAbsen)
 router.get("/wali-kelas/raport", viewRaport)
 router.get("/wali-kelas/input-nilai-sikap", viewNilaiSikap)
 router.get("/wali-kelas/ekstra", viewNilaiEktra)

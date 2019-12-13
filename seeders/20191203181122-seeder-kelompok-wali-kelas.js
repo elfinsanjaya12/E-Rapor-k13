@@ -5,7 +5,7 @@ module.exports = {
 
     return queryInterface.bulkInsert('kelompok_wali_kelas', [
       {
-        GuruId: 1,
+        GuruId: 2,
         TahunId: 1,
         KelasId: 1,
         createdAt: new Date(),

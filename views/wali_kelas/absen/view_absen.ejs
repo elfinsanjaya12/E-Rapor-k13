@@ -1,99 +1,116 @@
-<%- include ../../partials/guru_layout/header.ejs %>
-<%- include ../../partials/guru_layout/sidebar.ejs %>
-<!-- Content Wrapper. Contains page content -->
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
 <div class="content-wrapper">
 
-  <!-- Main content -->
   <section class="content">
     <div class="row">
 
       <div class="col-xs-12">
         <div class="box">
-          <!-- /.box-header -->
           <div class="box-header">
             <h3 class="box-title">Input Absen</h3>
           </div>
 
           <div class="box-body">
-            <div style="margin: 0 20px 20px 20px;">
-              <!-- <button class="btn btn-success">Tambah</button> -->
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
-                <span class="glyphicon glyphicon-plus"></span>
-                Simpan
-              </button>
-            </div>
-            <table id="ekstra" class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nama</th>
-                  <th>Sakit</th>
-                  <th>Izin</th>
-                  <th>Tanpa Keterangan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Edwin</td>
-                  <td>
-                    <div class="form-group">
-                      <input type="number" class="form-control" id="nama" name="nama" placeholder="0" required>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="form-group">
-                      <input type="number" class="form-control" id="nama" name="nama" placeholder="0" required>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="form-group">
-                      <input type="number" class="form-control" id="nama" name="nama" placeholder="0" required>
-                    </div>
-                  </td>
-
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Vito</td>
-                  <td>
-                    <div class="form-group">
-                      <input type="number" class="form-control" id="nama" name="nama" placeholder="0" required>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="form-group">
-                      <input type="number" class="form-control" id="nama" name="nama" placeholder="0" required>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="form-group">
-                      <input type="number" class="form-control" id="nama" name="nama" placeholder="0" required>
-                    </div>
-                  </td>
-
-                </tr>
-              </tbody>
-            </table>
+            <form id="update_form">
+              <div style="margin: 0 20px 20px 20px;">
+                <input type="submit" class="btn btn-success" value="Simpan" />
+              </div>
+              <%-include table_siswa.ejs %>
+            </form>
           </div>
-          <!-- /.box-body -->
         </div>
-        <!-- /.box -->
       </div>
-      <!-- /.col -->
     </div>
-    <!-- /.row -->
   </section>
-  <!-- /.content -->
 </div>
 
 
 
-<%- include ../../partials/guru_layout/footer.ejs %>
-<!-- page script -->
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
 <script>
   $(document).ready(function () {
     // datatable
-    $('#ekstra').DataTable()
+    $('#absen').DataTable({
+      "columnDefs": [
+        { "orderable": false, "targets": 0 }
+      ]
+    })
   })
+
+  // ============================================================================
+
+  $(document).on('click', '.check_box', function () {
+
+    var html = '';
+    if (this.checked) {
+      html = '<td><input type="checkbox" id="' + $(this).attr('id') + '"  data-no="' + $(this).data('no') + '" data-nama="' + $(this).data('nama') + '" data-s="' + $(this).data('s') + '" data-i="' + $(this).data('i') + '" data-a="' + $(this).data('a') + '" class="check_box" checked /></td>';
+      html += '<td><input disabled type="text" name="no" class="form-control" value="' + $(this).data("no") + '" /></td>';
+      html += '<td><input disabled type="text" name="nama" class="form-control" value="' + $(this).data("nama") + '" /></td>';
+      html += '<td><input type="number" name="s" class="form-control" value="' + $(this).data("s") + '" /></td>';
+      html += '<td><input type="number" name="i" class="form-control" value="' + $(this).data("i") + '" /></td>';
+      html += '<td><input type="number" name="a" class="form-control" value="' + $(this).data("a") + '" /> <input type="text" name="id" value="' + $(this).attr('id') + '" /></td > ';
+    }
+    else {
+      html = '<td><input type="checkbox" id="' + $(this).attr('id') + '" data-no="' + $(this).data('no') + '" data-nama="' + $(this).data('nama') + '" data-s="' + $(this).data('s') + '" data-i="' + $(this).data('i') + '" data-a="' + $(this).data('a') + '" class="check_box" /></td>';
+      html += '<td>' + $(this).data('no') + '</td>';
+      html += '<td>' + $(this).data('nama') + '</td>';
+      html += '<td>' + $(this).data('s') + '</td>';
+      html += '<td>' + $(this).data('i') + '</td>';
+      html += '<td>' + $(this).data('a') + '</td>';
+    }
+    $(this).closest('tr').html(html);
+  });
+
+
+  // ============================================================================
+
+  //Enable check and uncheck all functionality
+  $(".checkbox-toggle", '.check_box').click(function () {
+    var clicks = $(this).data('clicks');
+    console.log(clicks)
+    if (clicks) {
+      //Uncheck all checkboxes
+      $("input[type='checkbox']").iCheck("uncheck");
+      $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+    } else {
+      //Check all checkboxes
+      $("input[type='checkbox']").iCheck("check");
+      $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+
+    }
+    $(this).data("clicks", !clicks);
+  });
+
+  // redirect halaman kelas
+  function halamanAbsen() {
+    window.location.replace(window.location.protocol + "//" + window.location.host + '/wali-kelas/input-absen')
+  }
+
+  $('#update_form').on('submit', function (event) {
+    event.preventDefault();
+
+    if ($('.check_box:checked').length > 0) {
+      $.ajax({
+        url: "/wali-kelas/input-absen",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Data Guru",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(() => {
+            halamanAbsen()
+          })
+        }
+      })
+    }
+  });
+
+
+
 </script>
