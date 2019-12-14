@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Guru } = require("../models");
 const bcrypt = require("bcryptjs");
 const Op = require("sequelize").Op;
 
@@ -19,12 +19,15 @@ exports.actionLogin = async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username: { [Op.eq]: username } } });
 
+  const guru = await Guru.findOne({ where: { UserId: { [Op.eq]: user.id } } })
+
   if (user) {
     const checkPassword = await bcrypt.compare(password, user.password);
     if (checkPassword) {
       req.session.user = {
         id: user.id,
         username: user.username,
+        nama: guru === null ? "admin" : guru.nama,
         role: user.role,
         status: user.status
       }

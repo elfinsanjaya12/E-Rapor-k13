@@ -32,7 +32,7 @@ exports.viewGuru = async (req, res) => {
 
 exports.actionCreate = async (req, res) => {
   const { nip, nama, jk } = req.body;
-  const password = bcrypt.hashSync(nip, 10);
+  const password = bcrypt.hashSync("guru123", 10);
   try {
     const cek_guru = await Guru.findOne({ where: { nip: { [Op.eq]: nip } } })
     if (cek_guru) {
