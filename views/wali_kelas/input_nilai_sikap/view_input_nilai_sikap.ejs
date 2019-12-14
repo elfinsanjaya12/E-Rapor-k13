@@ -1,5 +1,5 @@
-<%- include ../../partials/guru_layout/header.ejs %>
-<%- include ../../partials/guru_layout/sidebar.ejs %>
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
@@ -19,14 +19,14 @@
             <table id="ekstra" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>Nama</th>
-                  <th>Nilai Sikap Spritual</th>
-                  <th>Nilai sikap sosial</th>
+                  <th class="text-center">No</th>
+                  <th class="text-center">Nama</th>
+                  <th class="text-center">Nilai Sikap Spritual</th>
+                  <th class="text-center">Nilai sikap sosial</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr class="text-center">
                   <td>1</td>
                   <td>Sanjaya</td>
                   <td>
@@ -48,32 +48,7 @@
                         <option value="wanita">D</option>
                       </select>
                     </div>
-
-                </tr>
-
-                <tr>
-                  <td>2</td>
-                  <td>Fidin</td>
-                  <td>
-                    <div class="form-group">
-                      <select required name="jk" class="form-control">
-                        <option value="pria">A</option>
-                        <option value="wanita">B</option>
-                        <option value="wanita">C</option>
-                        <option value="wanita">D</option>
-                      </select>
-                    </div>
                   </td>
-                  <td>
-                    <div class="form-group">
-                      <select required name="jk" class="form-control">
-                        <option value="pria">A</option>
-                        <option value="wanita">B</option>
-                        <option value="wanita">C</option>
-                        <option value="wanita">D</option>
-                      </select>
-                    </div>
-
                 </tr>
               </tbody>
             </table>
@@ -91,7 +66,7 @@
 
 
 
-<%- include ../../partials/guru_layout/footer.ejs %>
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
 <!-- page script -->
 <script>
   $(document).ready(function () {

@@ -416,20 +416,25 @@ exports.viewRaport = async (req, res) => {
   }
 }
 
+// =============== awal nilai sikap =================\\
 exports.viewNilaiSikap = async (req, res) => {
+  const userLogin = req.session.user
   try {
     res.render("wali_kelas/input_nilai_sikap/view_input_nilai_sikap", {
       title: "E-Raport | Input Nilai Sikap",
+      user: userLogin
     })
   } catch (err) {
     throw err
   }
 }
-
+// =============== akhir nilai sikap =================\\
 exports.viewNilaiEktra = async (req, res) => {
+  const userLogin = req.session.user
   try {
     res.render("wali_kelas/input_nilai_ektrakulikuler/view_input_nilai_ektrakulikuler", {
       title: "E-Raport | Input Nilai Ektrakulikuler",
+      user: userLogin
     })
   } catch (err) {
     throw err
@@ -437,9 +442,11 @@ exports.viewNilaiEktra = async (req, res) => {
 }
 
 exports.viewValidasiNilai = async (req, res) => {
+  const userLogin = req.session.user
   try {
     res.render("wali_kelas/validasi_nilai/view_validasi_nilai", {
       title: "E-Raport | Input Nilai Ektrakulikuler",
+      user: userLogin
     })
   } catch (err) {
     throw err
