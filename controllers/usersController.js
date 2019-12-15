@@ -18,10 +18,8 @@ exports.actionLogin = async (req, res) => {
 
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username: { [Op.eq]: username } } });
-
-  const guru = await Guru.findOne({ where: { UserId: { [Op.eq]: user.id } } })
-
   if (user) {
+    const guru = await Guru.findOne({ where: { UserId: { [Op.eq]: user.id } } })
     const checkPassword = await bcrypt.compare(password, user.password);
     if (checkPassword) {
       req.session.user = {
