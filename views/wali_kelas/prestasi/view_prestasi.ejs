@@ -1,0 +1,80 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <div class=" box-header">
+            <h3 class="box-title"><i class="fa fa-trophy"></i> Data prestasi Mengajar</h3>
+          </div>
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                <i class="icon fa fa-plus"></i> Tambah
+              </button>
+            </div>
+            <%- include table_prestasi %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include add_modal.ejs %>
+
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#prestasi').DataTable()
+
+    // function simpan
+    $('#simpan_prestasi').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/wali-kelas/prestasi",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Data Prestasi",
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(() => {
+            window.location.replace(window.location.protocol + "//" + window.location.host + '/wali-kelas/prestasi')
+          });
+        },
+      })
+    })
+  })
+
+  // Delete guru 
+  function delete_prestasi(id) {
+    swal({
+      title: "Yakin Ingin Menghapus Data Prestasi Siswa ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Success",
+          text: "Success Delete Data Prestasi Siswa",
+          icon: "success",
+          buttons: false,
+          timer: 2000
+        }).then(suksesDelete => {
+          window.location.assign(`/wali-kelas/prestasi/${id}`);
+        });
+      }
+    });
+  }
+
+</script>

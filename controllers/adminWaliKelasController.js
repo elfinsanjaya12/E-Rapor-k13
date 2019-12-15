@@ -10,6 +10,7 @@ const {
   NilaiPengetahuan,
   NilaiKeterampilan,
   NilaiAbsen,
+  Prestasi
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -405,6 +406,94 @@ exports.actionCreateNilaiAbsen = async (req, res) => {
 }
 
 // =============== akhir absen ============== \\
+
+// =============== prestasi siswa ================\\
+exports.viewPrestasiSiswa = (req, res) => {
+  const userLogin = req.session.user
+  // cek guru
+  Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  }).then((guru) => {
+    // cek wali kelas
+    kelompok_wali_kelas.findOne({
+      where: {
+        GuruId: { [Op.eq]: guru.id }
+      }
+    }).then(async (wali_kelas) => {
+      const kelompok_siswa = await kelompok_kelas.findAll({
+        where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+        include: [
+          { model: Siswa }
+        ]
+      })
+      // cek mahasiswa berprestasi
+      Prestasi.findAll({
+        where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+        include: [
+          {
+            model: Tahun,
+            where: { status: { [Op.eq]: "Active" } }
+          },
+          { model: Kelas },
+          { model: Siswa }
+        ]
+      }).then((prestasi) => {
+        res.render("wali_kelas/prestasi/view_prestasi", {
+          title: "E-Raport | Prestasi",
+          user: userLogin,
+          prestasi,
+          kelompok_siswa
+        })
+      })
+    })
+  })
+}
+
+exports.actionCreatePrestasi = async (req, res) => {
+  const { SiswaId, jenis, ket } = req.body
+
+  try {
+    const cek_tahun = await Tahun.findOne({
+      where: {
+        status: { [Op.eq]: "Active" }
+      }
+    })
+    console.log(cek_tahun)
+    kelompok_kelas.findOne({
+      where: {
+        SiswaId: { [Op.eq]: SiswaId }
+      }
+    }).then((kelas_siswa) => {
+      console.log(kelas_siswa)
+      Prestasi.create({
+        SiswaId: SiswaId,
+        TahunId: cek_tahun.id,
+        KelasId: kelas_siswa.KelasId,
+        jenis: jenis,
+        ket: ket
+      }).then(() => {
+        res.redirect("/wali-kelas/prestasi")
+      }).catch((err) => {
+        console.log(err)
+      });
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+exports.actionDetelePrestasi = (req, res) => {
+  const { id } = req.params
+  Prestasi.findOne({
+    where: { id: { [Op.eq]: id } }
+  }).then((prestasi) => {
+    prestasi.destroy();
+    res.redirect(`/wali-kelas/prestasi`)
+  })
+}
+
+// =============== akhir prestasi =================\\
 
 exports.viewRaport = async (req, res) => {
   try {
