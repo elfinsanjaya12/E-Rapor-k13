@@ -374,11 +374,14 @@ exports.viewAbsen = async (req, res) => {
 }
 
 exports.actionCreateNilaiAbsen = async (req, res) => {
-  const s = parseInt(req.body.s);
-  const i = parseInt(req.body.i);
-  const a = parseInt(req.body.a);
+  const s = req.body.s;
+  const i = req.body.i;
+  const a = req.body.a;
   const dataSiswa = req.body.id;
 
+  console.log(s)
+  console.log(i)
+  console.log(a)
   if (typeof dataSiswa === 'string' || dataSiswa instanceof String) {
     await NilaiAbsen.update({
       s: s,
@@ -393,9 +396,9 @@ exports.actionCreateNilaiAbsen = async (req, res) => {
   } else {
     for (let i = 0; i < dataSiswa.length; i++) {
       await NilaiAbsen.update({
-        s: s,
-        i: i,
-        a: a
+        s: s[i],
+        i: i[i],
+        a: a[i]
       }, {
         where: {
           id: { [Op.eq]: req.body.id[i] }
@@ -542,10 +545,6 @@ exports.actionCreateNilaiSikap = async (req, res) => {
   const n_sosial = req.body.nilai_sosial;
   const n_spiritual = req.body.nilai_spiritual;
   const nilai_sikap = req.body.id;
-
-  console.log(nilai_sikap)
-  console.log(n_sosial)
-  console.log(n_spiritual)
   var ket_sosial, ket_spiritual;
   for (let i = 0; i < nilai_sikap.length; i++) {
     if (n_sosial[i] === "A") {
@@ -567,7 +566,6 @@ exports.actionCreateNilaiSikap = async (req, res) => {
     } else if (n_spiritual[i] === "D") {
       ket_spiritual = "selalu bersyukur dan berdoa sebelum melakukan kegiatan akan tetapi memiliki sikap kurang toleran pada pemeluk agama yang berbeda, ketaatan beribadah masih belum menunjukan perkembangan yang baik."
     }
-
 
     await NilaiSikap.update({
       nilai_sosial: n_sosial[i],
