@@ -22,7 +22,9 @@ let {
   actionCreatePrestasi,
   actionDetelePrestasi,
   viewRaport,
+  // nilai sikap
   viewNilaiSikap,
+  actionCreateNilaiSikap,
   viewNilaiEktra,
   viewValidasiNilai
 } = require("../controllers/adminWaliKelasController")
@@ -50,11 +52,11 @@ router.get("/wali-kelas/prestasi", viewPrestasiSiswa)
 router.post("/wali-kelas/prestasi", actionCreatePrestasi)
 router.get("/wali-kelas/prestasi/:id", actionDetelePrestasi)
 
-
-
 router.get("/wali-kelas/riwayat", viewRiwayatMengajar)
 router.get("/wali-kelas/raport", viewRaport)
+// == input nilai sikap == \\
 router.get("/wali-kelas/input-nilai-sikap", viewNilaiSikap)
+router.post("/wali-kelas/input-nilai-sikap", actionCreateNilaiSikap)
 router.get("/wali-kelas/ekstra", viewNilaiEktra)
 router.get("/wali-kelas/validasi", viewValidasiNilai)
 

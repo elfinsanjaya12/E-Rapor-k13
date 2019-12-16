@@ -1,0 +1,50 @@
+<table id="input-nilai-sikap" class="table table-bordered table-striped">
+
+  <thead>
+    <tr>
+      <th class="text-center">No</th>
+      <th class="text-center">Nama</th>
+      <th class="text-center">Nilai Sikap Spritual</th>
+      <th class="text-center">Nilai sikap sosial</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% var no = 1; %>
+    <% for (let i = 0; i < nilai_sikap.length; i++ ) { %>
+    <tr class="text-center">
+      <td><%= no += i %></td>
+      <td>
+        <%= nilai_sikap[i].Siswa.nama %>
+        <input type="hidden" name="id" value="<%= nilai_sikap[i].id %>">
+      </td>
+      <td>
+        <div class="form-group">
+          <select required name="nilai_sosial" class="form-control">
+            <option value="<%= nilai_sikap[i].nilai_sosial %>" class="bg-blue">
+              <%= nilai_sikap[i].nilai_sosial %>
+            </option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+      </td>
+      <td>
+        <div class="form-group">
+          <select required name="nilai_spiritual" class="form-control">
+            <option value="<%= nilai_sikap[i].nilai_spiritual %>" class="bg-blue">
+              <%= nilai_sikap[i].nilai_spiritual %>
+            </option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

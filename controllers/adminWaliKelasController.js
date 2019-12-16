@@ -10,7 +10,8 @@ const {
   NilaiPengetahuan,
   NilaiKeterampilan,
   NilaiAbsen,
-  Prestasi
+  Prestasi,
+  NilaiSikap
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -508,14 +509,79 @@ exports.viewRaport = async (req, res) => {
 // =============== awal nilai sikap =================\\
 exports.viewNilaiSikap = async (req, res) => {
   const userLogin = req.session.user
-  try {
-    res.render("wali_kelas/input_nilai_sikap/view_input_nilai_sikap", {
-      title: "E-Raport | Input Nilai Sikap",
-      user: userLogin
+  Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  }).then((guru) => {
+    kelompok_wali_kelas.findOne({
+      where: {
+        GuruId: { [Op.eq]: guru.id }
+      }
+    }).then((cek_nilai_sikap) => {
+      NilaiSikap.findAll({
+        where: { KelasId: { [Op.eq]: cek_nilai_sikap.KelasId } },
+        include: [
+          {
+            model: Tahun,
+            where: { status: { [Op.eq]: "Active" } }
+          },
+          { model: Kelas },
+          { model: Siswa }
+        ]
+      }).then((nilai_sikap) => {
+        res.render("wali_kelas/input_nilai_sikap/view_input_nilai_sikap", {
+          title: "E-Raport | Input Nilai Sikap",
+          user: userLogin,
+          nilai_sikap
+        })
+      })
     })
-  } catch (err) {
-    throw err
+  })
+}
+
+exports.actionCreateNilaiSikap = async (req, res) => {
+  const n_sosial = req.body.nilai_sosial;
+  const n_spiritual = req.body.nilai_spiritual;
+  const nilai_sikap = req.body.id;
+
+  console.log(nilai_sikap)
+  console.log(n_sosial)
+  console.log(n_spiritual)
+  var ket_sosial, ket_spiritual;
+  for (let i = 0; i < nilai_sikap.length; i++) {
+    if (n_sosial[i] === "A") {
+      ket_sosial = "selalu bersikap santun pada orang lain, peduli pada sesama teman, memiliki kepercayaan diri yang baik, responsif dalam pergaulan, memiliki sikap jujur, disiplin, dan tanggungjawab yang tinggi."
+    } else if (n_sosial[i] === "B") {
+      ket_sosial = "memiliki sikap santun pada orang lain, peduli pada sesama teman, memiliki kepercaya diri yang baik, cukup responsif dalam pergaulan, memiliki sikap jujur, disiplin, dan tanggungjawab yang cukup tinggi."
+    } else if (n_sosial[i] === "C") {
+      ket_sosial = "memiliki sikap yang cukup santun pada orang lain, cukup peduli pada sesama teman, memiliki kepercayaan diri yang cukup baik, responsif dalam pergaulan, memiliki sikap jujur, cukup disiplin, dan tanggungjawab yang cukup baik."
+    } else if (n_sosial[i] === "D") {
+      ket_sosial = "sering bersikap kurang santun pada orang lain, kurang peduli pada sesama teman, kepercayaan diri kurang baik , tidak responsif dalam pergaulan, kurang memiliki sikap jujur, disiplin, dan tanggungjawab yang rendah."
+    }
+
+    if (n_spiritual[i] === "A") {
+      ket_spiritual = "selalu bersyukur dan berdoa sebelum melakukan kegiatan serta memiliki toleran yang sangat tinggi pada pemeluk agama yang berbeda, ketaatan beribadah sangat baik dan selalu mengingatkan teman-temannya untuk melaksanakan ajaran agamanya dengan baik."
+    } else if (n_spiritual[i] === "B") {
+      ket_spiritual = "selalu bersyukur dan berdoa sebelum melakukan kegiatan serta memiliki toleran yang tinggi pada pemeluk agama yang berbeda, ketaatan beribadah baik dan sering mengingatkan teman-temannya untuk melaksanakan ajaran agamanya dengan baik."
+    } else if (n_spiritual[i] === "C") {
+      ket_spiritual = "selalu bersyukur dan berdoa sebelum melakukan kegiatan serta memiliki toleran yang cukup tinggi pada pemeluk agama yang berbeda, ketaatan beribadah mulai berkembang dari waktu ke waktu."
+    } else if (n_spiritual[i] === "D") {
+      ket_spiritual = "selalu bersyukur dan berdoa sebelum melakukan kegiatan akan tetapi memiliki sikap kurang toleran pada pemeluk agama yang berbeda, ketaatan beribadah masih belum menunjukan perkembangan yang baik."
+    }
+
+
+    await NilaiSikap.update({
+      nilai_sosial: n_sosial[i],
+      nilai_spiritual: n_spiritual[i],
+      ket_spiritual: ket_spiritual,
+      ket_sosial: ket_sosial
+    }, {
+      where: {
+        id: { [Op.eq]: req.body.id[i] }
+      }
+    });
   }
+  res.redirect("/wali-kelas/input-nilai-sikap")
+
 }
 // =============== akhir nilai sikap =================\\
 exports.viewNilaiEktra = async (req, res) => {
