@@ -3,7 +3,8 @@ const {
   kelompok_kelas,
   Tahun,
   Siswa,
-  NilaiAbsen
+  NilaiAbsen,
+  NilaiSikap
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -101,14 +102,21 @@ exports.actionDeteleSiswaKelompok = async (req, res) => {
 
   try {
     // delete siswa
-    const detele_siswa = await kelompok_kelas.findOne({
+    const delete_siswa = await kelompok_kelas.findOne({
       where: {
         SiswaId: { [Op.eq]: SiswaId },
         id: { [Op.eq]: id },
       }
     })
 
-    const detele_siswa_nilai_absen = await NilaiAbsen.findOne({
+    const delete_siswa_nilai_absen = await NilaiAbsen.findOne({
+      where: {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: KelasId },
+      }
+    })
+
+    const delete_nilai_sikap = await NilaiSikap.findOne({
       where: {
         SiswaId: { [Op.eq]: SiswaId },
         KelasId: { [Op.eq]: KelasId },
@@ -126,8 +134,9 @@ exports.actionDeteleSiswaKelompok = async (req, res) => {
       update_siswa.isHaveKelas = "N";
       await update_siswa.save()
     }
-    detele_siswa.destroy();
-    detele_siswa_nilai_absen.destroy();
+    delete_siswa.destroy();
+    delete_siswa_nilai_absen.destroy();
+    delete_nilai_sikap.destroy();
     res.redirect(`/admin/set-kelas/${KelasId}`)
   } catch (error) {
     console.log(error)
@@ -153,6 +162,16 @@ exports.actionAddSiswaInKelas = async (req, res) => {
         s: 0,
         a: 0,
         i: 0
+      })
+
+      await NilaiSikap.create({
+        KelasId: KelasId,
+        SiswaId: SiswaId,
+        TahunId: tahun.id,
+        nilai_sosial: '-',
+        nilai_spiritual: '-',
+        ket_spiritual: '-',
+        ket_sosial: '-'
       })
 
       // cek kelas 
