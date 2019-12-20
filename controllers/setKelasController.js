@@ -4,7 +4,8 @@ const {
   Tahun,
   Siswa,
   NilaiAbsen,
-  NilaiSikap
+  NilaiSikap,
+  NilaiEktrakulikuler
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -122,6 +123,14 @@ exports.actionDeteleSiswaKelompok = async (req, res) => {
         KelasId: { [Op.eq]: KelasId },
       }
     })
+
+    const delete_nilai_ektra = await NilaiEktrakulikuler.findOne({
+      where: {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: KelasId },
+      }
+    })
+
     // update kouta kelas 
     const update_kouta_kelas = await Kelas.findOne({ where: { id: { [Op.eq]: KelasId } } })
     if (update_kouta_kelas) {
@@ -137,6 +146,7 @@ exports.actionDeteleSiswaKelompok = async (req, res) => {
     delete_siswa.destroy();
     delete_siswa_nilai_absen.destroy();
     delete_nilai_sikap.destroy();
+    delete_nilai_ektra.destroy();
     res.redirect(`/admin/set-kelas/${KelasId}`)
   } catch (error) {
     console.log(error)
@@ -172,6 +182,14 @@ exports.actionAddSiswaInKelas = async (req, res) => {
         nilai_spiritual: '-',
         ket_spiritual: '-',
         ket_sosial: '-'
+      })
+
+      await NilaiEktrakulikuler.create({
+        KelasId: KelasId,
+        SiswaId: SiswaId,
+        TahunId: tahun.id,
+        nilai: '-',
+        desk: '-'
       })
 
       // cek kelas 

@@ -11,7 +11,9 @@ const {
   NilaiKeterampilan,
   NilaiAbsen,
   Prestasi,
-  NilaiSikap
+  NilaiSikap,
+  Ekstrakulikuller,
+  NilaiEktrakulikuler
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -582,16 +584,77 @@ exports.actionCreateNilaiSikap = async (req, res) => {
 
 }
 // =============== akhir nilai sikap =================\\
+
+// nilai ektrakulikuler
 exports.viewNilaiEktra = async (req, res) => {
   const userLogin = req.session.user
   try {
+    const ekstra = await Ekstrakulikuller.findAll()
     res.render("wali_kelas/input_nilai_ektrakulikuler/view_input_nilai_ektrakulikuler", {
       title: "E-Raport | Input Nilai Ektrakulikuler",
-      user: userLogin
+      user: userLogin,
+      ekstra,
     })
   } catch (err) {
     throw err
   }
+}
+
+exports.viewKelompokSiswaEktra = async (req, res) => {
+  const userLogin = req.session.user
+  // cek guru
+  Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  }).then((guru) => {
+    // cek wali kelas
+    kelompok_wali_kelas.findOne({
+      where: {
+        GuruId: { [Op.eq]: guru.id }
+      }
+    }).then(async (wali_kelas) => {
+      const kelompok_siswa = await NilaiEktrakulikuler.findAll({
+        where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+        include: [
+          { model: Siswa }
+        ]
+      })
+      res.status(200).json({
+        kelompok_siswa: kelompok_siswa
+      });
+    })
+  })
+}
+
+exports.actionCreateEktra = async (req, res) => {
+  const dataSiswa = req.body.id;
+  const EkstraId = req.body.id_ekstra;
+  const nilai = req.body.nilai;
+  let desk = "";
+  for (let i = 0; i < dataSiswa.length; i++) {
+    if (nilai[i] === "A") {
+      desk = "Sangat Baik"
+    } else if (nilai[i] === "B") {
+      desk = "Baik"
+    } else if (nilai[i] === "C") {
+      desk = "Cukup"
+    } else if (nilai[i] === "D") {
+      desk = "Kurang"
+    } else {
+      desk = "-"
+    }
+
+    await NilaiEktrakulikuler.update({
+      EkstraId: EkstraId,
+      nilai: nilai[i],
+      desk: desk
+    }, {
+      where: {
+        id: { [Op.eq]: req.body.id[i] }
+      }
+    });
+  }
+
+  res.redirect("/wali-kelas/ekstra")
 }
 
 exports.viewValidasiNilai = async (req, res) => {
@@ -599,7 +662,7 @@ exports.viewValidasiNilai = async (req, res) => {
   try {
     res.render("wali_kelas/validasi_nilai/view_validasi_nilai", {
       title: "E-Raport | Input Nilai Ektrakulikuler",
-      user: userLogin
+      user: userLogin,
     })
   } catch (err) {
     throw err

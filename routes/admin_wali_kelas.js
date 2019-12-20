@@ -25,7 +25,9 @@ let {
   // nilai sikap
   viewNilaiSikap,
   actionCreateNilaiSikap,
+  viewKelompokSiswaEktra,
   viewNilaiEktra,
+  actionCreateEktra,
   viewValidasiNilai
 } = require("../controllers/adminWaliKelasController")
 
@@ -57,7 +59,10 @@ router.get("/wali-kelas/raport", viewRaport)
 // == input nilai sikap == \\
 router.get("/wali-kelas/input-nilai-sikap", viewNilaiSikap)
 router.post("/wali-kelas/input-nilai-sikap", actionCreateNilaiSikap)
+
 router.get("/wali-kelas/ekstra", viewNilaiEktra)
+router.get("/wali-kelas/ekstra/json", viewKelompokSiswaEktra)
+router.post("/wali-kelas/ekstra", actionCreateEktra)
 router.get("/wali-kelas/validasi", viewValidasiNilai)
 
 
