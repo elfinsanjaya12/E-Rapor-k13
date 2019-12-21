@@ -28,7 +28,13 @@ let {
   viewKelompokSiswaEktra,
   viewNilaiEktra,
   actionCreateEktra,
-  viewValidasiNilai
+  // validasi nilai
+  viewValidasiNilai,
+  // showDetailNilaiMatpel,
+  showNilaiKeterampilan,
+  showNilaiPengetahuan,
+  updateStatusNilaiKeterampilan,
+  updateStatusNilaiPengetahuan
 } = require("../controllers/adminWaliKelasController")
 
 const auth = require('../middlewares/auth')
@@ -63,8 +69,15 @@ router.post("/wali-kelas/input-nilai-sikap", actionCreateNilaiSikap)
 router.get("/wali-kelas/ekstra", viewNilaiEktra)
 router.get("/wali-kelas/ekstra/json", viewKelompokSiswaEktra)
 router.post("/wali-kelas/ekstra", actionCreateEktra)
+// == validasi nilai ==\\
 router.get("/wali-kelas/validasi", viewValidasiNilai)
+// router.get("/wali-kelas/validasi/:MatpelId", showDetailNilaiMatpel)
+router.get("/wali-kelas/validasi/show-nilai-keterampilan/:MatpelId", showNilaiKeterampilan)
+router.get("/wali-kelas/validasi/show-nilai-pengetahuan/:MatpelId", showNilaiPengetahuan)
+router.post("/wali-kelas/validasi/show-nilai-keterampilan/update", updateStatusNilaiKeterampilan)
+router.post("/wali-kelas/validasi/show-nilai-pengetahuan/update", updateStatusNilaiPengetahuan)
 
 
 module.exports = router;
+
 

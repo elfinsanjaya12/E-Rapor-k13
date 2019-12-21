@@ -1,0 +1,67 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<div class="content-wrapper">
+
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-edit"></i> Validasi Nilai tes</h3>
+          </div>
+          <div class="box-body">
+
+            <table id="validasi_nilaii" class="table table-bordered table-striped" border="1px">
+              <!-- <table border="1px"> -->
+              <thead>
+                <tr>
+                  <td rowspan="2">No</td>
+                  <td rowspan="2">Nama</td>
+                  <td colspan="3" class="text-center">Nilai Pengetahuan</td>
+                  <td rowspan="2">Rata-Rata</td>
+                  <td colspan="3" class="text-center">Nilai Keterampilan</td>
+                  <td rowspan="2">Rata-Rata</td>
+                  <td rowspan="2">Aksi</td>
+                </tr>
+                <tr>
+                  <td>Latihan</td>
+                  <td>Mid</td>
+                  <td>Uas</td>
+                  <td>Latihan</td>
+                  <td>Mid</td>
+                  <td>Uas</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>No</td>
+                  <td>Nama</td>
+                  <td>Rata-Rata</td>
+                  <td>Rata-Rata</td>
+                  <td>Latihan</td>
+                  <td>Mid</td>
+                  <td>Uas</td>
+                  <td>Latihan</td>
+                  <td>Mid</td>
+                  <td>Uas</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#validasi_nilai').DataTable()
+  })
+</script>

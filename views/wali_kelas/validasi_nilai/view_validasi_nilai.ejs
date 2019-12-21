@@ -1,22 +1,18 @@
-<%- include ../../partials/guru_layout/header.ejs %>
-<%- include ../../partials/guru_layout/sidebar.ejs %>
-<!-- Content Wrapper. Contains page content -->
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
 <div class="content-wrapper">
 
-  <!-- Main content -->
   <section class="content">
     <div class="row">
 
       <div class="col-xs-12">
-        <div class="box">
-          <!-- /.box-header -->
+        <div class="box box box-solid box-primary">
           <div class="box-header">
-            <h3 class="box-title">Validasi Nilai</h3>
+            <h3 class="box-title"><i class="fa fa-edit"></i> Validasi Nilai</h3>
           </div>
-
           <div class="box-body">
 
-            <table id="ekstra" class="table table-bordered table-striped">
+            <table id="validasi_nilai" class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>No</th>
@@ -25,57 +21,39 @@
                 </tr>
               </thead>
               <tbody>
+                <% for (let i = 0; i < matpel.length; i++ ) { %>
                 <tr>
-                  <td>1</td>
-                  <td>Matematika</td>
+                  <td><%= i + 1 %></td>
+                  <td><%= matpel[i].kode %></td>
                   <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
-                      <span class="glyphicon glyphicon-pencil"></span>
-                      Validasi Nilai
+                    <a href="/wali-kelas/validasi/show-nilai-pengetahuan/<%= matpel[i].id %>"
+                      class="btn btn-success btn-sm">
+                      <span class="fa fa-pencil"></span>
+                      Show Nilai Pengetahuan
+                    </a>
+                    <a href="/wali-kelas/validasi/show-nilai-keterampilan/<%= matpel[i].id %>"
+                      class="btn btn-success btn-sm">
+                      <span class="fa fa-pencil"></span>
+                      Show Nilai Keterampilan
                     </a>
                   </td>
                 </tr>
-                <tr>
-                  <td>2</td>
-                  <td>B. Indonesia</td>
-                  <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
-                      <span class="glyphicon glyphicon-pencil"></span>
-                      Validasi Nilai
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>IPA</td>
-                  <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
-                      <span class="glyphicon glyphicon-pencil"></span>
-                      Validasi Nilai
-                    </a>
-                  </td>
-                </tr>
+                <% } %>
               </tbody>
             </table>
           </div>
-          <!-- /.box-body -->
         </div>
-        <!-- /.box -->
       </div>
-      <!-- /.col -->
     </div>
-    <!-- /.row -->
   </section>
-  <!-- /.content -->
 </div>
 
 
 
-<%- include ../../partials/guru_layout/footer.ejs %>
-<!-- page script -->
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
 <script>
   $(document).ready(function () {
     // datatable
-    $('#ekstra').DataTable()
+    $('#validasi_nilai').DataTable()
   })
 </script>

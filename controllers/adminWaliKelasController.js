@@ -470,7 +470,7 @@ exports.actionCreatePrestasi = async (req, res) => {
         SiswaId: { [Op.eq]: SiswaId }
       }
     }).then((kelas_siswa) => {
-      console.log(kelas_siswa)
+
       Prestasi.create({
         SiswaId: SiswaId,
         TahunId: cek_tahun.id,
@@ -659,12 +659,143 @@ exports.actionCreateEktra = async (req, res) => {
 
 exports.viewValidasiNilai = async (req, res) => {
   const userLogin = req.session.user
+
   try {
+    const matpel = await MataPelajaran.findAll()
     res.render("wali_kelas/validasi_nilai/view_validasi_nilai", {
       title: "E-Raport | Input Nilai Ektrakulikuler",
       user: userLogin,
+      matpel: matpel
     })
   } catch (err) {
     throw err
   }
+}
+
+// belum dipakek
+// exports.showDetailNilaiMatpel = async (req, res) => {
+//   const userLogin = req.session.user
+//   const { MatpelId } = req.params
+
+//   res.render("wali_kelas/validasi_nilai/show_detail_nilai_matpel", {
+//     title: "E-Raport | Detail Nilai",
+//     user: userLogin,
+//   })
+// }
+
+
+exports.showNilaiKeterampilan = async (req, res) => {
+  // session user login
+  const userLogin = req.session.user
+  const { MatpelId } = req.params
+
+  try {
+    Guru.findOne({
+      where: { UserId: { [Op.eq]: userLogin.id } }
+    }).then((guru) => {
+      // cek wali kelas
+      kelompok_wali_kelas.findOne({
+        where: {
+          GuruId: { [Op.eq]: guru.id }
+        }
+      }).then(async (wali_kelas) => {
+        const kelompok_siswa = await kelompok_kelas.findAll({
+          where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+          include: [
+            { model: Siswa }
+          ]
+        })
+
+        const nilai_keterampilan = await NilaiKeterampilan.findAll({
+          where: {
+            MatpelId: { [Op.eq]: MatpelId }
+          },
+          include: [
+            { model: Siswa }
+          ]
+        })
+        res.render("wali_kelas/validasi_nilai/show_nilai_keterampilan", {
+          title: "E-Raport | Show Nilai Keterampilan",
+          user: userLogin,
+          kelompok_siswa,
+          nilai_keterampilan
+        })
+      })
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+exports.updateStatusNilaiKeterampilan = async (req, res) => {
+  const data_siswa = req.body.id
+  for (var i = 0; i < data_siswa.length; i++) {
+    var update = await NilaiKeterampilan.update({
+      status: "Active"
+    }, {
+      where: {
+        id: { [Op.eq]: req.body.id[i] }
+      }
+    })
+  }
+  res.redirect(`/wali-kelas/validasi/show-nilai-keterampilan/${update[0]}`)
+}
+
+exports.showNilaiPengetahuan = async (req, res) => {
+  // session user login
+  const userLogin = req.session.user
+  const { MatpelId } = req.params
+
+  try {
+    Guru.findOne({
+      where: { UserId: { [Op.eq]: userLogin.id } }
+    }).then((guru) => {
+      // cek wali kelas
+      kelompok_wali_kelas.findOne({
+        where: {
+          GuruId: { [Op.eq]: guru.id }
+        }
+      }).then(async (wali_kelas) => {
+        const kelompok_siswa = await kelompok_kelas.findAll({
+          where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+          include: [
+            { model: Siswa }
+          ]
+        })
+
+        const nilai_pengetahuan = await NilaiPengetahuan.findAll({
+          where: {
+            MatpelId: { [Op.eq]: MatpelId }
+          },
+          include: [
+            { model: Siswa }
+          ]
+        })
+        res.render("wali_kelas/validasi_nilai/show_nilai_pengetahuan", {
+          title: "E-Raport | Show Nilai Pengetahuan",
+          user: userLogin,
+          kelompok_siswa,
+          nilai_pengetahuan
+        })
+      })
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+exports.updateStatusNilaiPengetahuan = async (req, res) => {
+  const data_siswa = req.body.id
+  for (var i = 0; i < data_siswa.length; i++) {
+    var update = await NilaiPengetahuan.update({
+      status: "Active"
+    }, {
+      where: {
+        id: { [Op.eq]: req.body.id[i] }
+      }
+    })
+  }
+  res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update[0]}`)
 }
