@@ -2,13 +2,15 @@ var express = require('express');
 var router = express.Router();
 let {
   viewHome,
-  viewNilai
+  viewNilai,
+  cetakRaport
 } = require("../controllers/adminSiswaController")
 
 const auth = require('../middlewares/auth')
-
-router.get("/siswa", auth.isLogin, viewHome)
-router.get("/siswa/nilai", auth.isLogin, viewNilai)
+router.use(auth.isLogin)
+router.get("/siswa", viewHome)
+router.get("/siswa/nilai", viewNilai)
+router.get("/siswa/nilai/cetak-raport/:SiswaId/tahun/:TahunId", cetakRaport)
 
 module.exports = router;
 

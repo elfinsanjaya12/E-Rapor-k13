@@ -8,38 +8,31 @@
     <div class="row">
 
       <div class="col-xs-12">
-        <div class="box">
-          <!-- /.box-header -->
+        <div class="box box-solid box-primary">
           <div class="box-header">
-            <h3 class="box-title">Data Nilai Semester</h3>
+            <h3 class="box-title"><i class="fa fa-print"></i> Cetak Raport</h3>
           </div>
 
           <div class="box-body">
-            <div style="margin: 0 20px 20px 20px;">
-              <!-- <button class="btn btn-success">Tambah</button> -->
-              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
-                <span class="glyphicon glyphicon-plus"></span>
-                Tambah
-              </button>
-            </div>
             <table id="ekstra" class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Semester</th>
-                  <th>Detail</th>
+                  <th>Nama</th>
+                  <th>Cetak</th>
                 </tr>
               </thead>
               <tbody>
+                <% for (let i = 0; i < siswa_kelas.length; i++ ) { %>
                 <tr>
-                  <th>1</th>
-                  <th>Semester 1 / 2017-05-01</th>
-                  <th>
-                    <button class="btn btn-success">
-                      Detail Nilai
-                    </button>
-                  </th>
+                  <td><%= i + 1 %></td>
+                  <td>Semester <%= siswa_kelas[i].Tahun.semester %> / <%= siswa_kelas[i].Tahun.tahun %></td>
+                  <td>
+                    <a href="/siswa/nilai/cetak-raport/<%= siswa_kelas[i].SiswaId %>/tahun/<%= siswa_kelas[i].TahunId %>"
+                      class="btn btn-success btn-sm" target="_blank"><i class="fa fa-print"></i> Raport</a>
+                  </td>
                 </tr>
+                <% } %>
               </tbody>
             </table>
           </div>
