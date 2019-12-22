@@ -139,7 +139,7 @@ exports.viewDetailNilai = async (req, res) => {
 }
 
 exports.actionCreateNilai = (req, res) => {
-  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId } = req.body
+  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId } = req.body
   let n_latihan = 60 / 100 * latihan;
   let n_uts = 20 / 100 * uts;
   let n_uas = 20 / 100 * uas;
@@ -171,6 +171,7 @@ exports.actionCreateNilai = (req, res) => {
     GuruId: GuruId,
     TahunId: TahunId,
     MatpelId: MatpelId,
+    KelasId: KelasId,
     ket: keterangan,
     nilai_akhir: n_nilai,
     nilai: alphabet,
@@ -269,7 +270,7 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
 }
 
 exports.actionCreateNilaiKeterampilan = (req, res) => {
-  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId } = req.body
+  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId } = req.body
   let n_latihan = 60 / 100 * latihan;
   let n_uts = 20 / 100 * uts;
   let n_uas = 20 / 100 * uas;
@@ -301,6 +302,7 @@ exports.actionCreateNilaiKeterampilan = (req, res) => {
     GuruId: GuruId,
     TahunId: TahunId,
     MatpelId: MatpelId,
+    KelasId: KelasId,
     ket: keterangan,
     nilai_akhir: n_nilai,
     nilai: alphabet,
@@ -488,7 +490,6 @@ exports.actionCreatePrestasi = async (req, res) => {
   }
 }
 
-
 exports.actionDetelePrestasi = (req, res) => {
   const { id } = req.params
   Prestasi.findOne({
@@ -501,15 +502,15 @@ exports.actionDetelePrestasi = (req, res) => {
 
 // =============== akhir prestasi =================\\
 
-exports.viewRaport = async (req, res) => {
-  try {
-    res.render("wali_kelas/raport/view_raport", {
-      title: "E-Raport | Absen",
-    })
-  } catch (err) {
-    throw err
-  }
-}
+// exports.viewRaport = async (req, res) => {
+//   try {
+//     res.render("wali_kelas/raport/view_raport", {
+//       title: "E-Raport | Absen",
+//     })
+//   } catch (err) {
+//     throw err
+//   }
+// }
 
 // =============== awal nilai sikap =================\\
 exports.viewNilaiSikap = async (req, res) => {
@@ -672,18 +673,6 @@ exports.viewValidasiNilai = async (req, res) => {
   }
 }
 
-// belum dipakek
-// exports.showDetailNilaiMatpel = async (req, res) => {
-//   const userLogin = req.session.user
-//   const { MatpelId } = req.params
-
-//   res.render("wali_kelas/validasi_nilai/show_detail_nilai_matpel", {
-//     title: "E-Raport | Detail Nilai",
-//     user: userLogin,
-//   })
-// }
-
-
 exports.showNilaiKeterampilan = async (req, res) => {
   // session user login
   const userLogin = req.session.user
@@ -799,3 +788,153 @@ exports.updateStatusNilaiPengetahuan = async (req, res) => {
   }
   res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update[0]}`)
 }
+
+/** Start Cetak raport */
+
+exports.viewCetakRaport = (req, res) => {
+
+  const userLogin = req.session.user
+  // cek guru
+  Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  }).then((guru) => {
+    // cek wali kelas
+    kelompok_wali_kelas.findOne({
+      where: {
+        GuruId: { [Op.eq]: guru.id }
+      }
+    }).then(async (wali_kelas) => {
+      const kelompok_siswa = await kelompok_kelas.findAll({
+        where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+        include: [
+          { model: Siswa }
+        ]
+      })
+      res.render("wali_kelas/raport/view_raport", {
+        title: "E-Raport | Raport",
+        kelompok_siswa,
+        user: userLogin
+      })
+    })
+  })
+}
+
+
+exports.cetakRaport = async (req, res) => {
+  let { SiswaId } = req.params
+
+  try {
+    // cek siswa
+    let siswa = await kelompok_kelas.findOne({
+      where: { SiswaId: { [Op.eq]: SiswaId } },
+      include: [
+        { model: Siswa },
+        { model: Tahun },
+        { model: Kelas }
+      ]
+    })
+
+    // cek absen siswa
+    let absen = await NilaiAbsen.findOne({
+      where:
+      {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: siswa.KelasId }
+      }
+      ,
+      include: [
+        { model: Siswa },
+        { model: Tahun },
+        { model: Kelas }
+      ]
+    })
+
+    let ekstra = await NilaiEktrakulikuler.findAll({
+      where:
+      {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: siswa.KelasId }
+      },
+      include: [
+        { model: Siswa },
+        { model: Tahun },
+        { model: Kelas },
+        { model: Ekstrakulikuller }
+      ]
+    })
+
+    if (ekstra[0].Ekstrakulikuller !== null) {
+
+      let kelompok_a = await MataPelajaran.findAll({
+        where: { kelompok: { [Op.eq]: "A" } }
+      })
+
+      // kurang logic KelasId
+      let nilai_pengetahuan = await NilaiPengetahuan.findAll({
+        where:
+        {
+          SiswaId: { [Op.eq]: SiswaId },
+          KelasId: { [Op.eq]: siswa.KelasId }
+        },
+      })
+
+      // kurang logic KelasId
+      let nilai_keterampilan = await NilaiKeterampilan.findAll({
+        where:
+        {
+          SiswaId: { [Op.eq]: SiswaId },
+          KelasId: { [Op.eq]: siswa.KelasId }
+        },
+      })
+
+      res.render("wali_kelas/raport/cetak_raport", {
+        title: "E-Raport | Raport",
+        siswa,
+        absen,
+        view: "Isi",
+        ekstra,
+        kelompok_a,
+        nilai_pengetahuan,
+        nilai_keterampilan
+      })
+    } else {
+      let kelompok_a = await MataPelajaran.findAll({
+        where: { kelompok: { [Op.eq]: "A" } }
+      })
+
+      // kurang logic KelasId
+      let nilai_pengetahuan = await NilaiPengetahuan.findAll({
+        where:
+        {
+          SiswaId: { [Op.eq]: SiswaId },
+          KelasId: { [Op.eq]: siswa.KelasId }
+        },
+      })
+
+      // kurang logic KelasId
+      const nilai_keterampilan = await NilaiKeterampilan.findAll({
+        where:
+        {
+          SiswaId: { [Op.eq]: SiswaId },
+          KelasId: { [Op.eq]: siswa.KelasId }
+        },
+      })
+
+      res.render("wali_kelas/raport/cetak_raport", {
+        title: "E-Raport | Raport",
+        siswa,
+        absen,
+        view: "Kosong",
+        ekstra,
+        kelompok_a,
+        nilai_pengetahuan,
+        nilai_keterampilan
+      })
+
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+/** End Cetak Raport */

@@ -171,7 +171,7 @@ exports.viewDetailNilai = async (req, res) => {
 }
 
 exports.actionCreateNilai = (req, res) => {
-  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId } = req.body
+  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId } = req.body
   let n_latihan = 60 / 100 * latihan;
   let n_uts = 20 / 100 * uts;
   let n_uas = 20 / 100 * uas;
@@ -203,6 +203,7 @@ exports.actionCreateNilai = (req, res) => {
     GuruId: GuruId,
     TahunId: TahunId,
     MatpelId: MatpelId,
+    KelasId: KelasId,
     ket: keterangan,
     nilai_akhir: n_nilai,
     nilai: alphabet,
@@ -306,7 +307,7 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
 }
 
 exports.actionCreateKeterampilan = (req, res) => {
-  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId } = req.body
+  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId } = req.body
   let n_latihan = 60 / 100 * latihan;
   let n_uts = 20 / 100 * uts;
   let n_uas = 20 / 100 * uas;
@@ -338,6 +339,7 @@ exports.actionCreateKeterampilan = (req, res) => {
     GuruId: GuruId,
     TahunId: TahunId,
     MatpelId: MatpelId,
+    KelasId: KelasId,
     ket: keterangan,
     nilai_akhir: n_nilai,
     nilai: alphabet,

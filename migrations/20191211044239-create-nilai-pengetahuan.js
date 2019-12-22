@@ -44,6 +44,15 @@ module.exports = {
           key: "id"
         }
       },
+      KelasId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: true,
+        references: {
+          model: "Kelas",
+          key: "id"
+        }
+      },
       latihan: {
         type: Sequelize.INTEGER
       },

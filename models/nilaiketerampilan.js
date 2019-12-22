@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     MatpelId: DataTypes.INTEGER,
     SiswaId: DataTypes.INTEGER,
     TahunId: DataTypes.INTEGER,
+    KelasId: DataTypes.INTEGER,
     latihan: DataTypes.INTEGER,
     uts: DataTypes.INTEGER,
     uas: DataTypes.INTEGER,
@@ -29,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
 
     NilaiKeterampilan.belongsTo(sequelize.models.Tahun, {
       foreignKey: "TahunId"
+    });
+
+    NilaiKeterampilan.belongsTo(sequelize.models.Kelas, {
+      foreignKey: "KelasId"
     });
   };
   return NilaiKeterampilan;
