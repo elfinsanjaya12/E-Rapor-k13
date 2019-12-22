@@ -863,72 +863,103 @@ exports.cetakRaport = async (req, res) => {
       ]
     })
 
+    let nilai_sikap = await NilaiSikap.findOne({
+      where:
+      {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: siswa.KelasId }
+      },
+    })
+
+    let kelompok_a = await MataPelajaran.findAll({
+      where: { kelompok: { [Op.eq]: "A" } }
+    })
+
+    let kelompok_b = await MataPelajaran.findAll({
+      where: { kelompok: { [Op.eq]: "B" } }
+    })
+
+    let nilai_pengetahuan = await NilaiPengetahuan.findAll({
+      where:
+      {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: siswa.KelasId }
+      },
+    })
+
+    let nilai_keterampilan = await NilaiKeterampilan.findAll({
+      where:
+      {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: siswa.KelasId }
+      },
+    })
+
+    let prestasi = await Prestasi.findAll({
+      where:
+      {
+        SiswaId: { [Op.eq]: SiswaId },
+        KelasId: { [Op.eq]: siswa.KelasId }
+      },
+    })
     if (ekstra[0].Ekstrakulikuller !== null) {
-
-      let kelompok_a = await MataPelajaran.findAll({
-        where: { kelompok: { [Op.eq]: "A" } }
-      })
-
-      // kurang logic KelasId
-      let nilai_pengetahuan = await NilaiPengetahuan.findAll({
-        where:
-        {
-          SiswaId: { [Op.eq]: SiswaId },
-          KelasId: { [Op.eq]: siswa.KelasId }
-        },
-      })
-
-      // kurang logic KelasId
-      let nilai_keterampilan = await NilaiKeterampilan.findAll({
-        where:
-        {
-          SiswaId: { [Op.eq]: SiswaId },
-          KelasId: { [Op.eq]: siswa.KelasId }
-        },
-      })
-
-      res.render("wali_kelas/raport/cetak_raport", {
-        title: "E-Raport | Raport",
-        siswa,
-        absen,
-        view: "Isi",
-        ekstra,
-        kelompok_a,
-        nilai_pengetahuan,
-        nilai_keterampilan
+      const userLogin = req.session.user
+      // cek guru
+      Guru.findOne({
+        where: { UserId: { [Op.eq]: userLogin.id } }
+      }).then((guru) => {
+        // cek wali kelas
+        kelompok_wali_kelas.findOne({
+          where: {
+            GuruId: { [Op.eq]: guru.id }
+          },
+          include: [{
+            model: Guru
+          }]
+        }).then((wali_kelas) => {
+          res.render("wali_kelas/raport/cetak_raport", {
+            title: "E-Raport | Raport",
+            siswa,
+            absen,
+            view: "Isi",
+            ekstra,
+            kelompok_a,
+            kelompok_b,
+            nilai_pengetahuan,
+            nilai_keterampilan,
+            nilai_sikap,
+            prestasi,
+            wali_kelas
+          })
+        })
       })
     } else {
-      let kelompok_a = await MataPelajaran.findAll({
-        where: { kelompok: { [Op.eq]: "A" } }
-      })
-
-      // kurang logic KelasId
-      let nilai_pengetahuan = await NilaiPengetahuan.findAll({
-        where:
-        {
-          SiswaId: { [Op.eq]: SiswaId },
-          KelasId: { [Op.eq]: siswa.KelasId }
-        },
-      })
-
-      // kurang logic KelasId
-      const nilai_keterampilan = await NilaiKeterampilan.findAll({
-        where:
-        {
-          SiswaId: { [Op.eq]: SiswaId },
-          KelasId: { [Op.eq]: siswa.KelasId }
-        },
-      })
-
-      res.render("wali_kelas/raport/cetak_raport", {
-        title: "E-Raport | Raport",
-        siswa,
-        absen,
-        view: "Kosong",
-        ekstra,
-        kelompok_a,
-        nilai_pengetahuan,
-        nilai_keterampilan
+      const userLogin = req.session.user
+      // cek guru
+      Guru.findOne({
+        where: { UserId: { [Op.eq]: userLogin.id } }
+      }).then((guru) => {
+        // cek wali kelas
+        kelompok_wali_kelas.findOne({
+          where: {
+            GuruId: { [Op.eq]: guru.id }
+          }
+        }).then((wali_kelas) => {
+          res.render("wali_kelas/raport/cetak_raport", {
+            title: "E-Raport | Raport",
+            siswa,
+            absen,
+            view: "Kosong",
+            ekstra,
+            kelompok_a,
+            kelompok_b,
+            nilai_pengetahuan,
+            nilai_keterampilan,
+            nilai_sikap,
+            prestasi,
+            wali_kelas
+          })
+        })
       })
 
     }

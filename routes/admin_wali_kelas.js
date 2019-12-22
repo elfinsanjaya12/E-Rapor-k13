@@ -21,7 +21,7 @@ let {
   viewPrestasiSiswa,
   actionCreatePrestasi,
   actionDetelePrestasi,
-  viewRaport,
+  viewCetakRaport,
   // nilai sikap
   viewNilaiSikap,
   actionCreateNilaiSikap,
@@ -34,7 +34,8 @@ let {
   showNilaiKeterampilan,
   showNilaiPengetahuan,
   updateStatusNilaiKeterampilan,
-  updateStatusNilaiPengetahuan
+  updateStatusNilaiPengetahuan,
+  cetakRaport
 } = require("../controllers/adminWaliKelasController")
 
 const auth = require('../middlewares/auth')
@@ -61,7 +62,7 @@ router.post("/wali-kelas/prestasi", actionCreatePrestasi)
 router.get("/wali-kelas/prestasi/:id", actionDetelePrestasi)
 
 router.get("/wali-kelas/riwayat", viewRiwayatMengajar)
-router.get("/wali-kelas/raport", viewRaport)
+router.get("/wali-kelas/raport", viewCetakRaport)
 // == input nilai sikap == \\
 router.get("/wali-kelas/input-nilai-sikap", viewNilaiSikap)
 router.post("/wali-kelas/input-nilai-sikap", actionCreateNilaiSikap)
@@ -76,6 +77,7 @@ router.get("/wali-kelas/validasi/show-nilai-keterampilan/:MatpelId", showNilaiKe
 router.get("/wali-kelas/validasi/show-nilai-pengetahuan/:MatpelId", showNilaiPengetahuan)
 router.post("/wali-kelas/validasi/show-nilai-keterampilan/update", updateStatusNilaiKeterampilan)
 router.post("/wali-kelas/validasi/show-nilai-pengetahuan/update", updateStatusNilaiPengetahuan)
+router.get("/wali-kelas/validasi/cetak-raport/:SiswaId/tahun/:TahunId", cetakRaport)
 
 
 module.exports = router;

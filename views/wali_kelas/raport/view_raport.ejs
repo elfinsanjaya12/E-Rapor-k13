@@ -1,62 +1,31 @@
-<%- include ../../partials/guru_layout/header.ejs %>
-<%- include ../../partials/guru_layout/sidebar.ejs %>
-<!-- Content Wrapper. Contains page content -->
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
 <div class="content-wrapper">
 
-  <!-- Main content -->
   <section class="content">
     <div class="row">
 
       <div class="col-xs-12">
-        <div class="box">
-          <!-- /.box-header -->
+        <div class="box box-solid box-primary">
           <div class="box-header">
-            <h3 class="box-title">Cetak Raport</h3>
+            <h3 class="box-title"><i class="fa fa-print"></i> Cetak Raport</h3>
           </div>
 
           <div class="box-body">
-
-            <table id="ekstra" class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nama</th>
-                  <th>Cetak</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Adi</td>
-                  <td>
-                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit">
-                      <span class="glyphicon glyphicon-print"></span>
-                      Cetak
-                    </a>
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <%- include table_raport.ejs %>
           </div>
-          <!-- /.box-body -->
         </div>
-        <!-- /.box -->
       </div>
-      <!-- /.col -->
     </div>
-    <!-- /.row -->
   </section>
-  <!-- /.content -->
 </div>
 
 
 
-<%- include ../../partials/guru_layout/footer.ejs %>
-<!-- page script -->
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
 <script>
   $(document).ready(function () {
     // datatable
-    $('#ekstra').DataTable()
+    $('#raport').DataTable()
   })
 </script>
