@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      kelompok: {
+        type: Sequelize.STRING
+      },
       kode: {
         type: Sequelize.STRING
       },

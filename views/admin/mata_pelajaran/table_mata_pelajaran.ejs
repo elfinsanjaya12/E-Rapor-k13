@@ -2,6 +2,7 @@
   <thead>
     <tr>
       <th>No</th>
+      <th>Kelompok</th>
       <th>Kode Singkat</th>
       <th>Nama</th>
       <th>Aksi</th>
@@ -11,6 +12,7 @@
     <% for (let i = 0; i < matpel.length; i++ ) { %>
     <tr>
       <td><%= i + 1 %></td>
+      <td><%= matpel[i].kelompok %></td>
       <td><%= matpel[i].kode %></td>
       <td>
         <%= matpel[i].nama %>

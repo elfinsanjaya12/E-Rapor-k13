@@ -24,12 +24,13 @@ exports.viewMatPel = async (req, res) => {
 }
 
 exports.actionCreate = (req, res) => {
-  const { kode, nama, nilaikkm } = req.body;
+  const { kode, nama, nilaikkm, kelompok } = req.body;
 
   MataPelajaran.create({
     kode: kode,
     nama: nama,
     nilaikkm: nilaikkm,
+    kelompok: kelompok
   }).then(() => {
     res.redirect("/admin/mata-pelajaran");
   }).catch((err) => {

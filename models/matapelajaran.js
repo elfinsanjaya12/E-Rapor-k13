@@ -1,6 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const MataPelajaran = sequelize.define('MataPelajaran', {
+    kelompok: DataTypes.STRING,
     kode: DataTypes.STRING,
     nama: DataTypes.STRING,
     nilaikkm: DataTypes.INTEGER,
