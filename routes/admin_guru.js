@@ -24,14 +24,14 @@ router.get("/guru/matpel/pengetahuan/:KelasId/:MatpelId", viewMatpelPengetahuan)
 // bug 24-12-2019
 router.get("/guru/matpel/input-nilai/:SiswaId/matpel/:MatpelId", viewDetailNilai)
 router.post("/guru/matpel/pengetahuan/input-nilai", actionCreateNilai)
-router.get("/guru/matpel/pengetahuan/:id/:SiswaId", actionDeteleNilai)
+router.get("/guru/matpel/pengetahuan/:id/delete/:SiswaId", actionDeteleNilai)
 
 // ========================================================================
 router.get("/guru/matpel/keterampilan/:KelasId/:MatpelId", viewMatpelKeterampilan)
 // bug 24-12-2019
 router.get("/guru/matpel/input-nilai/keterampilan/:SiswaId/matpel/:MatpelId", viewDetailNilaiKeterampilan)
 router.post("/guru/matpel/keterampilan/input-nilai", actionCreateKeterampilan)
-router.get("/guru/matpel/keterampilan/:id/:SiswaId", actionDeteleNilaiKeterampilan)
+router.get("/guru/matpel/keterampilan/:id/delete/:SiswaId", actionDeteleNilaiKeterampilan)
 
 
 module.exports = router;

@@ -234,8 +234,9 @@ exports.actionDeteleNilai = (req, res) => {
   NilaiPengetahuan.findOne({
     where: { id: { [Op.eq]: id } }
   }).then((nilai) => {
+    const cek_matpel = nilai.MatpelId
     nilai.destroy();
-    res.redirect(`/guru/matpel/input-nilai/${SiswaId}`)
+    res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
   })
 }
 
@@ -390,7 +391,8 @@ exports.actionDeteleNilaiKeterampilan = (req, res) => {
   NilaiKeterampilan.findOne({
     where: { id: { [Op.eq]: id } }
   }).then((nilai) => {
+    const cek_matpel = nilai.MatpelId;
     nilai.destroy();
-    res.redirect(`/guru/matpel/input-nilai/keterampilan/${SiswaId}`)
+    res.redirect(`/guru/matpel/input-nilai/keterampilan/${SiswaId}/matpel/${cek_matpel}`)
   })
 }
