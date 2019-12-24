@@ -69,9 +69,15 @@ exports.viewAddSetKelas = (req, res) => {
   }
 }
 
-exports.viewDetailKelasSiswa = (req, res) => {
+exports.viewDetailKelasSiswa = async (req, res) => {
   const userLogin = req.session.user
   const id_kelas = req.params.id
+
+  const cek_kelas = await Kelas.findOne({
+    where: {
+      id: { [Op.eq]: id_kelas }
+    }
+  })
 
   kelompok_kelas.findAll({
     where: {
@@ -82,7 +88,8 @@ exports.viewDetailKelasSiswa = (req, res) => {
 
     const all_siswa = await Siswa.findAll({
       where: {
-        isHaveKelas: { [Op.eq]: "N" }
+        isHaveKelas: { [Op.eq]: "N" },
+        diterima_kelas: { [Op.eq]: cek_kelas.tingkat }
       }
     })
 
