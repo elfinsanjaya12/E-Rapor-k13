@@ -7,6 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     nama: DataTypes.STRING,
     jk: DataTypes.STRING,
     status: DataTypes.STRING,
+    pendidikan_terakhir: DataTypes.STRING,
+    no_telpon: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {});
   Guru.associate = function (models) {

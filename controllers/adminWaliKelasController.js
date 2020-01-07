@@ -17,7 +17,6 @@ const {
 } = require("../models");
 const Op = require("sequelize").Op;
 
-
 exports.viewHome = async (req, res) => {
   const userLogin = req.session.user
   try {

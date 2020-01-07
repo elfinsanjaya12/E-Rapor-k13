@@ -4,6 +4,9 @@ const Op = require("sequelize").Op;
 
 exports.viewKelas = async (req, res) => {
   try {
+    const alertMessage = req.flash('alertMessage');
+    const alertStatus = req.flash('alertStatus');
+    const alert = { message: alertMessage, status: alertStatus };
     const userLogin = req.session.user
 
     const kelas = await Kelas.findAll()
@@ -11,6 +14,7 @@ exports.viewKelas = async (req, res) => {
       title: "E-Rapor | Kelas",
       user: userLogin,
       kelas: kelas,
+      alert: alert
     })
 
   } catch (err) {
@@ -20,8 +24,21 @@ exports.viewKelas = async (req, res) => {
 
 exports.actionCreate = async (req, res) => {
   const { tingkat, nama } = req.body
-  await Kelas.create({ tingkat, nama })
-  res.redirect("/admin/kelas");
+  const cek_kelas = await Kelas.findOne({
+    where: {
+      nama: { [Op.eq]: nama }
+    }
+  })
+  if (cek_kelas) {
+    req.flash('alertMessage', `Kelas sudah terdaftar`);
+    req.flash('alertStatus', 'warning');
+    res.redirect("/admin/kelas");
+  } else {
+    await Kelas.create({ tingkat, nama })
+    req.flash('alertMessage', `Sukses Menambahkan Data`);
+    req.flash('alertStatus', 'success');
+    res.redirect("/admin/kelas");
+  }
 }
 
 exports.actionUpdate = async (req, res) => {

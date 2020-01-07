@@ -21,6 +21,12 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      pendidikan_terakhir: {
+        type: Sequelize.STRING
+      },
+      no_telpon: {
+        type: Sequelize.STRING
+      },
       UserId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",

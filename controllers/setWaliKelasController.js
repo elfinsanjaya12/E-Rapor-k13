@@ -98,6 +98,10 @@ exports.actionCreateWaliKelas = async (req, res) => {
             req.flash('alertStatus', 'danger');
             res.redirect('/admin/set-wali-kelas');
           });
+        } else {
+          req.flash('alertMessage', 'Atur Tahun Aktif Ajaran!');
+          req.flash('alertStatus', 'danger');
+          res.redirect('/admin/set-wali-kelas');
         }
       }).catch((err) => {
         req.flash('alertMessage', `err.message`);
@@ -112,7 +116,13 @@ exports.actionCreateWaliKelas = async (req, res) => {
 
 exports.actionDetele = async (req, res) => {
   let { id } = req.params;
-  const wali_kelas = await kelompok_wali_kelas.findOne({ where: { id: { [Op.eq]: id } } })
-  wali_kelas.destroy()
+  const wali_kelas = await kelompok_wali_kelas.findOne({ where: { id: { [Op.eq]: id } } });
+  const cek_guru = await Guru.findOne({ where: { id: { [Op.eq]: wali_kelas.GuruId } } });
+  const user = await User.findOne({ where: { id: { [Op.eq]: cek_guru.UserId } } });
+  if (user) {
+    user.role = "guru";
+    await user.save();
+  }
+  await wali_kelas.destroy()
   res.redirect('/admin/set-wali-kelas');
 }
