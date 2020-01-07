@@ -128,7 +128,7 @@ exports.actionDetele = (req, res) => {
   Siswa.findOne({ where: { id: { [Op.eq]: id } } }).then(async (siswa) => {
     let UserId = siswa.UserId
     const user = await User.findOne({ where: { id: { [Op.eq]: UserId } } })
-    user.destroy()
+    await user.destroy()
     siswa.destroy().then(() => {
       res.redirect('/admin/siswa');
     })
