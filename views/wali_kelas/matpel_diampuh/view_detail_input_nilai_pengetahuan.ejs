@@ -12,6 +12,11 @@
             <h3 class="box-title"><i class="fa fa-users"></i> Data nilai <%= siswa.nama %>
             </h3>
             <div class="pull-right">
+              <a href="/wali-kelas/matpel-diampuh/pengetahuan/<%= kelas_guru.KelasId %>/<%= cek_matpel.id %>"
+                class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Kembali
+              </a>
               <a href="/wali-kelas/matpel-diampuh" class="btn btn-success btn-xs">
                 <span class="glyphicon glyphicon-home"></span>
                 home
@@ -83,7 +88,7 @@
           buttons: false,
           timer: 2000
         }).then(() => {
-          window.location.assign(`/wali-kelas/matpel-diampuh/pengetahuan/${id}/${SiswaId}`);
+          window.location.assign(`/wali-kelas/matpel-diampuh/pengetahuan/${id}/delete/${SiswaId}`);
         });
       }
     });

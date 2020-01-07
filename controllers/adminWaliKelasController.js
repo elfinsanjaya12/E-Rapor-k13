@@ -60,13 +60,19 @@ exports.viewMatpelDiampuh = async (req, res) => {
 }
 
 exports.viewMatpelPengetahuan = async (req, res) => {
-  const { KelasId } = req.params
+  const { KelasId, MatpelId } = req.params
   const userLogin = req.session.user
 
   const kelas = await Kelas.findOne({
     where: {
       id: { [Op.eq]: KelasId }
     },
+  })
+  // ini bug 24/12/2019
+  const cek_matpel = await MataPelajaran.findOne({
+    where: {
+      id: { [Op.eq]: MatpelId }
+    }
   })
   kelompok_kelas.findAll({
     where: {
@@ -87,13 +93,14 @@ exports.viewMatpelPengetahuan = async (req, res) => {
       title: "E-Raport | Wali Kelas",
       user: userLogin,
       kelompok_siswa,
-      kelas: kelas.nama
+      kelas: kelas.nama,
+      cek_matpel
     })
   })
 }
 
 exports.viewDetailNilai = async (req, res) => {
-  const { SiswaId } = req.params
+  const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
   const siswa = await Siswa.findOne({
@@ -106,13 +113,21 @@ exports.viewDetailNilai = async (req, res) => {
     SiswaId: { [Op.eq]: SiswaId }
   })
 
+  const cek_matpel = await MataPelajaran.findOne({
+    where: {
+      id: { [Op.eq]: MatpelId }
+    }
+  })
+
+
   const kelas_guru = await kelompok_matpel_guru.findOne({
     KelasId: { [Op.eq]: kelas_siswa.KelasId }
   })
 
   NilaiPengetahuan.findOne({
     where: {
-      SiswaId: { [Op.eq]: SiswaId }
+      SiswaId: { [Op.eq]: SiswaId },
+      MatpelId: { [Op.eq]: MatpelId }
     },
     include: [
       {
@@ -132,7 +147,8 @@ exports.viewDetailNilai = async (req, res) => {
       user: userLogin,
       nilai: nilai === null ? 0 : nilai,
       siswa,
-      kelas_guru
+      kelas_guru,
+      cek_matpel
     })
 
   })
@@ -177,7 +193,7 @@ exports.actionCreateNilai = (req, res) => {
     nilai: alphabet,
     status: "Nonactive"
   }).then(() => {
-    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}`)
+    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}/matpel/${MatpelId}`)
   })
 }
 
@@ -186,13 +202,14 @@ exports.actionDeteleNilai = (req, res) => {
   NilaiPengetahuan.findOne({
     where: { id: { [Op.eq]: id } }
   }).then((nilai) => {
+    const cek_matpel = nilai.MatpelId
     nilai.destroy();
-    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}`)
+    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
   })
 }
 // ====== matpel di ampuh nilai keterampilan ========= \\
 exports.viewMatpelKeterampilan = async (req, res) => {
-  const { KelasId } = req.params
+  const { KelasId, MatpelId } = req.params
   const userLogin = req.session.user
 
   const kelas = await Kelas.findOne({
@@ -200,6 +217,13 @@ exports.viewMatpelKeterampilan = async (req, res) => {
       id: { [Op.eq]: KelasId }
     },
   })
+  // ini bug 24/12/2019
+  const cek_matpel = await MataPelajaran.findOne({
+    where: {
+      id: { [Op.eq]: MatpelId }
+    }
+  })
+
   kelompok_kelas.findAll({
     where: {
       KelasId: { [Op.eq]: KelasId }
@@ -219,18 +243,25 @@ exports.viewMatpelKeterampilan = async (req, res) => {
       title: "E-Raport | Wali Kelas",
       user: userLogin,
       kelompok_siswa,
-      kelas: kelas.nama
+      kelas: kelas.nama,
+      cek_matpel
     })
   })
 }
 exports.viewDetailNilaiKeterampilan = async (req, res) => {
-  const { SiswaId } = req.params
+  const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
   const siswa = await Siswa.findOne({
     where: {
       id: { [Op.eq]: SiswaId }
     },
+  })
+
+  const cek_matpel = await MataPelajaran.findOne({
+    where: {
+      id: { [Op.eq]: MatpelId }
+    }
   })
 
   const kelas_siswa = await kelompok_kelas.findOne({
@@ -243,7 +274,8 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
 
   NilaiKeterampilan.findOne({
     where: {
-      SiswaId: { [Op.eq]: SiswaId }
+      SiswaId: { [Op.eq]: SiswaId },
+      MatpelId: { [Op.eq]: MatpelId }
     },
     include: [
       {
@@ -263,7 +295,8 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
       user: userLogin,
       nilai: nilai === null ? 0 : nilai,
       siswa,
-      kelas_guru
+      kelas_guru,
+      cek_matpel
     })
 
   })
@@ -308,7 +341,7 @@ exports.actionCreateNilaiKeterampilan = (req, res) => {
     nilai: alphabet,
     status: "Nonactive"
   }).then(() => {
-    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/keterampilan/${SiswaId}`)
+    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/keterampilan/${SiswaId}/matpel/${MatpelId}`)
   })
 }
 
@@ -317,8 +350,9 @@ exports.actionDeteleNilaiKeterampilan = (req, res) => {
   NilaiKeterampilan.findOne({
     where: { id: { [Op.eq]: id } }
   }).then((nilai) => {
+    const cek_matpel = nilai.MatpelId
     nilai.destroy();
-    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/keterampilan/${SiswaId}`)
+    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/keterampilan/${SiswaId}/matpel/${cek_matpel}`)
   })
 }
 
