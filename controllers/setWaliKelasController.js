@@ -24,7 +24,7 @@ exports.viewSetWaliKelas = async (req, res) => {
         ]
       })
       res.render('admin/set_wali_kelas/view_set_wali_kelas', {
-        title: "E-Raport | Set Wali Kelas",
+        title: "E-Rapor | Set Wali Kelas",
         user: userLogin,
         wali_kelas: wali_kelas,
         kelas: kelas,

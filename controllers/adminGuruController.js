@@ -23,7 +23,7 @@ exports.viewHome = (req, res) => {
   const userLogin = req.session.user
   if (userLogin.role === "guru") {
     res.render("guru/home/view_home", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin
     })
   } else {
@@ -42,7 +42,7 @@ exports.viewRiwayat = async (req, res) => {
       ...include
     }).then((riwayat) => {
       res.render("guru/riwayat/view_riwayat", {
-        title: "E-Raport | Guru",
+        title: "E-Rapor | Guru",
         user: userLogin,
         riwayat
       })
@@ -71,7 +71,7 @@ exports.viewMatpelDiampuh = async (req, res) => {
       ]
     }).then((diampuh) => {
       res.render("guru/diampuh/view_diampuh", {
-        title: "E-Raport | Guru",
+        title: "E-Rapor | Guru",
         user: userLogin,
         diampuh
       })
@@ -120,7 +120,7 @@ exports.viewMatpelPengetahuan = async (req, res) => {
     //   nilai = 0
     // }
     res.render("guru/diampuh/view_input_nilai_pengetahuan", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin,
       kelompok_siswa,
       kelas: kelas.nama,
@@ -175,7 +175,7 @@ exports.viewDetailNilai = async (req, res) => {
       nilai = 0;
     }
     res.render("guru/diampuh/view_detail_input_nilai_pengetahuan", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin,
       nilai,
       siswa,
@@ -269,7 +269,7 @@ exports.viewMatpelKeterampilan = async (req, res) => {
     ]
   }).then((kelompok_siswa) => {
     res.render("guru/diampuh/view_input_nilai_keterampilan", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin,
       kelompok_siswa,
       kelas: kelompok_siswa[0].Kela.nama,
@@ -325,7 +325,7 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
     }
 
     res.render("guru/diampuh/view_detail_input_nilai_keterampilan", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin,
       nilai,
       siswa,

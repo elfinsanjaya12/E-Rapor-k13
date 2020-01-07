@@ -8,7 +8,7 @@ exports.viewKelas = async (req, res) => {
 
     const kelas = await Kelas.findAll()
     res.render('admin/kelas/view_kelas', {
-      title: "E-Raport | Kelas",
+      title: "E-Rapor | Kelas",
       user: userLogin,
       kelas: kelas,
     })

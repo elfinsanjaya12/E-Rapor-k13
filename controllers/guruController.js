@@ -16,7 +16,7 @@ exports.viewGuru = async (req, res) => {
     if (userLogin.role === "admin") {
       const guru = await Guru.findAll({ ...include })
       res.render("admin/guru/view", {
-        title: "E-Raport | Guru",
+        title: "E-Rapor | Guru",
         user: userLogin,
         guru: guru,
         alert: alert

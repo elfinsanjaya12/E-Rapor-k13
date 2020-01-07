@@ -20,7 +20,7 @@ exports.viewHome = async (req, res) => {
   const userLogin = req.session.user
   try {
     res.render("siswa/home/view_home", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin
     })
   } catch (err) {
@@ -42,7 +42,7 @@ exports.viewNilai = async (req, res) => {
     })
 
     res.render("siswa/nilai/view_nilai", {
-      title: "E-Raport | Nilai",
+      title: "E-Rapor | Nilai",
       user: userLogin,
       siswa_kelas
     })
@@ -137,7 +137,7 @@ exports.cetakRaport = async (req, res) => {
     if (ekstra[0].Ekstrakulikuller !== null) {
 
       res.render("siswa/nilai/cetak_nilai", {
-        title: "E-Raport | Raport",
+        title: "E-Rapor | Raport",
         siswa,
         absen,
         view: "Isi",
@@ -153,7 +153,7 @@ exports.cetakRaport = async (req, res) => {
     } else {
 
       res.render("siswa/nilai/cetak_nilai", {
-        title: "E-Raport | Raport",
+        title: "E-Rapor | Raport",
         siswa,
         absen,
         view: "Kosong",

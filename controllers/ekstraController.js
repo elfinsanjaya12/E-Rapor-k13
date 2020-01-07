@@ -9,7 +9,7 @@ exports.viewEkstrakulikuller = async (req, res) => {
     const ekstra = await Ekstrakulikuller.findAll()
 
     res.render('admin/ekstra/view_ekstra', {
-      title: "E-Raport | Ekstrakulikuller",
+      title: "E-Rapor | Ekstrakulikuller",
       user: userLogin,
       ekstra: ekstra,
     })

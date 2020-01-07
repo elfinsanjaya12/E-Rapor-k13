@@ -27,7 +27,7 @@ exports.viewSetMatpel = async (req, res) => {
       const kelas = await Kelas.findAll()
       const mata_pelajaran = await MataPelajaran.findAll()
       res.render('admin/set_mata_pelajaran/view_set_mata_pelajaran', {
-        title: "E-Raport | Set Mata Pelajaran",
+        title: "E-Rapor | Set Mata Pelajaran",
         user: userLogin,
         matpel_guru: matpel_guru,
         guru,

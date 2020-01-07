@@ -22,7 +22,7 @@ exports.viewHome = async (req, res) => {
   const userLogin = req.session.user
   try {
     res.render("wali_kelas/home/view_home", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin
     })
   } catch (err) {
@@ -51,7 +51,7 @@ exports.viewMatpelDiampuh = async (req, res) => {
     }).then((diampuh) => {
 
       res.render("wali_kelas/matpel_diampuh/view_matpel_diampuh", {
-        title: "E-Raport | Matpel Diampuh",
+        title: "E-Rapor | Matpel Diampuh",
         user: userLogin,
         diampuh
       })
@@ -90,7 +90,7 @@ exports.viewMatpelPengetahuan = async (req, res) => {
     ]
   }).then((kelompok_siswa) => {
     res.render("wali_kelas/matpel_diampuh/view_input_nilai_pengetahuan", {
-      title: "E-Raport | Wali Kelas",
+      title: "E-Rapor | Wali Kelas",
       user: userLogin,
       kelompok_siswa,
       kelas: kelas.nama,
@@ -143,7 +143,7 @@ exports.viewDetailNilai = async (req, res) => {
   }).then((nilai) => {
 
     res.render("wali_kelas/matpel_diampuh/view_detail_input_nilai_pengetahuan", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin,
       nilai: nilai === null ? 0 : nilai,
       siswa,
@@ -240,7 +240,7 @@ exports.viewMatpelKeterampilan = async (req, res) => {
     ]
   }).then((kelompok_siswa) => {
     res.render("wali_kelas/matpel_diampuh/view_input_nilai_keterampilan", {
-      title: "E-Raport | Wali Kelas",
+      title: "E-Rapor | Wali Kelas",
       user: userLogin,
       kelompok_siswa,
       kelas: kelas.nama,
@@ -291,7 +291,7 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
   }).then((nilai) => {
 
     res.render("wali_kelas/matpel_diampuh/view_detail_input_nilai_keterampilan", {
-      title: "E-Raport | Guru",
+      title: "E-Rapor | Guru",
       user: userLogin,
       nilai: nilai === null ? 0 : nilai,
       siswa,
@@ -374,7 +374,7 @@ exports.viewRiwayatMengajar = async (req, res) => {
       ...include
     }).then((riwayat) => {
       res.render("wali_kelas/riwayat_mengajar/view_riwayat_mengajar", {
-        title: "E-Raport | Matpel Diampuh",
+        title: "E-Rapor | Matpel Diampuh",
         user: userLogin,
         riwayat
       })
@@ -402,7 +402,7 @@ exports.viewAbsen = async (req, res) => {
         ]
       }).then((get_nilai_absen) => {
         res.render("wali_kelas/absen/view_absen", {
-          title: "E-Raport | Absen",
+          title: "E-Rapor | Absen",
           user: userLogin,
           get_nilai_absen
         })
@@ -481,7 +481,7 @@ exports.viewPrestasiSiswa = (req, res) => {
         ]
       }).then((prestasi) => {
         res.render("wali_kelas/prestasi/view_prestasi", {
-          title: "E-Raport | Prestasi",
+          title: "E-Rapor | Prestasi",
           user: userLogin,
           prestasi,
           kelompok_siswa
@@ -539,7 +539,7 @@ exports.actionDetelePrestasi = (req, res) => {
 // exports.viewRaport = async (req, res) => {
 //   try {
 //     res.render("wali_kelas/raport/view_raport", {
-//       title: "E-Raport | Absen",
+//       title: "E-Rapor | Absen",
 //     })
 //   } catch (err) {
 //     throw err
@@ -569,7 +569,7 @@ exports.viewNilaiSikap = async (req, res) => {
         ]
       }).then((nilai_sikap) => {
         res.render("wali_kelas/input_nilai_sikap/view_input_nilai_sikap", {
-          title: "E-Raport | Input Nilai Sikap",
+          title: "E-Rapor | Input Nilai Sikap",
           user: userLogin,
           nilai_sikap
         })
@@ -626,7 +626,7 @@ exports.viewNilaiEktra = async (req, res) => {
   try {
     const ekstra = await Ekstrakulikuller.findAll()
     res.render("wali_kelas/input_nilai_ektrakulikuler/view_input_nilai_ektrakulikuler", {
-      title: "E-Raport | Input Nilai Ektrakulikuler",
+      title: "E-Rapor | Input Nilai Ektrakulikuler",
       user: userLogin,
       ekstra,
     })
@@ -698,7 +698,7 @@ exports.viewValidasiNilai = async (req, res) => {
   try {
     const matpel = await MataPelajaran.findAll()
     res.render("wali_kelas/validasi_nilai/view_validasi_nilai", {
-      title: "E-Raport | Input Nilai Ektrakulikuler",
+      title: "E-Rapor | Input Nilai Ektrakulikuler",
       user: userLogin,
       matpel: matpel
     })
@@ -738,7 +738,7 @@ exports.showNilaiKeterampilan = async (req, res) => {
           ]
         })
         res.render("wali_kelas/validasi_nilai/show_nilai_keterampilan", {
-          title: "E-Raport | Show Nilai Keterampilan",
+          title: "E-Rapor | Show Nilai Keterampilan",
           user: userLogin,
           kelompok_siswa,
           nilai_keterampilan
@@ -796,7 +796,7 @@ exports.showNilaiPengetahuan = async (req, res) => {
           ]
         })
         res.render("wali_kelas/validasi_nilai/show_nilai_pengetahuan", {
-          title: "E-Raport | Show Nilai Pengetahuan",
+          title: "E-Rapor | Show Nilai Pengetahuan",
           user: userLogin,
           kelompok_siswa,
           nilai_pengetahuan
@@ -845,7 +845,7 @@ exports.viewCetakRaport = (req, res) => {
         ]
       })
       res.render("wali_kelas/raport/view_raport", {
-        title: "E-Raport | Raport",
+        title: "E-Rapor | Raport",
         kelompok_siswa,
         user: userLogin
       })
@@ -952,7 +952,7 @@ exports.cetakRaport = async (req, res) => {
           }]
         }).then((wali_kelas) => {
           res.render("wali_kelas/raport/cetak_raport", {
-            title: "E-Raport | Raport",
+            title: "E-Rapor | Raport",
             siswa,
             absen,
             view: "Isi",
@@ -980,7 +980,7 @@ exports.cetakRaport = async (req, res) => {
           }
         }).then((wali_kelas) => {
           res.render("wali_kelas/raport/cetak_raport", {
-            title: "E-Raport | Raport",
+            title: "E-Rapor | Raport",
             siswa,
             absen,
             view: "Kosong",

@@ -12,7 +12,7 @@ exports.viewSiswa = async (req, res) => {
     if (userLogin.role === "admin") {
 
       res.render('admin/siswa/view_siswa', {
-        title: "E-Raport | Siswa",
+        title: "E-Rapor | Siswa",
         user: userLogin,
         siswa: siswa,
         alert: alert,
@@ -71,7 +71,7 @@ exports.actionCreate = async (req, res) => {
       username: nis,
       role: 'siswa',
       password: passwordDefault,
-      status: 'Nonactive'
+      status: 'active'
     }).then((user) => {
       Siswa.create({
         nama: nama,
@@ -81,7 +81,7 @@ exports.actionCreate = async (req, res) => {
         tgl_lahir: tgl_lahir,
         tmpt_lahir: tmpt_lahir,
         agama: agama,
-        status: "Nonactive",
+        status: "active",
         // anak_ke,
         alamat: alamat,
         no_telp: no_telp,
@@ -145,7 +145,7 @@ exports.actionFind = (req, res) => {
     where: { id: { [Op.eq]: id } }
   }).then((siswa) => {
     res.render('admin/siswa/view_siswa', {
-      title: "E-Raport | Siswa",
+      title: "E-Rapor | Siswa",
       user: userLogin,
       siswa: siswa,
       action: "edit"

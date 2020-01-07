@@ -37,7 +37,7 @@ exports.viewSetKelas = async (req, res) => {
     })
 
     res.render('admin/set_kelas/view_set_kelas', {
-      title: "E-Raport | Set Kelas",
+      title: "E-Rapor | Set Kelas",
       user: userLogin,
       k_kelas: k_kelas,
       kelas: kelas
@@ -55,7 +55,7 @@ exports.viewAddSetKelas = (req, res) => {
     Kelas.findAll().then(async (kelas) => {
       const kelompok_kelas_siswa = await kelompok_kelas.findAll()
       res.render("admin/set_kelas/tambah_set_kelas", {
-        title: "E-Raport | Tambah Set Kelas",
+        title: "E-Rapor | Tambah Set Kelas",
         user: userLogin,
         kelas: kelas,
         kelompok_kelas_siswa: kelompok_kelas_siswa
@@ -94,7 +94,7 @@ exports.viewDetailKelasSiswa = async (req, res) => {
     })
 
     res.render("admin/set_kelas/detail_kelompok_siswa", {
-      title: "E-Raport | Tambah Detail Kelas Siswa",
+      title: "E-Rapor | Tambah Detail Kelas Siswa",
       all_siswa,
       kelas_siswa,
       user: userLogin,

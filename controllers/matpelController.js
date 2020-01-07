@@ -14,7 +14,7 @@ exports.viewMatPel = async (req, res) => {
     const matpel = await MataPelajaran.findAll()
 
     res.render('admin/mata_pelajaran/view_mata_pelajaran', {
-      title: "E-Raport | MatPel",
+      title: "E-Rapor | MatPel",
       user: userLogin,
       matpel: matpel,
     })
