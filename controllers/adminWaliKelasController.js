@@ -424,9 +424,6 @@ exports.actionCreateNilaiAbsen = async (req, res) => {
   const a = req.body.a;
   const dataSiswa = req.body.id;
 
-  console.log(s)
-  console.log(i)
-  console.log(a)
   if (typeof dataSiswa === 'string' || dataSiswa instanceof String) {
     await NilaiAbsen.update({
       s: s,
@@ -439,14 +436,14 @@ exports.actionCreateNilaiAbsen = async (req, res) => {
     });
     res.redirect("/wali-kelas/input-absen")
   } else {
-    for (let i = 0; i < dataSiswa.length; i++) {
+    for (let x = 0; x < dataSiswa.length; x++) {
       await NilaiAbsen.update({
-        s: s[i],
-        i: i[i],
-        a: a[i]
+        s: s[x],
+        i: i[x],
+        a: a[x]
       }, {
         where: {
-          id: { [Op.eq]: req.body.id[i] }
+          id: { [Op.eq]: req.body.id[x] }
         }
       });
     }
