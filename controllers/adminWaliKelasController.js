@@ -109,7 +109,9 @@ exports.viewDetailNilai = async (req, res) => {
   })
 
   const kelas_siswa = await kelompok_kelas.findOne({
-    SiswaId: { [Op.eq]: SiswaId }
+    where: {
+      SiswaId: { [Op.eq]: SiswaId }
+    }
   })
 
   const cek_matpel = await MataPelajaran.findOne({
@@ -120,7 +122,9 @@ exports.viewDetailNilai = async (req, res) => {
 
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
-    KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    where: {
+      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    }
   })
 
   NilaiPengetahuan.findOne({
@@ -264,11 +268,15 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
   })
 
   const kelas_siswa = await kelompok_kelas.findOne({
-    SiswaId: { [Op.eq]: SiswaId }
+    where: {
+      SiswaId: { [Op.eq]: SiswaId }
+    }
   })
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
-    KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    where: {
+      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    }
   })
 
   NilaiKeterampilan.findOne({
@@ -908,6 +916,8 @@ exports.cetakRaport = async (req, res) => {
       where: { kelompok: { [Op.eq]: "A" } }
     })
 
+    // console.log(kelompok_a);
+
     let kelompok_b = await MataPelajaran.findAll({
       where: { kelompok: { [Op.eq]: "B" } }
     })
@@ -919,6 +929,8 @@ exports.cetakRaport = async (req, res) => {
         KelasId: { [Op.eq]: siswa.KelasId }
       },
     })
+    console.log(siswa.KelasId);
+    console.log(nilai_pengetahuan);
 
     let nilai_keterampilan = await NilaiKeterampilan.findAll({
       where:
@@ -1002,3 +1014,19 @@ exports.cetakRaport = async (req, res) => {
   }
 }
 /** End Cetak Raport */
+
+
+// biodata guru 
+exports.viewBiodata = async (req, res) => {
+  const userLogin = req.session.user
+  // cek guru
+  const guru = await Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  })
+  res.render('wali_kelas/profile/view_profile', {
+    title: "E-Rapor || Biodata",
+    user: userLogin,
+    guru
+  })
+}
+

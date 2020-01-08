@@ -132,6 +132,7 @@ exports.viewMatpelPengetahuan = async (req, res) => {
 
 exports.viewDetailNilai = async (req, res) => {
   const { SiswaId, MatpelId } = req.params
+
   const userLogin = req.session.user
 
   const siswa = await Siswa.findOne({
@@ -141,7 +142,9 @@ exports.viewDetailNilai = async (req, res) => {
   })
 
   const kelas_siswa = await kelompok_kelas.findOne({
-    SiswaId: { [Op.eq]: SiswaId }
+    where: {
+      SiswaId: { [Op.eq]: SiswaId }
+    }
   })
 
   const cek_matpel = await MataPelajaran.findOne({
@@ -151,8 +154,11 @@ exports.viewDetailNilai = async (req, res) => {
   })
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
-    KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    where: {
+      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    }
   })
+  console.log("kelas id" + kelas_guru.KelasId);
 
   NilaiPengetahuan.findOne({
     where: {
@@ -283,12 +289,13 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
   const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
+  // cek siswa
   const siswa = await Siswa.findOne({
     where: {
       id: { [Op.eq]: SiswaId }
     },
   })
-
+  // lalu cek matpel 
   const cek_matpel = await MataPelajaran.findOne({
     where: {
       id: { [Op.eq]: MatpelId }
@@ -296,11 +303,15 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
   })
 
   const kelas_siswa = await kelompok_kelas.findOne({
-    SiswaId: { [Op.eq]: SiswaId }
+    where: {
+      SiswaId: { [Op.eq]: SiswaId }
+    }
   })
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
-    KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    where: {
+      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+    }
   })
 
   NilaiKeterampilan.findOne({
@@ -342,7 +353,16 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
 }
 
 exports.actionCreateKeterampilan = (req, res) => {
-  const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId } = req.body
+  const {
+    latihan,
+    uts,
+    uas,
+    SiswaId,
+    GuruId,
+    TahunId,
+    MatpelId,
+    KelasId
+  } = req.body
 
   console.log(latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId)
   let n_latihan = 60 / 100 * latihan;

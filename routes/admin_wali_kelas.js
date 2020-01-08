@@ -35,7 +35,9 @@ let {
   showNilaiPengetahuan,
   updateStatusNilaiKeterampilan,
   updateStatusNilaiPengetahuan,
-  cetakRaport
+  cetakRaport,
+  // biodata 
+  viewBiodata
 } = require("../controllers/adminWaliKelasController")
 
 const auth = require('../middlewares/auth')
@@ -78,6 +80,8 @@ router.get("/wali-kelas/validasi/show-nilai-pengetahuan/:MatpelId", showNilaiPen
 router.post("/wali-kelas/validasi/show-nilai-keterampilan/update", updateStatusNilaiKeterampilan)
 router.post("/wali-kelas/validasi/show-nilai-pengetahuan/update", updateStatusNilaiPengetahuan)
 router.get("/wali-kelas/validasi/cetak-raport/:SiswaId/tahun/:TahunId", cetakRaport)
+
+router.get("/wali-kelas/profile", viewBiodata);
 
 
 module.exports = router;
