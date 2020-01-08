@@ -71,7 +71,7 @@ exports.actionCreate = async (req, res) => {
       username: nis,
       role: 'siswa',
       password: passwordDefault,
-      status: 'active'
+      status: 'Active'
     }).then((user) => {
       Siswa.create({
         nama: nama,
@@ -81,7 +81,7 @@ exports.actionCreate = async (req, res) => {
         tgl_lahir: tgl_lahir,
         tmpt_lahir: tmpt_lahir,
         agama: agama,
-        status: "active",
+        status: "Active",
         // anak_ke,
         alamat: alamat,
         no_telp: no_telp,

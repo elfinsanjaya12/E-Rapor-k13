@@ -77,11 +77,21 @@ exports.actionUpdate = async (req, res) => {
       }
     })
 
+    const updateUser = await User.findOne({
+      where: {
+        id: { [Op.eq]: updateGuru.UserId }
+      }
+    })
+
     if (updateGuru) {
       updateGuru.nip = nip
       updateGuru.nama = nama
       updateGuru.jk = jk
       await updateGuru.save()
+    }
+    if (updateUser) {
+      updateUser.username = nip
+      await updateUser.save();
     }
     req.flash('alertMessage', `Sukses Mengubah Data Guru dengan Nama : ${nama} dan NIP: ${nip}`);
     req.flash('alertStatus', 'success');
