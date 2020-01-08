@@ -13,9 +13,11 @@ const {
   Prestasi,
   NilaiSikap,
   Ekstrakulikuller,
-  NilaiEktrakulikuler
+  NilaiEktrakulikuler,
+  User
 } = require("../models");
 const Op = require("sequelize").Op;
+const bcrypt = require("bcryptjs");
 
 exports.viewHome = async (req, res) => {
   const userLogin = req.session.user
@@ -1015,6 +1017,9 @@ exports.cetakRaport = async (req, res) => {
 
 // biodata guru 
 exports.viewBiodata = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   const userLogin = req.session.user
   // cek guru
   const guru = await Guru.findOne({
@@ -1023,7 +1028,43 @@ exports.viewBiodata = async (req, res) => {
   res.render('wali_kelas/profile/view_profile', {
     title: "E-Rapor || Biodata",
     user: userLogin,
-    guru
+    guru,
+    alert: alert
   })
+}
+
+exports.actionChangePassword = async (req, res) => {
+  try {
+    const { id, password_baru, konfirmasi_password } = req.body;
+    console.log(id)
+    const user = await User.findOne({
+      where: {
+        id: { [Op.eq]: id }
+      }
+    })
+    console.log(user)
+    if (user) {
+      if (password_baru === konfirmasi_password) {
+        const password = bcrypt.hashSync(password_baru, 10);
+        user.password = password;
+        await user.save();
+        req.flash('alertMessage', `Success Ubah Password`);
+        req.flash('alertStatus', 'success');
+        return res.redirect("/wali-kelas/profile")
+      } else {
+        req.flash('alertMessage', `Password Baru dan Konfirmasi Tidak Cocok !!!`);
+        req.flash('alertStatus', 'warning');
+        return res.redirect("/wali-kelas/profile")
+      }
+    } else {
+      req.flash('alertMessage', `User Not Found !!!`);
+      req.flash('alertStatus', 'warning');
+      return res.redirect("/wali-kelas/profile")
+    }
+
+  } catch (error) {
+
+  }
+
 }
 

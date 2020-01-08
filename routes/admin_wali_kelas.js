@@ -37,7 +37,8 @@ let {
   updateStatusNilaiPengetahuan,
   cetakRaport,
   // biodata 
-  viewBiodata
+  viewBiodata,
+  actionChangePassword
 } = require("../controllers/adminWaliKelasController")
 
 const auth = require('../middlewares/auth')
@@ -82,7 +83,7 @@ router.post("/wali-kelas/validasi/show-nilai-pengetahuan/update", updateStatusNi
 router.get("/wali-kelas/validasi/cetak-raport/:SiswaId/tahun/:TahunId", cetakRaport)
 
 router.get("/wali-kelas/profile", viewBiodata);
-
+router.post("/wali-kelas/profile/change-password", actionChangePassword)
 
 module.exports = router;
 
