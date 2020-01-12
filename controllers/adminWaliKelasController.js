@@ -769,35 +769,47 @@ exports.updateStatusNilaiKeterampilan = async (req, res) => {
   const data_siswa = req.body.id
   const MatpelId = req.body.MatpelId
 
-  if (typeof data_siswa === 'string' || data_siswa instanceof String) {
-    // cek nilai pengetahuan
-    let update = await NilaiKeterampilan.findOne({
-      where: {
-        id: { [Op.eq]: data_siswa }
-      }
-    });
+  try {
+    if (data_siswa) {
+      if (typeof data_siswa === 'string' || data_siswa instanceof String) {
+        // cek nilai pengetahuan
+        let update = await NilaiKeterampilan.findOne({
+          where: {
+            id: { [Op.eq]: data_siswa }
+          }
+        });
 
-    if (update) {
-      update.status = "Active";
-      await update.save();
-    }
-    req.flash('alertMessage', `Sukses Validasi semua nilai`);
-    req.flash('alertStatus', 'success');
-    return res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update.MatpelId}`);
-  } else {
-    for (var i = 0; i < data_siswa.length; i++) {
-      var update = await NilaiKeterampilan.update({
-        status: "Active"
-      }, {
-        where: {
-          id: { [Op.eq]: req.body.id[i] }
+        if (update) {
+          update.status = "Active";
+          await update.save();
         }
-      })
+        req.flash('alertMessage', `Sukses Validasi semua nilai`);
+        req.flash('alertStatus', 'success');
+        return res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update.MatpelId}`);
+      } else {
+        for (var i = 0; i < data_siswa.length; i++) {
+          var update = await NilaiKeterampilan.update({
+            status: "Active"
+          }, {
+            where: {
+              id: { [Op.eq]: req.body.id[i] }
+            }
+          })
+        }
+      }
+      req.flash('alertMessage', `Sukses Validasi semua nilai`);
+      req.flash('alertStatus', 'success');
+      res.redirect(`/wali-kelas/validasi/show-nilai-keterampilan/${MatpelId[0]}`)
+    } else {
+      req.flash('alertMessage', `Tidak Ada Nilai Mahasiswa`);
+      req.flash('alertStatus', 'warning');
+      res.redirect(`/wali-kelas/validasi/show-nilai-keterampilan/${MatpelId}`)
     }
+
+  } catch (error) {
+    console.log(error);
   }
-  req.flash('alertMessage', `Sukses Validasi semua nilai`);
-  req.flash('alertStatus', 'success');
-  res.redirect(`/wali-kelas/validasi/show-nilai-keterampilan/${MatpelId[0]}`)
+
 }
 
 // sidebar validasi nilai
@@ -852,36 +864,42 @@ exports.showNilaiPengetahuan = async (req, res) => {
 exports.updateStatusNilaiPengetahuan = async (req, res) => {
   const data_siswa = req.body.id
   const MatpelId = req.body.MatpelId
+  if (data_siswa) {
 
-  if (typeof data_siswa === 'string' || data_siswa instanceof String) {
-    // cek nilai pengetahuan
-    let update = await NilaiPengetahuan.findOne({
-      where: {
-        id: { [Op.eq]: data_siswa }
+    if (typeof data_siswa === 'string' || data_siswa instanceof String) {
+      // cek nilai pengetahuan
+      let update = await NilaiPengetahuan.findOne({
+        where: {
+          id: { [Op.eq]: data_siswa }
+        }
+      });
+
+      if (update) {
+        update.status = "Active";
+        await update.save();
       }
-    });
-
-    if (update) {
-      update.status = "Active";
-      await update.save();
+      req.flash('alertMessage', `Sukses Validasi semua nilai`);
+      req.flash('alertStatus', 'success');
+      return res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update.MatpelId}`);
+    } else {
+      for (var i = 0; i < data_siswa.length; i++) {
+        await NilaiPengetahuan.update({
+          status: "Active"
+        }, {
+          where: {
+            id: { [Op.eq]: req.body.id[i] }
+          }
+        })
+      }
     }
     req.flash('alertMessage', `Sukses Validasi semua nilai`);
     req.flash('alertStatus', 'success');
-    return res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update.MatpelId}`);
+    res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${MatpelId[0]}`)
   } else {
-    for (var i = 0; i < data_siswa.length; i++) {
-      await NilaiPengetahuan.update({
-        status: "Active"
-      }, {
-        where: {
-          id: { [Op.eq]: req.body.id[i] }
-        }
-      })
-    }
+    req.flash('alertMessage', `Tidak Ada Nilai Mahasiswa`);
+    req.flash('alertStatus', 'warning');
+    res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${MatpelId}`)
   }
-  req.flash('alertMessage', `Sukses Validasi semua nilai`);
-  req.flash('alertStatus', 'success');
-  res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${MatpelId[0]}`)
 }
 
 /** Start Cetak raport */
@@ -929,6 +947,9 @@ exports.cetakRaport = async (req, res) => {
       ]
     })
 
+    console.log("siswa");
+    console.log(siswa);
+
     // cek absen siswa
     let absen = await NilaiAbsen.findOne({
       where:
@@ -943,6 +964,8 @@ exports.cetakRaport = async (req, res) => {
         { model: Kelas }
       ]
     })
+    console.log("absen");
+    console.log(absen);
 
     let ekstra = await NilaiEktrakulikuler.findAll({
       where:
@@ -958,6 +981,10 @@ exports.cetakRaport = async (req, res) => {
       ]
     })
 
+    console.log("ekstra");
+    console.log(ekstra[0].Ekstrakulikuller);
+
+
     let nilai_sikap = await NilaiSikap.findOne({
       where:
       {
@@ -965,16 +992,21 @@ exports.cetakRaport = async (req, res) => {
         KelasId: { [Op.eq]: siswa.KelasId }
       },
     })
-
+    console.log("nilai_sikap");
+    console.log(nilai_sikap);
     let kelompok_a = await MataPelajaran.findAll({
       where: { kelompok: { [Op.eq]: "A" } }
     })
 
-    // console.log(kelompok_a);
+    console.log("kelompok_a");
+    console.log(kelompok_a);
 
     let kelompok_b = await MataPelajaran.findAll({
       where: { kelompok: { [Op.eq]: "B" } }
     })
+
+    console.log("kelompok_b");
+    console.log(kelompok_b);
 
     let nilai_pengetahuan = await NilaiPengetahuan.findAll({
       where:
@@ -983,7 +1015,7 @@ exports.cetakRaport = async (req, res) => {
         KelasId: { [Op.eq]: siswa.KelasId }
       },
     })
-    console.log(siswa.KelasId);
+    console.log("nilai_pengetahuan");
     console.log(nilai_pengetahuan);
 
     let nilai_keterampilan = await NilaiKeterampilan.findAll({
@@ -994,6 +1026,9 @@ exports.cetakRaport = async (req, res) => {
       },
     })
 
+    console.log("nilai_keterampilan");
+    console.log(nilai_keterampilan);
+
     let prestasi = await Prestasi.findAll({
       where:
       {
@@ -1001,70 +1036,82 @@ exports.cetakRaport = async (req, res) => {
         KelasId: { [Op.eq]: siswa.KelasId }
       },
     })
-    if (ekstra[0].Ekstrakulikuller !== null) {
-      const userLogin = req.session.user
-      // cek guru
-      Guru.findOne({
-        where: { UserId: { [Op.eq]: userLogin.id } }
-      }).then((guru) => {
-        // cek wali kelas
-        kelompok_wali_kelas.findOne({
-          where: {
-            GuruId: { [Op.eq]: guru.id }
-          },
-          include: [{
-            model: Guru
-          }]
-        }).then((wali_kelas) => {
-          res.render("wali_kelas/raport/cetak_raport", {
-            title: "E-Rapor | Raport",
-            siswa,
-            absen,
-            view: "Isi",
-            ekstra,
-            kelompok_a,
-            kelompok_b,
-            nilai_pengetahuan,
-            nilai_keterampilan,
-            nilai_sikap,
-            prestasi,
-            wali_kelas
-          })
-        })
-      })
-    } else {
-      const userLogin = req.session.user
-      // cek guru
-      Guru.findOne({
-        where: { UserId: { [Op.eq]: userLogin.id } }
-      }).then((guru) => {
-        // cek wali kelas
-        kelompok_wali_kelas.findOne({
-          where: {
-            GuruId: { [Op.eq]: guru.id }
-          }
-        }).then((wali_kelas) => {
-          res.render("wali_kelas/raport/cetak_raport", {
-            title: "E-Rapor | Raport",
-            siswa,
-            absen,
-            view: "Kosong",
-            ekstra,
-            kelompok_a,
-            kelompok_b,
-            nilai_pengetahuan,
-            nilai_keterampilan,
-            nilai_sikap,
-            prestasi,
-            wali_kelas
-          })
-        })
-      })
 
-    }
+    console.log("prestasi");
+    console.log(prestasi);
+
+    // if (ekstra[0].Ekstrakulikuller !== null) {
+    const userLogin = req.session.user
+    // cek guru
+    Guru.findOne({
+      where: { UserId: { [Op.eq]: userLogin.id } }
+    }).then((guru) => {
+      // cek wali kelas
+      kelompok_wali_kelas.findOne({
+        where: {
+          GuruId: { [Op.eq]: guru.id }
+        },
+        include: [{
+          model: Guru
+        }]
+      }).then((wali_kelas) => {
+        console.log("wali_kelas")
+        console.log(wali_kelas)
+        res.render("wali_kelas/raport/cetak_raport", {
+          title: "E-Rapor | Raport",
+          siswa,
+          absen,
+          view: "Isi",
+          ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
+          kelompok_a,
+          kelompok_b,
+          nilai_pengetahuan,
+          nilai_keterampilan,
+          nilai_sikap,
+          prestasi,
+          wali_kelas
+        })
+      })
+    })
+    // } else {
+    //   const userLogin = req.session.user
+    //   // cek guru
+    //   Guru.findOne({
+    //     where: { UserId: { [Op.eq]: userLogin.id } }
+    //   }).then((guru) => {
+    //     // cek wali kelas
+    //     kelompok_wali_kelas.findOne({
+    //       where: {
+    //         GuruId: { [Op.eq]: guru.id }
+    //       },
+    //       include: [{
+    //         model: Guru
+    //       }]
+    //     }).then((wali_kelas) => {
+    //       console.log("wali_kelas")
+    //       console.log(wali_kelas)
+    //       res.render("wali_kelas/raport/cetak_raport", {
+    //         title: "E-Rapor | Raport",
+    //         siswa,
+    //         absen,
+    //         view: "Kosong",
+    //         ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
+    //         kelompok_a,
+    //         kelompok_b,
+    //         nilai_pengetahuan,
+    //         nilai_keterampilan,
+    //         nilai_sikap,
+    //         prestasi,
+    //         wali_kelas
+    //       })
+    //     })
+    //   })
+
+    // }
 
   } catch (error) {
     console.log(error)
+    return res.redirect("/wali-kelas/raport")
   }
 }
 /** End Cetak Raport */
