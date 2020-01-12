@@ -1,6 +1,12 @@
 <%- include ../../partials/wali_kelas_layout/header.ejs %>
 <%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
 <div class="content-wrapper">
+  <section class="content-header">
+    <!-- tambahkan di setiap page yang membutuhkan notifikasi -->
+    <% if(alert.message != '') { %>
+    <div class="flash-data" data-flashdata="<%= alert.message %>" data-flashstatus="<%= alert.status %>"></div>
+    <% } %>
+  </section>
 
   <section class="content">
     <div class="row">
@@ -81,30 +87,19 @@
     // datatable
     $('#validasi_nilai').DataTable()
   })
+</script>
 
-  // $('#update_form').on('submit', function (event) {
-  //   event.preventDefault();
-  //   // /wali-kelas/validasi/show-nilai-keterampilan/update
-  //   console.log($(this).serialize())
-  //   $.ajax({
-  //     url: "/wali-kelas/validasi/show-nilai-keterampilan/update",
-  //     method: "POST",
-  //     data: $(this).serialize(),
-  //     success: function () {
-  //       // console.log(data)
-  //       swal({
-  //         title: "Informasi",
-  //         text: "Success Validasi Nilai",
-  //         position: 'top-left',
-  //         icon: 'success',
-  //         buttons: false,
-  //         timer: 2000
-  //       }).then(() => {
-  //         window.location.replace(window.location.protocol + "//" + window.location.host + '/wali-kelas/validasi/show-nilai-keterampilan/1')
-  //       })
-  //     }
-  //   })
-  // })
-
-
+<!-- page script -->
+<script>
+  const flashData = $('.flash-data').data('flashdata');
+  const flashStatus = $('.flash-data').data('flashstatus');
+  if (flashData && flashStatus) {
+    swal({
+      position: 'top-end',
+      icon: flashStatus,
+      text: flashData,
+      buttons: false,
+      timer: 2000
+    });
+  }
 </script>

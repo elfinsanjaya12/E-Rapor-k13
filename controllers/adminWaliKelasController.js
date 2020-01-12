@@ -61,6 +61,7 @@ exports.viewMatpelDiampuh = async (req, res) => {
 }
 
 exports.viewMatpelPengetahuan = async (req, res) => {
+
   const { KelasId, MatpelId } = req.params
   const userLogin = req.session.user
 
@@ -101,6 +102,9 @@ exports.viewMatpelPengetahuan = async (req, res) => {
 }
 
 exports.viewDetailNilai = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
@@ -153,7 +157,8 @@ exports.viewDetailNilai = async (req, res) => {
       nilai: nilai === null ? 0 : nilai,
       siswa,
       kelas_guru,
-      cek_matpel
+      cek_matpel,
+      alert
     })
 
   })
@@ -198,6 +203,8 @@ exports.actionCreateNilai = (req, res) => {
     nilai: alphabet,
     status: "Nonactive"
   }).then(() => {
+    req.flash('alertMessage', `Sukses Create Nilai`);
+    req.flash('alertStatus', 'success');
     res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}/matpel/${MatpelId}`)
   })
 }
@@ -254,6 +261,9 @@ exports.viewMatpelKeterampilan = async (req, res) => {
   })
 }
 exports.viewDetailNilaiKeterampilan = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
@@ -305,7 +315,8 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
       nilai: nilai === null ? 0 : nilai,
       siswa,
       kelas_guru,
-      cek_matpel
+      cek_matpel,
+      alert
     })
 
   })
@@ -350,6 +361,8 @@ exports.actionCreateNilaiKeterampilan = (req, res) => {
     nilai: alphabet,
     status: "Nonactive"
   }).then(() => {
+    req.flash('alertMessage', `Sukses Create Nilai`);
+    req.flash('alertStatus', 'success');
     res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/keterampilan/${SiswaId}/matpel/${MatpelId}`)
   })
 }
@@ -542,15 +555,6 @@ exports.actionDetelePrestasi = (req, res) => {
 
 // =============== akhir prestasi =================\\
 
-// exports.viewRaport = async (req, res) => {
-//   try {
-//     res.render("wali_kelas/raport/view_raport", {
-//       title: "E-Rapor | Absen",
-//     })
-//   } catch (err) {
-//     throw err
-//   }
-// }
 
 // =============== awal nilai sikap =================\\
 exports.viewNilaiSikap = async (req, res) => {
@@ -714,6 +718,9 @@ exports.viewValidasiNilai = async (req, res) => {
 }
 
 exports.showNilaiKeterampilan = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   // session user login
   const userLogin = req.session.user
   const { MatpelId } = req.params
@@ -747,7 +754,8 @@ exports.showNilaiKeterampilan = async (req, res) => {
           title: "E-Rapor | Show Nilai Keterampilan",
           user: userLogin,
           kelompok_siswa,
-          nilai_keterampilan
+          nilai_keterampilan,
+          alert
         })
       })
     })
@@ -759,19 +767,44 @@ exports.showNilaiKeterampilan = async (req, res) => {
 
 exports.updateStatusNilaiKeterampilan = async (req, res) => {
   const data_siswa = req.body.id
-  for (var i = 0; i < data_siswa.length; i++) {
-    var update = await NilaiKeterampilan.update({
-      status: "Active"
-    }, {
+  const MatpelId = req.body.MatpelId
+
+  if (typeof data_siswa === 'string' || data_siswa instanceof String) {
+    // cek nilai pengetahuan
+    let update = await NilaiKeterampilan.findOne({
       where: {
-        id: { [Op.eq]: req.body.id[i] }
+        id: { [Op.eq]: data_siswa }
       }
-    })
+    });
+
+    if (update) {
+      update.status = "Active";
+      await update.save();
+    }
+    req.flash('alertMessage', `Sukses Validasi semua nilai`);
+    req.flash('alertStatus', 'success');
+    return res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update.MatpelId}`);
+  } else {
+    for (var i = 0; i < data_siswa.length; i++) {
+      var update = await NilaiKeterampilan.update({
+        status: "Active"
+      }, {
+        where: {
+          id: { [Op.eq]: req.body.id[i] }
+        }
+      })
+    }
   }
-  res.redirect(`/wali-kelas/validasi/show-nilai-keterampilan/${update[0]}`)
+  req.flash('alertMessage', `Sukses Validasi semua nilai`);
+  req.flash('alertStatus', 'success');
+  res.redirect(`/wali-kelas/validasi/show-nilai-keterampilan/${MatpelId[0]}`)
 }
 
+// sidebar validasi nilai
 exports.showNilaiPengetahuan = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   // session user login
   const userLogin = req.session.user
   const { MatpelId } = req.params
@@ -805,7 +838,8 @@ exports.showNilaiPengetahuan = async (req, res) => {
           title: "E-Rapor | Show Nilai Pengetahuan",
           user: userLogin,
           kelompok_siswa,
-          nilai_pengetahuan
+          nilai_pengetahuan,
+          alert
         })
       })
     })
@@ -817,16 +851,37 @@ exports.showNilaiPengetahuan = async (req, res) => {
 
 exports.updateStatusNilaiPengetahuan = async (req, res) => {
   const data_siswa = req.body.id
-  for (var i = 0; i < data_siswa.length; i++) {
-    var update = await NilaiPengetahuan.update({
-      status: "Active"
-    }, {
+  const MatpelId = req.body.MatpelId
+
+  if (typeof data_siswa === 'string' || data_siswa instanceof String) {
+    // cek nilai pengetahuan
+    let update = await NilaiPengetahuan.findOne({
       where: {
-        id: { [Op.eq]: req.body.id[i] }
+        id: { [Op.eq]: data_siswa }
       }
-    })
+    });
+
+    if (update) {
+      update.status = "Active";
+      await update.save();
+    }
+    req.flash('alertMessage', `Sukses Validasi semua nilai`);
+    req.flash('alertStatus', 'success');
+    return res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update.MatpelId}`);
+  } else {
+    for (var i = 0; i < data_siswa.length; i++) {
+      await NilaiPengetahuan.update({
+        status: "Active"
+      }, {
+        where: {
+          id: { [Op.eq]: req.body.id[i] }
+        }
+      })
+    }
   }
-  res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${update[0]}`)
+  req.flash('alertMessage', `Sukses Validasi semua nilai`);
+  req.flash('alertStatus', 'success');
+  res.redirect(`/wali-kelas/validasi/show-nilai-pengetahuan/${MatpelId[0]}`)
 }
 
 /** Start Cetak raport */
@@ -1033,6 +1088,7 @@ exports.viewBiodata = async (req, res) => {
   })
 }
 
+// ubah password
 exports.actionChangePassword = async (req, res) => {
   try {
     const { id, password_baru, konfirmasi_password } = req.body;

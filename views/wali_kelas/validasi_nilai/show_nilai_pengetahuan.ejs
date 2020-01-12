@@ -1,7 +1,12 @@
 <%- include ../../partials/wali_kelas_layout/header.ejs %>
 <%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
 <div class="content-wrapper">
-
+  <section class="content-header">
+    <!-- tambahkan di setiap page yang membutuhkan notifikasi -->
+    <% if(alert.message != '') { %>
+    <div class="flash-data" data-flashdata="<%= alert.message %>" data-flashstatus="<%= alert.status %>"></div>
+    <% } %>
+  </section>
   <section class="content">
     <div class="row">
 
@@ -81,5 +86,19 @@
     // datatable
     $('#validasi_nilai').DataTable()
   })
+</script>
 
+<!-- page script -->
+<script>
+  const flashData = $('.flash-data').data('flashdata');
+  const flashStatus = $('.flash-data').data('flashstatus');
+  if (flashData && flashStatus) {
+    swal({
+      position: 'top-end',
+      icon: flashStatus,
+      text: flashData,
+      buttons: false,
+      timer: 2000
+    });
+  }
 </script>

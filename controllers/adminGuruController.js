@@ -131,6 +131,9 @@ exports.viewMatpelPengetahuan = async (req, res) => {
 }
 
 exports.viewDetailNilai = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   const { SiswaId, MatpelId } = req.params
 
   const userLogin = req.session.user
@@ -186,7 +189,8 @@ exports.viewDetailNilai = async (req, res) => {
       nilai,
       siswa,
       kelas_guru,
-      cek_matpel
+      cek_matpel,
+      alert
     })
 
   })
@@ -231,6 +235,8 @@ exports.actionCreateNilai = (req, res) => {
     nilai: alphabet,
     status: "Nonactive"
   }).then(() => {
+    req.flash('alertMessage', `Sukses Create Nilai`);
+    req.flash('alertStatus', 'success');
     res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${MatpelId}`)
   })
 }
@@ -286,6 +292,9 @@ exports.viewMatpelKeterampilan = async (req, res) => {
 }
 
 exports.viewDetailNilaiKeterampilan = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
   const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
@@ -341,7 +350,8 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
       nilai,
       siswa,
       kelas_guru,
-      cek_matpel
+      cek_matpel,
+      alert
     })
   })
 
@@ -402,6 +412,8 @@ exports.actionCreateKeterampilan = (req, res) => {
     nilai: alphabet,
     status: "Nonactive"
   }).then(() => {
+    req.flash('alertMessage', `Sukses Create Nilai`);
+    req.flash('alertStatus', 'success');
     res.redirect(`/guru/matpel/input-nilai/keterampilan/${SiswaId}/matpel/${MatpelId}`)
   })
 }

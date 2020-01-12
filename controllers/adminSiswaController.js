@@ -115,7 +115,8 @@ exports.cetakRaport = async (req, res) => {
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        status: { [Op.eq]: "Active" }
       },
     })
 
@@ -123,7 +124,8 @@ exports.cetakRaport = async (req, res) => {
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        status: { [Op.eq]: "Active" }
       },
     })
 
