@@ -1,4 +1,4 @@
-const { User, Guru } = require("../models");
+const { User, Guru, Siswa } = require("../models");
 const bcrypt = require("bcryptjs");
 const Op = require("sequelize").Op;
 
@@ -22,27 +22,46 @@ exports.actionLogin = async (req, res) => {
   if (user) {
     if (user.status === "Active") {
       const guru = await Guru.findOne({ where: { UserId: { [Op.eq]: user.id } } })
+      const siswa = await Siswa.findOne({ where: { UserId: { [Op.eq]: user.id } } })
       const checkPassword = await bcrypt.compare(password, user.password);
       if (checkPassword) {
-        req.session.user = {
-          id: user.id,
-          username: user.username,
-          nama: guru === null ? "admin" : guru.nama,
-          role: user.role,
-          status: user.status
-        }
-
-        console.log(user.role + " " + user.status)
         if (user.role === "admin" && user.status === "Active") {
+          req.session.user = {
+            id: user.id,
+            username: user.username,
+            nama: guru === null ? "admin" : guru.nama,
+            role: user.role,
+            status: user.status
+          }
           res.redirect("/admin");
         } else if (user.role === "wali kelas" && user.status === "Active") {
+          req.session.user = {
+            id: user.id,
+            username: user.username,
+            nama: guru === null ? "admin" : guru.nama,
+            role: user.role,
+            status: user.status
+          }
           res.redirect("/wali-kelas");
         } else if (user.role === "siswa" && user.status === "Active") {
+          req.session.user = {
+            id: user.id,
+            username: user.username,
+            nama: siswa === null ? "admin" : siswa.nama,
+            role: user.role,
+            status: user.status
+          }
           res.redirect("/siswa");
         } else if (user.role === "guru" && user.status === "Active") {
+          req.session.user = {
+            id: user.id,
+            username: user.username,
+            nama: guru === null ? "admin" : guru.nama,
+            role: user.role,
+            status: user.status
+          }
           res.redirect("/guru");
         } else {
-          console.log(user.role + " " + user.status)
           req.flash('alertMessage', 'Mohon Maaf Status Anda Belum Aktif!');
           res.redirect("/signin");
           req.flash('alertStatus', 'danger');
