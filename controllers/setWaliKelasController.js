@@ -45,12 +45,15 @@ exports.viewSetWaliKelas = async (req, res) => {
 exports.actionCreateWaliKelas = async (req, res) => {
   const { KelasId, GuruId } = req.body
   try {
+
+    const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
     const cek_wali_kelas = await kelompok_wali_kelas.findOne({
       where: {
         [Op.or]: [
           { KelasId: { [Op.eq]: KelasId } },
           { GuruId: { [Op.eq]: GuruId } }
-        ]
+        ],
+        TahunId: { [Op.eq]: tahun.id },
       }
     })
 
