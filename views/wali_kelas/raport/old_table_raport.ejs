@@ -1,0 +1,23 @@
+<table id="raport" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>NIS</th>
+      <th>Nama</th>
+      <th>Cetak</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < kelompok_siswa.length; i++ ) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td><%= kelompok_siswa[i].Siswa.nis %></td>
+      <td><%= kelompok_siswa[i].Siswa.nama %></td>
+      <td>
+        <a href="/wali-kelas/validasi/cetak-raport/<%= kelompok_siswa[i].SiswaId %>/tahun/<%= kelompok_siswa[i].TahunId %>"
+          class="btn btn-success btn-sm" target="_blank"><i class="fa fa-print"></i> Raport</a>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Tahuns', [
       {
-        tahun: "2019",
+        tahun: "2019-2020",
         kepala_sekolah: "kepala sekolah",
         nip: '14141241241',
         tgl_raport: new Date(),
@@ -14,7 +14,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        tahun: "2018",
+        tahun: "2018-2019",
         status: "Nonactive",
         kepala_sekolah: "kepala sekolah",
         nip: '14141241241',
@@ -24,7 +24,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        tahun: "2018",
+        tahun: "2018-2019",
         status: "Nonactive",
         kepala_sekolah: "kepala sekolah",
         nip: '14141241241',
