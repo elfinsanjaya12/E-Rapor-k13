@@ -41,6 +41,24 @@ module.exports = (sequelize, DataTypes) => {
     Siswa.belongsTo(sequelize.models.User, {
       foreignKey: "UserId"
     });
+    // hooks sebelum create di uppercase dlu
+    Siswa.beforeCreate(siswa => {
+      siswa.nis = siswa.nis.toUpperCase();
+      siswa.nisn = siswa.nisn.toUpperCase();
+      siswa.nama = siswa.nama.toUpperCase();
+      siswa.jk = siswa.jk.toUpperCase();
+      siswa.tmpt_lahir = siswa.tmpt_lahir.toUpperCase();
+      siswa.agama = siswa.agama.toUpperCase();
+      siswa.alamat_asal_sekolah = siswa.alamat_asal_sekolah.toUpperCase();
+      siswa.alamat = siswa.alamat.toUpperCase();
+      siswa.asal_sekolah = siswa.asal_sekolah.toUpperCase();
+      siswa.ortu_ayah = siswa.ortu_ayah.toUpperCase();
+      siswa.ortu_ibu = siswa.ortu_ibu.toUpperCase();
+      siswa.alamat_ortu = siswa.alamat_ortu.toUpperCase();
+      siswa.pkj_ortu_ayah = siswa.pkj_ortu_ayah.toUpperCase();
+      siswa.pkj_ortu_bu = siswa.pkj_ortu_bu.toUpperCase();
+      return siswa
+    })
 
   };
 

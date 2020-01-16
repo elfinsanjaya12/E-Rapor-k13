@@ -7,13 +7,13 @@
         <div class="col-md-3">
           <div class="form-group">
             <label for="nis" class="control-label">NIS</label>
-            <input type="text" name="nis" class="form-control" id="nis" required>
+            <input type="number" name="nis" class="form-control" id="nis" required>
           </div>
         </div>
         <div class="col-md-2">
           <div class="form-group">
             <label for="nisn" class="control-label">NISN</label>
-            <input type="text" name="nisn" class="form-control" id="nisn" required>
+            <input type="number" name="nisn" class="form-control" id="nisn" required>
           </div>
         </div>
         <div class="col-md-4">
@@ -72,7 +72,7 @@
         <div class="col-md-5">
           <div class="form-group">
             <label for="no_telp" class="control-label">No. Telp</label>
-            <input type="text" name="no_telp" class="form-control" id="no_telp">
+            <input type="number" name="no_telp" class="form-control" id="no_telp">
           </div>
         </div>
       </div>
@@ -118,19 +118,45 @@
         <div class="col-md-2">
           <div class="form-group">
             <label for="tahun_ijazah" class="control-label">Thn Ijazah</label>
-            <input type="text" name="tahun_ijazah" class="form-control" id="tahun_ijazah">
+            <!-- <input type="text" name="tahun_ijazah" class="form-control" id="tahun_ijazah"> -->
+            <select required name="tahun_ijazah" class="form-control">
+              <option value="">--- Tahun Ijazah ---</option>
+              <option value="2017-2018">2017-2018</option>
+              <option value="2018-2019">2018-2019</option>
+              <option value="2019-2020">2019-2020</option>
+              <option value="2020-2021">2020-2021</option>
+              <option value="2021-2022">2021-2022</option>
+              <option value="2022-2023">2022-2023</option>
+              <option value="2023-2024">2023-2024</option>
+              <option value="2024-2025">2024-2025</option>
+              <option value="2025-2026">2025-2026</option>
+              <option value="2026-2027">2026-2027</option>
+            </select>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="form-group">
             <label for="kode" class="control-label">No. SKHUN</label>
             <input type="text" name="no_skhu" class="form-control" id="no_skhu">
           </div>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
           <div class="form-group">
             <label for="tahun_skhu" class="control-label" style="font-size: 10px">Thn SKHUN</label>
-            <input type="text" name="tahun_skhu" class="form-control" id="tahun_skhu">
+            <!-- <input type="text" name="tahun_skhu" class="form-control" id="tahun_skhu"> -->
+            <select required name="tahun_skhu" class="form-control">
+              <option value="">--- Tahun Ijazah ---</option>
+              <option value="2017-2018">2017-2018</option>
+              <option value="2018-2019">2018-2019</option>
+              <option value="2019-2020">2019-2020</option>
+              <option value="2020-2021">2020-2021</option>
+              <option value="2021-2022">2021-2022</option>
+              <option value="2022-2023">2022-2023</option>
+              <option value="2023-2024">2023-2024</option>
+              <option value="2024-2025">2024-2025</option>
+              <option value="2025-2026">2025-2026</option>
+              <option value="2026-2027">2026-2027</option>
+            </select>
           </div>
         </div>
       </div>
@@ -157,7 +183,7 @@
         <div class="col-md-2">
           <div class="form-group">
             <label for="no_ortu" class="control-label">Telp Ortu</label>
-            <input type="text" name="no_ortu" class="form-control" id="no_ortu">
+            <input type="number" name="no_ortu" class="form-control" id="no_ortu">
           </div>
         </div>
       </div>
