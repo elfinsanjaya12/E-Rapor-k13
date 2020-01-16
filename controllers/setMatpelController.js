@@ -50,11 +50,13 @@ exports.viewSetMatpel = async (req, res) => {
 exports.actionCreate = async (req, res) => {
   const { GuruId, MatpelId, KelasId } = req.body
   try {
+    const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
     const cek_ = await kelompok_matpel_guru.findOne({
       where: {
         // GuruId: { [Op.eq]: GuruId },
         MatpelId: { [Op.eq]: MatpelId },
         KelasId: { [Op.eq]: KelasId },
+        TahunId: { [Op.eq]: tahun.id }
       }
     })
 
