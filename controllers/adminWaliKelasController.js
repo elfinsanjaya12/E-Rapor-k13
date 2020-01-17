@@ -420,16 +420,21 @@ exports.viewRiwayatMengajar = async (req, res) => {
 // =============== awal absen ============== \\
 exports.viewAbsen = async (req, res) => {
   const userLogin = req.session.user
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } });
   Guru.findOne({
     where: { UserId: { [Op.eq]: userLogin.id } }
   }).then((guru) => {
     kelompok_wali_kelas.findOne({
       where: {
-        GuruId: { [Op.eq]: guru.id }
+        GuruId: { [Op.eq]: guru.id },
+        TahunId: { [Op.eq]: tahun.id }
       }
     }).then((nilai_absen) => {
       NilaiAbsen.findAll({
-        where: { KelasId: { [Op.eq]: nilai_absen.KelasId } },
+        where: {
+          KelasId: { [Op.eq]: nilai_absen.KelasId },
+          TahunId: { [Op.eq]: tahun.id }
+        },
         include: [
           { model: Tahun },
           { model: Kelas },
@@ -482,8 +487,10 @@ exports.actionCreateNilaiAbsen = async (req, res) => {
 // =============== akhir absen ============== \\
 
 // =============== prestasi siswa ================\\
-exports.viewPrestasiSiswa = (req, res) => {
+exports.viewPrestasiSiswa = async (req, res) => {
   const userLogin = req.session.user
+
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } });
   // cek guru
   Guru.findOne({
     where: { UserId: { [Op.eq]: userLogin.id } }
@@ -491,11 +498,15 @@ exports.viewPrestasiSiswa = (req, res) => {
     // cek wali kelas
     kelompok_wali_kelas.findOne({
       where: {
-        GuruId: { [Op.eq]: guru.id }
+        GuruId: { [Op.eq]: guru.id },
+        TahunId: { [Op.eq]: tahun.id }
       }
     }).then(async (wali_kelas) => {
       const kelompok_siswa = await kelompok_kelas.findAll({
-        where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+        where: {
+          KelasId: { [Op.eq]: wali_kelas.KelasId },
+          TahunId: { [Op.eq]: tahun.id }
+        },
         include: [
           { model: Siswa }
         ]
@@ -535,7 +546,8 @@ exports.actionCreatePrestasi = async (req, res) => {
     console.log(cek_tahun)
     kelompok_kelas.findOne({
       where: {
-        SiswaId: { [Op.eq]: SiswaId }
+        SiswaId: { [Op.eq]: SiswaId },
+        TahunId: { [Op.eq]: cek_tahun.id }
       }
     }).then((kelas_siswa) => {
 
@@ -572,16 +584,21 @@ exports.actionDetelePrestasi = (req, res) => {
 // =============== awal nilai sikap =================\\
 exports.viewNilaiSikap = async (req, res) => {
   const userLogin = req.session.user
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } });
   Guru.findOne({
     where: { UserId: { [Op.eq]: userLogin.id } }
   }).then((guru) => {
     kelompok_wali_kelas.findOne({
       where: {
-        GuruId: { [Op.eq]: guru.id }
+        GuruId: { [Op.eq]: guru.id },
+        TahunId: { [Op.eq]: tahun.id }
       }
     }).then((cek_nilai_sikap) => {
       NilaiSikap.findAll({
-        where: { KelasId: { [Op.eq]: cek_nilai_sikap.KelasId } },
+        where: {
+          KelasId: { [Op.eq]: cek_nilai_sikap.KelasId },
+          TahunId: { [Op.eq]: tahun.id }
+        },
         include: [
           {
             model: Tahun,
@@ -660,6 +677,9 @@ exports.viewNilaiEktra = async (req, res) => {
 
 exports.viewKelompokSiswaEktra = async (req, res) => {
   const userLogin = req.session.user
+
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } });
+
   // cek guru
   Guru.findOne({
     where: { UserId: { [Op.eq]: userLogin.id } }
@@ -667,11 +687,15 @@ exports.viewKelompokSiswaEktra = async (req, res) => {
     // cek wali kelas
     kelompok_wali_kelas.findOne({
       where: {
-        GuruId: { [Op.eq]: guru.id }
+        GuruId: { [Op.eq]: guru.id },
+        TahunId: { [Op.eq]: tahun.id }
       }
     }).then(async (wali_kelas) => {
       const kelompok_siswa = await NilaiEktrakulikuler.findAll({
-        where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+        where: {
+          KelasId: { [Op.eq]: wali_kelas.KelasId },
+          TahunId: { [Op.eq]: tahun.id }
+        },
         include: [
           { model: Siswa }
         ]
