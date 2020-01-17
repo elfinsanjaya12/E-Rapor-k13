@@ -8,7 +8,12 @@ exports.viewSiswa = async (req, res) => {
     const alertStatus = req.flash('alertStatus');
     const alert = { message: alertMessage, status: alertStatus };
     const userLogin = req.session.user;
-    const siswa = await Siswa.findAll()
+    const siswa = await Siswa.findAll({
+      order: [
+        ['diterima_kelas', 'ASC'],
+        ['nis', 'ASC']
+      ],
+    })
     if (userLogin.role === "admin") {
 
       res.render('admin/siswa/view_siswa', {

@@ -52,13 +52,16 @@ exports.viewNilai = async (req, res) => {
 }
 
 exports.cetakRaport = async (req, res) => {
-  let { SiswaId } = req.params
+  let { SiswaId, TahunId } = req.params
   console.log(SiswaId)
 
   try {
     // cek siswa
     let siswa = await kelompok_kelas.findOne({
-      where: { SiswaId: { [Op.eq]: SiswaId } },
+      where: {
+        SiswaId: { [Op.eq]: SiswaId },
+        TahunId: { [Op.eq]: TahunId }
+      },
       include: [
         { model: Siswa },
         { model: Tahun },
@@ -71,7 +74,8 @@ exports.cetakRaport = async (req, res) => {
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        TahunId: { [Op.eq]: TahunId }
       }
       ,
       include: [
@@ -85,7 +89,8 @@ exports.cetakRaport = async (req, res) => {
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        TahunId: { [Op.eq]: TahunId }
       },
       include: [
         { model: Siswa },
@@ -99,7 +104,8 @@ exports.cetakRaport = async (req, res) => {
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        TahunId: { [Op.eq]: TahunId }
       },
     })
 
@@ -116,6 +122,7 @@ exports.cetakRaport = async (req, res) => {
       {
         SiswaId: { [Op.eq]: SiswaId },
         KelasId: { [Op.eq]: siswa.KelasId },
+        TahunId: { [Op.eq]: TahunId },
         status: { [Op.eq]: "Active" }
       },
     })
@@ -125,6 +132,7 @@ exports.cetakRaport = async (req, res) => {
       {
         SiswaId: { [Op.eq]: SiswaId },
         KelasId: { [Op.eq]: siswa.KelasId },
+        TahunId: { [Op.eq]: TahunId },
         status: { [Op.eq]: "Active" }
       },
     })
@@ -133,7 +141,8 @@ exports.cetakRaport = async (req, res) => {
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        TahunId: { [Op.eq]: TahunId }
       },
     })
     if (ekstra[0].Ekstrakulikuller !== null) {

@@ -108,6 +108,9 @@ exports.viewDetailNilai = async (req, res) => {
   const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
+  // agar yang masuk tahun aktip saja pada saat penilai
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
+
   const siswa = await Siswa.findOne({
     where: {
       id: { [Op.eq]: SiswaId }
@@ -116,7 +119,8 @@ exports.viewDetailNilai = async (req, res) => {
 
   const kelas_siswa = await kelompok_kelas.findOne({
     where: {
-      SiswaId: { [Op.eq]: SiswaId }
+      SiswaId: { [Op.eq]: SiswaId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
 
@@ -129,14 +133,16 @@ exports.viewDetailNilai = async (req, res) => {
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
     where: {
-      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+      KelasId: { [Op.eq]: kelas_siswa.KelasId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
 
   NilaiPengetahuan.findOne({
     where: {
       SiswaId: { [Op.eq]: SiswaId },
-      MatpelId: { [Op.eq]: MatpelId }
+      MatpelId: { [Op.eq]: MatpelId },
+      TahunId: { [Op.eq]: tahun.id }
     },
     include: [
       {
@@ -267,6 +273,10 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
   const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
+  // agar yang masuk tahun aktip saja pada saat penilai
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
+
+
   const siswa = await Siswa.findOne({
     where: {
       id: { [Op.eq]: SiswaId }
@@ -281,20 +291,23 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
 
   const kelas_siswa = await kelompok_kelas.findOne({
     where: {
-      SiswaId: { [Op.eq]: SiswaId }
+      SiswaId: { [Op.eq]: SiswaId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
     where: {
-      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+      KelasId: { [Op.eq]: kelas_siswa.KelasId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
 
   NilaiKeterampilan.findOne({
     where: {
       SiswaId: { [Op.eq]: SiswaId },
-      MatpelId: { [Op.eq]: MatpelId }
+      MatpelId: { [Op.eq]: MatpelId },
+      TahunId: { [Op.eq]: tahun.id }
     },
     include: [
       {
@@ -725,6 +738,9 @@ exports.showNilaiKeterampilan = async (req, res) => {
   const userLogin = req.session.user
   const { MatpelId } = req.params
 
+  // agar yang masuk tahun aktip saja pada saat penilai
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
+
   try {
     Guru.findOne({
       where: { UserId: { [Op.eq]: userLogin.id } }
@@ -732,11 +748,15 @@ exports.showNilaiKeterampilan = async (req, res) => {
       // cek wali kelas
       kelompok_wali_kelas.findOne({
         where: {
-          GuruId: { [Op.eq]: guru.id }
+          GuruId: { [Op.eq]: guru.id },
+          TahunId: { [Op.eq]: tahun.id }
         }
       }).then(async (wali_kelas) => {
         const kelompok_siswa = await kelompok_kelas.findAll({
-          where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+          where: {
+            KelasId: { [Op.eq]: wali_kelas.KelasId },
+            TahunId: { [Op.eq]: tahun.id }
+          },
           include: [
             { model: Siswa }
           ]
@@ -744,7 +764,8 @@ exports.showNilaiKeterampilan = async (req, res) => {
 
         const nilai_keterampilan = await NilaiKeterampilan.findAll({
           where: {
-            MatpelId: { [Op.eq]: MatpelId }
+            MatpelId: { [Op.eq]: MatpelId },
+            TahunId: { [Op.eq]: tahun.id }
           },
           include: [
             { model: Siswa }
@@ -821,6 +842,9 @@ exports.showNilaiPengetahuan = async (req, res) => {
   const userLogin = req.session.user
   const { MatpelId } = req.params
 
+  // agar yang masuk tahun aktip saja pada saat penilai
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
+
   try {
     Guru.findOne({
       where: { UserId: { [Op.eq]: userLogin.id } }
@@ -828,11 +852,15 @@ exports.showNilaiPengetahuan = async (req, res) => {
       // cek wali kelas
       kelompok_wali_kelas.findOne({
         where: {
-          GuruId: { [Op.eq]: guru.id }
+          GuruId: { [Op.eq]: guru.id },
+          TahunId: { [Op.eq]: tahun.id }
         }
       }).then(async (wali_kelas) => {
         const kelompok_siswa = await kelompok_kelas.findAll({
-          where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+          where: {
+            KelasId: { [Op.eq]: wali_kelas.KelasId },
+            TahunId: { [Op.eq]: tahun.id }
+          },
           include: [
             { model: Siswa }
           ]
@@ -840,7 +868,8 @@ exports.showNilaiPengetahuan = async (req, res) => {
 
         const nilai_pengetahuan = await NilaiPengetahuan.findAll({
           where: {
-            MatpelId: { [Op.eq]: MatpelId }
+            MatpelId: { [Op.eq]: MatpelId },
+            TahunId: { [Op.eq]: tahun.id }
           },
           include: [
             { model: Siswa }
@@ -976,12 +1005,18 @@ exports.viewCetakRaport = async (req, res) => {
 
 
 exports.cetakRaport = async (req, res) => {
-  let { SiswaId } = req.params
+  let { SiswaId, TahunId } = req.params
+  console.log("tahun id")
+  console.log(TahunId)
 
   try {
     // cek siswa
     let siswa = await kelompok_kelas.findOne({
-      where: { SiswaId: { [Op.eq]: SiswaId } },
+      where: {
+        SiswaId: { [Op.eq]: SiswaId },
+        // tambah tahun aktip supaya gak double
+        TahunId: { [Op.eq]: TahunId }
+      },
       include: [
         { model: Siswa },
         { model: Tahun },
@@ -989,15 +1024,14 @@ exports.cetakRaport = async (req, res) => {
       ]
     })
 
-    console.log("siswa");
-    console.log(siswa);
-
     // cek absen siswa
     let absen = await NilaiAbsen.findOne({
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        // tambah tahun aktip supaya gak double
+        TahunId: { [Op.eq]: TahunId }
       }
       ,
       include: [
@@ -1006,14 +1040,16 @@ exports.cetakRaport = async (req, res) => {
         { model: Kelas }
       ]
     })
-    console.log("absen");
-    console.log(absen);
+    // console.log("absen");
+    // console.log(absen);
 
     let ekstra = await NilaiEktrakulikuler.findAll({
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        // tambah tahun aktip supaya gak double
+        TahunId: { [Op.eq]: TahunId }
       },
       include: [
         { model: Siswa },
@@ -1023,64 +1059,72 @@ exports.cetakRaport = async (req, res) => {
       ]
     })
 
-    console.log("ekstra");
-    console.log(ekstra[0].Ekstrakulikuller);
+    // console.log("ekstra");
+    // console.log(ekstra[0].Ekstrakulikuller);
 
 
     let nilai_sikap = await NilaiSikap.findOne({
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        // tambah tahun aktip supaya gak double
+        TahunId: { [Op.eq]: TahunId }
       },
     })
-    console.log("nilai_sikap");
-    console.log(nilai_sikap);
+    // console.log("nilai_sikap");
+    // console.log(nilai_sikap);
     let kelompok_a = await MataPelajaran.findAll({
       where: { kelompok: { [Op.eq]: "A" } }
     })
 
-    console.log("kelompok_a");
-    console.log(kelompok_a);
+    // console.log("kelompok_a");
+    // console.log(kelompok_a);
 
     let kelompok_b = await MataPelajaran.findAll({
       where: { kelompok: { [Op.eq]: "B" } }
     })
 
-    console.log("kelompok_b");
-    console.log(kelompok_b);
+    // console.log("kelompok_b");
+    // console.log(kelompok_b);
 
     let nilai_pengetahuan = await NilaiPengetahuan.findAll({
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        // tambah tahun aktip supaya gak double
+        TahunId: { [Op.eq]: TahunId }
       },
     })
-    console.log("nilai_pengetahuan");
-    console.log(nilai_pengetahuan);
+    // console.log("nilai_pengetahuan");
+    // console.log(nilai_pengetahuan);
 
     let nilai_keterampilan = await NilaiKeterampilan.findAll({
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        // tambah tahun aktip supaya gak double
+        TahunId: { [Op.eq]: TahunId }
       },
     })
 
-    console.log("nilai_keterampilan");
-    console.log(nilai_keterampilan);
+    // console.log("nilai_keterampilan");
+    // console.log(nilai_keterampilan);
 
     let prestasi = await Prestasi.findAll({
       where:
       {
         SiswaId: { [Op.eq]: SiswaId },
-        KelasId: { [Op.eq]: siswa.KelasId }
+        KelasId: { [Op.eq]: siswa.KelasId },
+        // tambah tahun aktip supaya gak double
+        TahunId: { [Op.eq]: TahunId }
       },
     })
 
-    console.log("prestasi");
-    console.log(prestasi);
+    // console.log("prestasi");
+    // console.log(prestasi);
 
     // if (ekstra[0].Ekstrakulikuller !== null) {
     const userLogin = req.session.user
@@ -1091,14 +1135,16 @@ exports.cetakRaport = async (req, res) => {
       // cek wali kelas
       kelompok_wali_kelas.findOne({
         where: {
-          GuruId: { [Op.eq]: guru.id }
+          GuruId: { [Op.eq]: guru.id },
+          // tambah tahun aktip supaya gak double
+          TahunId: { [Op.eq]: TahunId }
         },
         include: [{
           model: Guru
         }]
       }).then((wali_kelas) => {
-        console.log("wali_kelas")
-        console.log(wali_kelas)
+        // console.log("wali_kelas")
+        // console.log(wali_kelas)
         res.render("wali_kelas/raport/cetak_raport", {
           title: "E-Rapor | Raport",
           siswa,

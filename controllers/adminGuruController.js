@@ -136,6 +136,9 @@ exports.viewDetailNilai = async (req, res) => {
   const alert = { message: alertMessage, status: alertStatus };
   const { SiswaId, MatpelId } = req.params
 
+  // agar yang masuk tahun aktip saja pada saat penilai
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
+
   const userLogin = req.session.user
 
   const siswa = await Siswa.findOne({
@@ -146,7 +149,8 @@ exports.viewDetailNilai = async (req, res) => {
 
   const kelas_siswa = await kelompok_kelas.findOne({
     where: {
-      SiswaId: { [Op.eq]: SiswaId }
+      SiswaId: { [Op.eq]: SiswaId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
 
@@ -158,7 +162,8 @@ exports.viewDetailNilai = async (req, res) => {
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
     where: {
-      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+      KelasId: { [Op.eq]: kelas_siswa.KelasId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
   console.log("kelas id" + kelas_guru.KelasId);
@@ -166,7 +171,8 @@ exports.viewDetailNilai = async (req, res) => {
   NilaiPengetahuan.findOne({
     where: {
       SiswaId: { [Op.eq]: SiswaId },
-      MatpelId: { [Op.eq]: MatpelId }
+      MatpelId: { [Op.eq]: MatpelId },
+      TahunId: { [Op.eq]: tahun.id }
     },
     include: [
       {
@@ -298,6 +304,9 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
   const { SiswaId, MatpelId } = req.params
   const userLogin = req.session.user
 
+  // agar yang masuk tahun aktip saja pada saat penilai
+  const tahun = await Tahun.findOne({ where: { status: { [Op.eq]: "Active" } } })
+
   // cek siswa
   const siswa = await Siswa.findOne({
     where: {
@@ -313,13 +322,15 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
 
   const kelas_siswa = await kelompok_kelas.findOne({
     where: {
-      SiswaId: { [Op.eq]: SiswaId }
+      SiswaId: { [Op.eq]: SiswaId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
 
   const kelas_guru = await kelompok_matpel_guru.findOne({
     where: {
-      KelasId: { [Op.eq]: kelas_siswa.KelasId }
+      KelasId: { [Op.eq]: kelas_siswa.KelasId },
+      TahunId: { [Op.eq]: tahun.id }
     }
   })
 
@@ -327,6 +338,7 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
     where: {
       SiswaId: { [Op.eq]: SiswaId },
       MatpelId: { [Op.eq]: MatpelId },
+      TahunId: { [Op.eq]: tahun.id }
     },
     include: [
       {
