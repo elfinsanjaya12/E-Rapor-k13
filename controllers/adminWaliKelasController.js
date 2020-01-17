@@ -930,50 +930,48 @@ exports.viewCetakRaport = async (req, res) => {
 
   const userLogin = req.session.user
 
-  const guru = await Guru.findOne({
-    where: { UserId: { [Op.eq]: userLogin.id } }
-  })
-
-  const semester = await kelompok_wali_kelas.findAll({
-    where: {
-      GuruId: { [Op.eq]: guru.id }
-    },
-    include: [
-      { model: Tahun }
-    ]
-  });
-
-  console.log("semester")
-  console.log(semester)
-
-  res.render("wali_kelas/raport/view_raport", {
-    title: "E-Rapor | Rapor",
-    semester,
-    user: userLogin
-  })
-  // cek guru
-  // Guru.findOne({
+  // const guru = await Guru.findOne({
   //   where: { UserId: { [Op.eq]: userLogin.id } }
-  // }).then((guru) => {
-  //   // cek wali kelas
-  //   kelompok_wali_kelas.findOne({
-  //     where: {
-  //       GuruId: { [Op.eq]: guru.id }
-  //     }
-  //   }).then(async (wali_kelas) => {
-  //     const kelompok_siswa = await kelompok_kelas.findAll({
-  //       where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
-  //       include: [
-  //         { model: Siswa }
-  //       ]
-  //     })
-  //     res.render("wali_kelas/raport/view_raport", {
-  //       title: "E-Rapor | Raport",
-  //       kelompok_siswa,
-  //       user: userLogin
-  //     })
-  //   })
   // })
+
+  // const semester = await kelompok_wali_kelas.findAll({
+  //   where: {
+  //     GuruId: { [Op.eq]: guru.id }
+  //   },
+  //   include: [
+  //     { model: Tahun }
+  //   ]
+  // });
+
+
+  // res.render("wali_kelas/raport/view_raport", {
+  //   title: "E-Rapor | Rapor",
+  //   semester,
+  //   user: userLogin
+  // })
+  // cek guru
+  Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  }).then((guru) => {
+    // cek wali kelas
+    kelompok_wali_kelas.findOne({
+      where: {
+        GuruId: { [Op.eq]: guru.id }
+      }
+    }).then(async (wali_kelas) => {
+      const kelompok_siswa = await kelompok_kelas.findAll({
+        where: { KelasId: { [Op.eq]: wali_kelas.KelasId } },
+        include: [
+          { model: Siswa }
+        ]
+      })
+      res.render("wali_kelas/raport/view_raport", {
+        title: "E-Rapor | Raport",
+        kelompok_siswa,
+        user: userLogin
+      })
+    })
+  })
 }
 
 
