@@ -1,36 +1,113 @@
 <div class="tab-pane" id="input-siswa">
-  <div class="box-body table-responsive no-padding">
-    <form role="form" action="/guru/matpel/keterampilan/input-nilai" method="POST">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="form-group">
-            <label for="latihan" class="control-label">Latihan</label>
-            <input type="number" name="latihan" class="form-control" id="latihan" required>
-          </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-solid box-primary">
+        <!-- /.box-header -->
+        <div class="box-header">
+          <h3 class="box-title">
+            Input Penilaian
+          </h3>
         </div>
-        <div class="col-sm-12">
-          <div class="form-group">
-            <label for="uts" class="control-label">UTS</label>
-            <input type="number" name="uts" class="form-control" id="uts" required>
-          </div>
-        </div>
-        <div class="col-sm-12">
-          <div class="form-group">
-            <label for="uas" class="control-label">UAS</label>
-            <input type="number" name="uas" class="form-control" id="uas" required>
-          </div>
+        <div class="box-body" style="margin: 5px;">
+          <form role="form" action="/guru/matpel/keterampilan/input-nilai" method="POST">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="latihan" class="control-label">Latihan 60%</label>
+                  <input type="number" name="latihan" class="form-control" id="latihan" required>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="uts" class="control-label">UTS 20%</label>
+                  <input type="number" name="uts" class="form-control" id="uts" required>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="uas" class="control-label">UAS 20%</label>
+                  <input type="number" name="uas" class="form-control" id="uas" required>
+                </div>
+              </div>
+            </div>
+            <div class="box-footer">
+              <input name="SiswaId" type="hidden" value="<%= siswa.id %>" />
+              <input name="GuruId" type="hidden" value="<%= kelas_guru.GuruId %>" />
+              <input name="KelasId" type="hidden" value="<%= kelas_guru.KelasId %>" />
+              <input name="MatpelId" type="hidden" value="<%= cek_matpel.id %>" />
+              <input name="TahunId" type="hidden" value="<%= kelas_guru.TahunId %>" />
+              <button type="submit" class="btn btn-primary pull-left">
+                Simpan
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="box-footer">
-        <input name="SiswaId" type="hidden" value="<%= siswa.id %>" />
-        <input name="GuruId" type="hidden" value="<%= kelas_guru.GuruId %>" />
-        <input name="KelasId" type="hidden" value="<%= kelas_guru.KelasId %>" />
-        <input name="MatpelId" type="hidden" value="<%= cek_matpel.id %>" />
-        <input name="TahunId" type="hidden" value="<%= kelas_guru.TahunId %>" />
-        <button type="submit" class="btn btn-primary pull-left">
-          Simpan
-        </button>
+    </div>
+
+    <!-- informasi -->
+    <div class="col-md-3">
+      <div class="box box-solid box-primary">
+        <!-- /.box-header -->
+        <div class="box-header">
+          <h3 class="box-title">
+            Informasi Bobot Penilaian
+          </h3>
+        </div>
+        <div class="box-body table-responsive no-padding">
+          <table id="tahun" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <td>Nilai Harian</td>
+                <td>60%</td>
+              </tr>
+              <tr>
+                <td>Nilai UTS</td>
+                <td>20%</td>
+              </tr>
+              <tr>
+                <td>Nilai UAS</td>
+                <td>20%</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
       </div>
-    </form>
+    </div>
+
+    <!-- informasi -->
+    <div class="col-md-3">
+      <div class="box box-solid box-primary">
+        <!-- /.box-header -->
+        <div class="box-header">
+          <h3 class="box-title">
+            Predikat Penilaian
+          </h3>
+        </div>
+        <div class="box-body table-responsive no-padding">
+          <table id="tahun" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <td>88 - 100</td>
+                <td>A</td>
+              </tr>
+              <tr>
+                <td>74 - 87</td>
+                <td>B</td>
+              </tr>
+              <tr>
+                <td>60 - 73</td>
+                <td>C</td>
+              </tr>
+              <tr>
+                <td>
+                  < 60</td> <td>D
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

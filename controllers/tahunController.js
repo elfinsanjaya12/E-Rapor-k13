@@ -1,4 +1,4 @@
-const { Tahun, Siswa, Kelas } = require("../models");
+const { Tahun, Siswa, Kelas, Guru, User } = require("../models");
 const Op = require("sequelize").Op;
 
 
@@ -43,6 +43,10 @@ exports.actionUpdateStatusActive = async (req, res) => {
   const tahun = await Tahun.findAll();
   const siswa = await Siswa.findAll();
   const kelas = await Kelas.findAll();
+  const guru = await User.findAll({
+    where: { role: { [Op.eq]: "wali kelas" } }
+  });
+
 
   for (var i = 0; i < tahun.length; i++) {
     tahun[i].status = "Nonactive";
@@ -54,14 +58,16 @@ exports.actionUpdateStatusActive = async (req, res) => {
       id: { [Op.eq]: id }
     }
   })
-
-  if (updateStatus.semester === "Dua") {
-    for (var x = 0; x < siswa.length; x++) {
-      siswa[x].isHaveKelas = "N";
-      await siswa[x].save()
+  if (updateStatus.semester === "Satu") {
+    for (var i = 0; i < guru.length; i++) {
+      guru[i].role = "guru";
+      await guru[i].save()
     }
+  }
 
-
+  for (var x = 0; x < siswa.length; x++) {
+    siswa[x].isHaveKelas = "N";
+    await siswa[x].save()
   }
 
   for (var z = 0; z < kelas.length; z++) {
