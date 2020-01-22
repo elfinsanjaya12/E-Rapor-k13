@@ -11,7 +11,9 @@ let {
   viewMatpelKeterampilan,
   viewDetailNilaiKeterampilan,
   actionCreateKeterampilan,
-  actionDeteleNilaiKeterampilan
+  actionDeteleNilaiKeterampilan,
+  viewBiodata,
+  actionChangePassword
 } = require("../controllers/adminGuruController")
 
 const auth = require('../middlewares/auth')
@@ -32,6 +34,9 @@ router.get("/guru/matpel/keterampilan/:KelasId/:MatpelId", viewMatpelKeterampila
 router.get("/guru/matpel/input-nilai/keterampilan/:SiswaId/matpel/:MatpelId", viewDetailNilaiKeterampilan)
 router.post("/guru/matpel/keterampilan/input-nilai", actionCreateKeterampilan)
 router.get("/guru/matpel/keterampilan/:id/delete/:SiswaId", actionDeteleNilaiKeterampilan)
+
+router.get("/guru/profile", viewBiodata)
+router.post("/guru/profile/change-password", actionChangePassword)
 
 
 module.exports = router;

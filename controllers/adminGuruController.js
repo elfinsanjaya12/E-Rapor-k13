@@ -7,9 +7,12 @@ const {
   kelompok_kelas,
   Siswa,
   NilaiPengetahuan,
-  NilaiKeterampilan
+  NilaiKeterampilan,
+  User
 } = require("../models");
 const Op = require("sequelize").Op;
+
+const bcrypt = require("bcryptjs");
 
 const include = {
   include: [
@@ -439,4 +442,64 @@ exports.actionDeteleNilaiKeterampilan = (req, res) => {
     nilai.destroy();
     res.redirect(`/guru/matpel/input-nilai/keterampilan/${SiswaId}/matpel/${cek_matpel}`)
   })
+}
+
+
+// biodata guru 
+exports.viewBiodata = async (req, res) => {
+  const alertMessage = req.flash('alertMessage');
+  const alertStatus = req.flash('alertStatus');
+  const alert = { message: alertMessage, status: alertStatus };
+  const userLogin = req.session.user
+  // cek guru
+  const guru = await Guru.findOne({
+    where: { UserId: { [Op.eq]: userLogin.id } }
+  })
+  res.render('guru/profile/view_profile', {
+    title: "E-Rapor || Biodata",
+    user: userLogin,
+    guru,
+    alert: alert
+  })
+}
+
+
+
+// ubah password
+exports.actionChangePassword = async (req, res) => {
+  try {
+    const { id, password_baru, konfirmasi_password } = req.body;
+    console.log(id)
+    const user = await User.findOne({
+      where: {
+        id: { [Op.eq]: id }
+      }
+    })
+    console.log(user)
+    if (user) {
+      if (password_baru === konfirmasi_password) {
+        const password = bcrypt.hashSync(password_baru, 10);
+        user.password = password;
+        await user.save();
+        req.flash('alertMessage', `Success Ubah Password`);
+        req.flash('alertStatus', 'success');
+        return res.redirect("/wali-kelas/profile")
+      } else {
+        req.flash('alertMessage', `Password Baru dan Konfirmasi Tidak Cocok !!!`);
+        req.flash('alertStatus', 'warning');
+        return res.redirect("/wali-kelas/profile")
+      }
+    } else {
+      req.flash('alertMessage', `User Not Found !!!`);
+      req.flash('alertStatus', 'warning');
+      return res.redirect("/guru/profile")
+    }
+
+  } catch (error) {
+    console.log(error)
+    req.flash('alertMessage', `User Not Found !!!`);
+    req.flash('alertStatus', 'warning');
+    return res.redirect("/guru/profile")
+  }
+
 }
