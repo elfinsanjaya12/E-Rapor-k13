@@ -12,7 +12,8 @@ const {
   Prestasi,
   NilaiSikap,
   Ekstrakulikuller,
-  NilaiEktrakulikuler
+  NilaiEktrakulikuler,
+  Rangking
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -54,6 +55,12 @@ exports.viewNilai = async (req, res) => {
 exports.cetakRaport = async (req, res) => {
   let { SiswaId, TahunId } = req.params
   console.log(SiswaId)
+
+  /**
+   * select semua data yang ada ditable rangking berdasarkan tahun active
+   * lalu looping semua data dan cek yang sama dengan SiswaId dan TahunId
+   * lalu tampilan urutan or rangking nya
+   */
 
   try {
     // cek siswa
@@ -145,38 +152,68 @@ exports.cetakRaport = async (req, res) => {
         TahunId: { [Op.eq]: TahunId }
       },
     })
+    // cek rangking
+    const cek_rangking = await Rangking.findAll({
+      where: {
+        TahunId: { [Op.eq]: TahunId }
+      },
+      order: [
+        ['totalNilai', 'DESC']
+      ]
+    })
     if (ekstra[0].Ekstrakulikuller !== null) {
-
-      res.render("siswa/nilai/cetak_nilai", {
-        title: "E-Rapor | Raport",
-        siswa,
-        absen,
-        view: "Isi",
-        ekstra,
-        kelompok_a,
-        kelompok_b,
-        nilai_pengetahuan,
-        nilai_keterampilan,
-        nilai_sikap,
-        prestasi,
-      })
+      console.log(cek_rangking)
+      // rangking
+      var tampungRangkingSiswa = 1;
+      for (var i = 0; i < cek_rangking.length; i++) {
+        if (cek_rangking[i].SiswaId == SiswaId) {
+          var rangkingSiswa = tampungRangkingSiswa + i;
+          var nilaiTotalSiswa = cek_rangking[i].totalNilai;
+          console.log("masuk if")
+          return res.render("siswa/nilai/cetak_nilai", {
+            title: "E-Rapor | Raport",
+            siswa,
+            absen,
+            view: "Isi",
+            ekstra,
+            kelompok_a,
+            kelompok_b,
+            nilai_pengetahuan,
+            nilai_keterampilan,
+            nilai_sikap,
+            prestasi,
+            rangkingSiswa,
+            nilaiTotalSiswa
+          })
+        }
+      }
 
     } else {
+      // rangking
 
-      res.render("siswa/nilai/cetak_nilai", {
-        title: "E-Rapor | Raport",
-        siswa,
-        absen,
-        view: "Kosong",
-        ekstra,
-        kelompok_a,
-        kelompok_b,
-        nilai_pengetahuan,
-        nilai_keterampilan,
-        nilai_sikap,
-        prestasi,
-
-      })
+      console.log(cek_rangking)
+      var tampungRangkingSiswa = 1;
+      for (var i = 0; i < cek_rangking.length; i++) {
+        if (cek_rangking[i].SiswaId == SiswaId) {
+          var rangkingSiswa = tampungRangkingSiswa + i;
+          var nilaiTotalSiswa = cek_rangking[i].totalNilai;
+          return res.render("siswa/nilai/cetak_nilai", {
+            title: "E-Rapor | Raport",
+            siswa,
+            absen,
+            view: "Kosong",
+            ekstra,
+            kelompok_a,
+            kelompok_b,
+            nilai_pengetahuan,
+            nilai_keterampilan,
+            nilai_sikap,
+            prestasi,
+            rangkingSiswa,
+            nilaiTotalSiswa
+          })
+        }
+      }
     }
 
   } catch (error) {

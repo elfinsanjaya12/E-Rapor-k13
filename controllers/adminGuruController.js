@@ -8,7 +8,8 @@ const {
   Siswa,
   NilaiPengetahuan,
   NilaiKeterampilan,
-  User
+  User,
+  Rangking
 } = require("../models");
 const Op = require("sequelize").Op;
 
@@ -205,7 +206,8 @@ exports.viewDetailNilai = async (req, res) => {
   })
 }
 
-exports.actionCreateNilai = (req, res) => {
+// nilai pengetahuan
+exports.actionCreateNilai = async (req, res) => {
   const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId } = req.body
   let n_latihan = 60 / 100 * latihan;
   let n_uts = 20 / 100 * uts;
@@ -213,6 +215,7 @@ exports.actionCreateNilai = (req, res) => {
   const n_nilai = n_latihan + n_uts + n_uas;
   let alphabet;
   let keterangan;
+
   // console.log(n_latihan)
   // console.log(n_nilai)
   // pikir kan logic nilai berdasarkan kkm
@@ -230,34 +233,96 @@ exports.actionCreateNilai = (req, res) => {
     keterangan = "Kurang Baik Memahami Materi";
   }
 
-  NilaiPengetahuan.create({
-    latihan: latihan,
-    uts: uts,
-    uas: uas,
-    SiswaId: SiswaId,
-    GuruId: GuruId,
-    TahunId: TahunId,
-    MatpelId: MatpelId,
-    KelasId: KelasId,
-    ket: keterangan,
-    nilai_akhir: n_nilai,
-    nilai: alphabet,
-    status: "Nonactive"
-  }).then(() => {
-    req.flash('alertMessage', `Sukses Create Nilai`);
-    req.flash('alertStatus', 'success');
-    res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${MatpelId}`)
+  /**
+   * LOGIC RANGKING
+   * 1. CEK DIDATABASE ADA APA GAK DATA NILAI
+   * 2. SISWAID DAN TAHUN ID SAMA MAKA UPDATE NILAI
+   * 3. SELAIN ITU CREATE BARU DI TABLE RANGKING
+   */
+
+  //  cek rangking 
+  const cek_rangking = await Rangking.findOne({
+    where: {
+      SiswaId: { [Op.eq]: SiswaId },
+      TahunId: { [Op.eq]: TahunId }
+    }
   })
+
+  if (cek_rangking) {
+    // update nilai saat di delete
+    cek_rangking.totalNilai += n_nilai;
+    await cek_rangking.save();
+
+    NilaiPengetahuan.create({
+      latihan: latihan,
+      uts: uts,
+      uas: uas,
+      SiswaId: SiswaId,
+      GuruId: GuruId,
+      TahunId: TahunId,
+      MatpelId: MatpelId,
+      KelasId: KelasId,
+      ket: keterangan,
+      nilai_akhir: n_nilai,
+      nilai: alphabet,
+      status: "Nonactive"
+    }).then(() => {
+      req.flash('alertMessage', `Sukses Create Nilai`);
+      req.flash('alertStatus', 'success');
+      res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${MatpelId}`)
+    })
+  } else {
+    NilaiPengetahuan.create({
+      latihan: latihan,
+      uts: uts,
+      uas: uas,
+      SiswaId: SiswaId,
+      GuruId: GuruId,
+      TahunId: TahunId,
+      MatpelId: MatpelId,
+      KelasId: KelasId,
+      ket: keterangan,
+      nilai_akhir: n_nilai,
+      nilai: alphabet,
+      status: "Nonactive"
+    }).then(async () => {
+      await Rangking.create({
+        SiswaId,
+        GuruId,
+        TahunId,
+        totalNilai: n_nilai
+      })
+      req.flash('alertMessage', `Sukses Create Nilai`);
+      req.flash('alertStatus', 'success');
+      res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${MatpelId}`)
+    })
+  }
+
 }
 
 exports.actionDeteleNilai = (req, res) => {
   const { id, SiswaId } = req.params
   NilaiPengetahuan.findOne({
     where: { id: { [Op.eq]: id } }
-  }).then((nilai) => {
+  }).then(async (nilai) => {
+    const nilai_tampung = nilai.nilai_akhir;
     const cek_matpel = nilai.MatpelId
-    nilai.destroy();
-    res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
+    //  cek rangking 
+    const cek_rangking = await Rangking.findOne({
+      where: {
+        SiswaId: { [Op.eq]: SiswaId },
+        TahunId: { [Op.eq]: nilai.TahunId }
+      }
+    });
+    if (cek_rangking) {
+      // update nilai saat di delete
+      cek_rangking.totalNilai -= nilai_tampung;
+      await cek_rangking.save();
+      nilai.destroy();
+      res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
+    } else {
+      res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
+    }
   })
 }
 
@@ -316,7 +381,7 @@ exports.viewDetailNilaiKeterampilan = async (req, res) => {
       id: { [Op.eq]: SiswaId }
     },
   })
-  // lalu cek matpel 
+  // lalu cek matpel
   const cek_matpel = await MataPelajaran.findOne({
     where: {
       id: { [Op.eq]: MatpelId }
@@ -445,7 +510,7 @@ exports.actionDeteleNilaiKeterampilan = (req, res) => {
 }
 
 
-// biodata guru 
+// biodata guru
 exports.viewBiodata = async (req, res) => {
   const alertMessage = req.flash('alertMessage');
   const alertStatus = req.flash('alertStatus');

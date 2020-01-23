@@ -14,7 +14,8 @@ const {
   NilaiSikap,
   Ekstrakulikuller,
   NilaiEktrakulikuler,
-  User
+  User,
+  Rangking
 } = require("../models");
 const Op = require("sequelize").Op;
 const bcrypt = require("bcryptjs");
@@ -170,7 +171,8 @@ exports.viewDetailNilai = async (req, res) => {
   })
 }
 
-exports.actionCreateNilai = (req, res) => {
+// nilai pengetahuan
+exports.actionCreateNilai = async (req, res) => {
   const { latihan, uts, uas, SiswaId, GuruId, TahunId, MatpelId, KelasId } = req.body
   let n_latihan = 60 / 100 * latihan;
   let n_uts = 20 / 100 * uts;
@@ -195,34 +197,95 @@ exports.actionCreateNilai = (req, res) => {
     keterangan = "Kurang Baik Memahami Materi";
   }
 
-  NilaiPengetahuan.create({
-    latihan: latihan,
-    uts: uts,
-    uas: uas,
-    SiswaId: SiswaId,
-    GuruId: GuruId,
-    TahunId: TahunId,
-    MatpelId: MatpelId,
-    KelasId: KelasId,
-    ket: keterangan,
-    nilai_akhir: n_nilai,
-    nilai: alphabet,
-    status: "Nonactive"
-  }).then(() => {
-    req.flash('alertMessage', `Sukses Create Nilai`);
-    req.flash('alertStatus', 'success');
-    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}/matpel/${MatpelId}`)
+  /**
+ * LOGIC RANGKING
+ * 1. CEK DIDATABASE ADA APA GAK DATA NILAI
+ * 2. SISWAID DAN TAHUN ID SAMA MAKA UPDATE NILAI
+ * 3. SELAIN ITU CREATE BARU DI TABLE RANGKING
+ */
+
+  //  cek rangking 
+  const cek_rangking = await Rangking.findOne({
+    where: {
+      SiswaId: { [Op.eq]: SiswaId },
+      TahunId: { [Op.eq]: TahunId }
+    }
   })
+
+  if (cek_rangking) {
+    // update nilai saat di delete
+    cek_rangking.totalNilai += n_nilai;
+    await cek_rangking.save();
+
+    NilaiPengetahuan.create({
+      latihan: latihan,
+      uts: uts,
+      uas: uas,
+      SiswaId: SiswaId,
+      GuruId: GuruId,
+      TahunId: TahunId,
+      MatpelId: MatpelId,
+      KelasId: KelasId,
+      ket: keterangan,
+      nilai_akhir: n_nilai,
+      nilai: alphabet,
+      status: "Nonactive"
+    }).then(() => {
+      req.flash('alertMessage', `Sukses Create Nilai`);
+      req.flash('alertStatus', 'success');
+      res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}/matpel/${MatpelId}`)
+    })
+  } else {
+    NilaiPengetahuan.create({
+      latihan: latihan,
+      uts: uts,
+      uas: uas,
+      SiswaId: SiswaId,
+      GuruId: GuruId,
+      TahunId: TahunId,
+      MatpelId: MatpelId,
+      KelasId: KelasId,
+      ket: keterangan,
+      nilai_akhir: n_nilai,
+      nilai: alphabet,
+      status: "Nonactive"
+    }).then(async () => {
+      await Rangking.create({
+        SiswaId,
+        GuruId,
+        TahunId,
+        totalNilai: n_nilai
+      })
+      req.flash('alertMessage', `Sukses Create Nilai`);
+      req.flash('alertStatus', 'success');
+      res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${MatpelId}`)
+    })
+  }
 }
 
-exports.actionDeteleNilai = (req, res) => {
+exports.actionDeteleNilai = async (req, res) => {
   const { id, SiswaId } = req.params
   NilaiPengetahuan.findOne({
     where: { id: { [Op.eq]: id } }
-  }).then((nilai) => {
+  }).then(async (nilai) => {
+    const nilai_tampung = nilai.nilai_akhir;
     const cek_matpel = nilai.MatpelId
-    nilai.destroy();
-    res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
+    //  cek rangking 
+    const cek_rangking = await Rangking.findOne({
+      where: {
+        SiswaId: { [Op.eq]: SiswaId },
+        TahunId: { [Op.eq]: nilai.TahunId }
+      }
+    });
+    if (cek_rangking) {
+      // update nilai saat di delete
+      cek_rangking.totalNilai -= nilai_tampung;
+      await cek_rangking.save();
+      nilai.destroy();
+      res.redirect(`/wali-kelas/matpel-diampuh/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
+    } else {
+      res.redirect(`/guru/matpel/input-nilai/${SiswaId}/matpel/${cek_matpel}`)
+    }
   })
 }
 // ====== matpel di ampuh nilai keterampilan ========= \\
@@ -1029,9 +1092,16 @@ exports.viewCetakRaport = async (req, res) => {
 
 
 exports.cetakRaport = async (req, res) => {
-  let { SiswaId, TahunId } = req.params
-  console.log("tahun id")
-  console.log(TahunId)
+  var { SiswaId, TahunId } = req.params
+  // console.log("tahun id")
+  console.log("SiswaId")
+  console.log(SiswaId)
+
+  /**
+   * select semua data yang ada ditable rangking berdasarkan tahun active
+   * lalu looping semua data dan cek yang sama dengan SiswaId dan TahunId
+   * lalu tampilan urutan or rangking nya
+   */
 
   try {
     // cek siswa
@@ -1045,6 +1115,15 @@ exports.cetakRaport = async (req, res) => {
         { model: Siswa },
         { model: Tahun },
         { model: Kelas }
+      ]
+    })
+    // cek rangking
+    const cek_rangking = await Rangking.findAll({
+      where: {
+        TahunId: { [Op.eq]: TahunId }
+      },
+      order: [
+        ['totalNilai', 'DESC']
       ]
     })
 
@@ -1166,23 +1245,48 @@ exports.cetakRaport = async (req, res) => {
         include: [{
           model: Guru
         }]
-      }).then((wali_kelas) => {
+      }).then(async (wali_kelas) => {
+        // rangking
+        var tampungRangkingSiswa = 1;
+        for (var i = 0; i < cek_rangking.length; i++) {
+          if (cek_rangking[i].SiswaId == siswa.id) {
+            console.log("masuk if")
+            var rangkingSiswa = tampungRangkingSiswa + i;
+            var nilaiTotalSiswa = cek_rangking[i].totalNilai;
+            return res.render("wali_kelas/raport/cetak_raport", {
+              title: "E-Rapor | Raport",
+              siswa,
+              absen,
+              view: "Isi",
+              ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
+              kelompok_a,
+              kelompok_b,
+              nilai_pengetahuan,
+              nilai_keterampilan,
+              nilai_sikap,
+              prestasi,
+              wali_kelas,
+              rangkingSiswa,
+              nilaiTotalSiswa
+            })
+          }
+        }
         // console.log("wali_kelas")
         // console.log(wali_kelas)
-        res.render("wali_kelas/raport/cetak_raport", {
-          title: "E-Rapor | Raport",
-          siswa,
-          absen,
-          view: "Isi",
-          ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
-          kelompok_a,
-          kelompok_b,
-          nilai_pengetahuan,
-          nilai_keterampilan,
-          nilai_sikap,
-          prestasi,
-          wali_kelas
-        })
+        // res.render("wali_kelas/raport/cetak_raport", {
+        //   title: "E-Rapor | Raport",
+        //   siswa,
+        //   absen,
+        //   view: "Isi",
+        //   ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
+        //   kelompok_a,
+        //   kelompok_b,
+        //   nilai_pengetahuan,
+        //   nilai_keterampilan,
+        //   nilai_sikap,
+        //   prestasi,
+        //   wali_kelas
+        // })
       })
     })
     // } else {
