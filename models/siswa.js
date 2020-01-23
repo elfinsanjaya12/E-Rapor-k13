@@ -2,9 +2,9 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Siswa = sequelize.define('Siswa', {
-    nis: DataTypes.STRING,
+    nis: DataTypes.INTEGER,
     nama: DataTypes.STRING,
-    nisn: DataTypes.STRING,
+    nisn: DataTypes.INTEGER,
     jk: DataTypes.STRING,
     tgl_lahir: DataTypes.DATE,
     tmpt_lahir: DataTypes.STRING,
@@ -43,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     });
     // hooks sebelum create di uppercase dlu
     Siswa.beforeCreate(siswa => {
-      siswa.nis = siswa.nis.toUpperCase();
-      siswa.nisn = siswa.nisn.toUpperCase();
+      // siswa.nis = siswa.nis.toUpperCase();
+      // siswa.nisn = siswa.nisn.toUpperCase();
       siswa.nama = siswa.nama.toUpperCase();
       siswa.jk = siswa.jk.toUpperCase();
       siswa.tmpt_lahir = siswa.tmpt_lahir.toUpperCase();

@@ -9,13 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nis: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       nama: {
         type: Sequelize.STRING
       },
       nisn: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       jk: {
         type: Sequelize.STRING
