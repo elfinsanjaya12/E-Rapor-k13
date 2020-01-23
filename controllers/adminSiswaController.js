@@ -162,57 +162,94 @@ exports.cetakRaport = async (req, res) => {
       ]
     })
     if (ekstra[0].Ekstrakulikuller !== null) {
-      console.log(cek_rangking)
-      // rangking
-      var tampungRangkingSiswa = 1;
-      for (var i = 0; i < cek_rangking.length; i++) {
-        if (cek_rangking[i].SiswaId == SiswaId) {
-          var rangkingSiswa = tampungRangkingSiswa + i;
-          var nilaiTotalSiswa = cek_rangking[i].totalNilai;
-          console.log("masuk if")
-          return res.render("siswa/nilai/cetak_nilai", {
-            title: "E-Rapor | Raport",
-            siswa,
-            absen,
-            view: "Isi",
-            ekstra,
-            kelompok_a,
-            kelompok_b,
-            nilai_pengetahuan,
-            nilai_keterampilan,
-            nilai_sikap,
-            prestasi,
-            rangkingSiswa,
-            nilaiTotalSiswa
-          })
+      if (cek_rangking > 0) {
+        // rangking
+        var tampungRangkingSiswa = 1;
+        for (var i = 0; i < cek_rangking.length; i++) {
+          if (cek_rangking[i].SiswaId == SiswaId) {
+            var rangkingSiswa = tampungRangkingSiswa + i;
+            var nilaiTotalSiswa = cek_rangking[i].totalNilai;
+            console.log("masuk if")
+            return res.render("siswa/nilai/cetak_nilai", {
+              title: "E-Rapor | Raport",
+              siswa,
+              absen,
+              view: "Isi",
+              ekstra,
+              kelompok_a,
+              kelompok_b,
+              nilai_pengetahuan,
+              nilai_keterampilan,
+              nilai_sikap,
+              prestasi,
+              rangkingSiswa,
+              nilaiTotalSiswa
+            })
+          }
         }
+      } else {
+        var rangkingSiswa = '-'
+        var nilaiTotalSiswa = '-'
+        return res.render("siswa/nilai/cetak_nilai", {
+          title: "E-Rapor | Raport",
+          siswa,
+          absen,
+          view: "Isi",
+          ekstra,
+          kelompok_a,
+          kelompok_b,
+          nilai_pengetahuan,
+          nilai_keterampilan,
+          nilai_sikap,
+          prestasi,
+          rangkingSiswa,
+          nilaiTotalSiswa
+        })
       }
 
     } else {
       // rangking
-
-      console.log(cek_rangking)
-      var tampungRangkingSiswa = 1;
-      for (var i = 0; i < cek_rangking.length; i++) {
-        if (cek_rangking[i].SiswaId == SiswaId) {
-          var rangkingSiswa = tampungRangkingSiswa + i;
-          var nilaiTotalSiswa = cek_rangking[i].totalNilai;
-          return res.render("siswa/nilai/cetak_nilai", {
-            title: "E-Rapor | Raport",
-            siswa,
-            absen,
-            view: "Kosong",
-            ekstra,
-            kelompok_a,
-            kelompok_b,
-            nilai_pengetahuan,
-            nilai_keterampilan,
-            nilai_sikap,
-            prestasi,
-            rangkingSiswa,
-            nilaiTotalSiswa
-          })
+      if (cek_rangking > 0) {
+        var tampungRangkingSiswa = 1;
+        for (var i = 0; i < cek_rangking.length; i++) {
+          if (cek_rangking[i].SiswaId == SiswaId) {
+            var rangkingSiswa = tampungRangkingSiswa + i;
+            var nilaiTotalSiswa = cek_rangking[i].totalNilai;
+            return res.render("siswa/nilai/cetak_nilai", {
+              title: "E-Rapor | Raport",
+              siswa,
+              absen,
+              view: "Kosong",
+              ekstra,
+              kelompok_a,
+              kelompok_b,
+              nilai_pengetahuan,
+              nilai_keterampilan,
+              nilai_sikap,
+              prestasi,
+              rangkingSiswa,
+              nilaiTotalSiswa
+            })
+          }
         }
+      } else {
+        var rangkingSiswa = '-'
+        var nilaiTotalSiswa = '-'
+        return res.render("siswa/nilai/cetak_nilai", {
+          title: "E-Rapor | Raport",
+          siswa,
+          absen,
+          view: "Kosong",
+          ekstra,
+          kelompok_a,
+          kelompok_b,
+          nilai_pengetahuan,
+          nilai_keterampilan,
+          nilai_sikap,
+          prestasi,
+          rangkingSiswa,
+          nilaiTotalSiswa
+        })
       }
     }
 

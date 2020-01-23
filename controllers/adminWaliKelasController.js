@@ -1127,6 +1127,8 @@ exports.cetakRaport = async (req, res) => {
       ]
     })
 
+    console.log(cek_rangking.length)
+
     // cek absen siswa
     let absen = await NilaiAbsen.findOne({
       where:
@@ -1247,29 +1249,50 @@ exports.cetakRaport = async (req, res) => {
         }]
       }).then(async (wali_kelas) => {
         // rangking
-        var tampungRangkingSiswa = 1;
-        for (var i = 0; i < cek_rangking.length; i++) {
-          if (cek_rangking[i].SiswaId == siswa.id) {
-            console.log("masuk if")
-            var rangkingSiswa = tampungRangkingSiswa + i;
-            var nilaiTotalSiswa = cek_rangking[i].totalNilai;
-            return res.render("wali_kelas/raport/cetak_raport", {
-              title: "E-Rapor | Raport",
-              siswa,
-              absen,
-              view: "Isi",
-              ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
-              kelompok_a,
-              kelompok_b,
-              nilai_pengetahuan,
-              nilai_keterampilan,
-              nilai_sikap,
-              prestasi,
-              wali_kelas,
-              rangkingSiswa,
-              nilaiTotalSiswa
-            })
+        if (cek_rangking > 0) {
+          var tampungRangkingSiswa = 1;
+          for (var i = 0; i < cek_rangking.length; i++) {
+            if (cek_rangking[i].SiswaId == siswa.id) {
+              console.log("masuk if")
+              var rangkingSiswa = tampungRangkingSiswa + i;
+              var nilaiTotalSiswa = cek_rangking[i].totalNilai;
+              return res.render("wali_kelas/raport/cetak_raport", {
+                title: "E-Rapor | Raport",
+                siswa,
+                absen,
+                view: "Isi",
+                ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
+                kelompok_a,
+                kelompok_b,
+                nilai_pengetahuan,
+                nilai_keterampilan,
+                nilai_sikap,
+                prestasi,
+                wali_kelas,
+                rangkingSiswa,
+                nilaiTotalSiswa
+              })
+            }
           }
+        } else {
+          var rangkingSiswa = '-'
+          var nilaiTotalSiswa = '-'
+          return res.render("wali_kelas/raport/cetak_raport", {
+            title: "E-Rapor | Raport",
+            siswa,
+            absen,
+            view: "Isi",
+            ekstra: ekstra[0].Ekstrakulikuller === null ? [] : ekstra,
+            kelompok_a,
+            kelompok_b,
+            nilai_pengetahuan,
+            nilai_keterampilan,
+            nilai_sikap,
+            prestasi,
+            wali_kelas,
+            rangkingSiswa,
+            nilaiTotalSiswa
+          })
         }
         // console.log("wali_kelas")
         // console.log(wali_kelas)
