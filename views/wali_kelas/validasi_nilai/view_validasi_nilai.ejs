@@ -1,0 +1,59 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<div class="content-wrapper">
+
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-edit"></i> Validasi Nilai</h3>
+          </div>
+          <div class="box-body">
+
+            <table id="validasi_nilai" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Mata Pelajaran</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let i = 0; i < matpel.length; i++ ) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td><%= matpel[i].kode %></td>
+                  <td>
+                    <a href="/wali-kelas/validasi/show-nilai-pengetahuan/<%= matpel[i].id %>"
+                      class="btn btn-success btn-sm">
+                      <span class="fa fa-pencil"></span>
+                      Show Nilai Pengetahuan
+                    </a>
+                    <a href="/wali-kelas/validasi/show-nilai-keterampilan/<%= matpel[i].id %>"
+                      class="btn btn-success btn-sm">
+                      <span class="fa fa-pencil"></span>
+                      Show Nilai Keterampilan
+                    </a>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#validasi_nilai').DataTable()
+  })
+</script>

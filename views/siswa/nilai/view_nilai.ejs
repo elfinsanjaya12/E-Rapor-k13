@@ -1,0 +1,59 @@
+<%- include ../../partials/siswa_layout/header.ejs %>
+<%- include ../../partials/siswa_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-print"></i> Cetak Raport</h3>
+          </div>
+
+          <div class="box-body">
+            <table id="ekstra" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>Cetak</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let i = 0; i < siswa_kelas.length; i++ ) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td>Semester <%= siswa_kelas[i].Tahun.semester %> / <%= siswa_kelas[i].Tahun.tahun %></td>
+                  <td>
+                    <a href="/siswa/nilai/cetak-raport/<%= siswa_kelas[i].SiswaId %>/tahun/<%= siswa_kelas[i].TahunId %>"
+                      class="btn btn-success btn-sm" target="_blank"><i class="fa fa-print"></i> Raport</a>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+
+<%- include ../../partials/siswa_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#ekstra').DataTable()
+  })
+</script>

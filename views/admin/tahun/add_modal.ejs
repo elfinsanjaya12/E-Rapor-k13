@@ -1,0 +1,69 @@
+<div class="modal fade" id="add-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Tahun</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" id="simpan_tahun">
+          <div class="box-body">
+            <div class="form-group">
+              <label>Tahun</label>
+              <select required name="tahun" class="form-control">
+                <option value="">--- Pilih Tahun ---</option>
+                <option value="2016-2017">2016-2017</option>
+                <option value="2017-2018">2017-2018</option>
+                <option value="2018-2019">2018-2019</option>
+                <option value="2019-2020">2019-2020</option>
+                <option value="2020-2021">2020-2021</option>
+                <option value="2021-2022">2021-2022</option>
+                <option value="2022-2023">2022-2023</option>
+                <option value="2023-2024">2023-2024</option>
+                <option value="2024-2025">2024-2025</option>
+                <option value="2025-2026">2025-2026</option>
+                <option value="2026-2027">2026-2027</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Semester</label>
+              <select required name="semester" class="form-control">
+                <option value="">--- Pilih Semester ---</option>
+                <option value="Satu">Satu</option>
+                <option value="Dua">Dua</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="kepala_sekolah">Kepala Sekolah</label>
+              <input type="text" class="form-control" id="kepala_sekolah" name="kepala_sekolah"
+                placeholder="Masukan Kepala Sekolah" required>
+            </div>
+            <div class="form-group">
+              <label for="nip">NIP</label>
+              <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukan Nip" required>
+            </div>
+            <!-- DatePicker Tanggal Lahir -->
+            <div class="form-group">
+              <label for="inputDatepickerTglLahir">Tanggal Raport</label>
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="date" required name="tgl_raport" class="form-control pull-right"
+                  id="inputDatepickerTglLahir" />
+              </div>
+
+            </div>
+          </div>
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

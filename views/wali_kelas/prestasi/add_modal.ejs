@@ -1,0 +1,43 @@
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Prestasi</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" id="simpan_prestasi">
+          <div class="box-body">
+            <div class="form-group">
+              <label>Pilih Siswa</label>
+              <select required name="SiswaId" class="form-control">
+                <option value="" class="bg-blue"></option>
+                <% for(let i = 0; i < kelompok_siswa.length; i++) { %>
+                <option value="<%= kelompok_siswa[i].Siswa.id %>"><%= kelompok_siswa[i].Siswa.nama %></option>
+                <% } %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="jenis">Jenis</label>
+              <input type="text" class="form-control" id="jenis" name="jenis" placeholder="Masukan Jenis" required>
+            </div>
+
+            <div class="form-group">
+              <label for="ket">Keterangan</label>
+              <input type="text" class="form-control" id="ket" name="ket" placeholder="Masukan Keterangan" required>
+            </div>
+
+          </div>
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

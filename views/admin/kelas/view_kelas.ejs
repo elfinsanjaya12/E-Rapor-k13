@@ -1,0 +1,166 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <section class="content-header">
+    <!-- tambahkan di setiap page yang membutuhkan notifikasi -->
+    <% if(alert.message != '') { %>
+    <div class="flash-data" data-flashdata="<%= alert.message %>" data-flashstatus="<%= alert.status %>"></div>
+    <% } %>
+  </section>
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-home"></i> Data kelas</h3>
+          </div>
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
+                <span class="glyphicon glyphicon-plus"></span>
+                Tambah
+              </button>
+            </div>
+            <table id="kelas" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tingkat</th>
+                  <th>Nama</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let i = 0; i < kelas.length; i++ ) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td><%= kelas[i].tingkat %></td>
+                  <td>
+                    <%= kelas[i].nama %>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                      data-id="<%= kelas[i].id %>" data-tingkat="<%= kelas[i].tingkat %>"
+                      data-nama="<%= kelas[i].nama %>">
+                      <span class="glyphicon glyphicon-pencil"></span>
+                      Edit
+                    </a>
+                    <button class="btn btn-danger btn-sm" onclick="delete_kelas(`<%= kelas[i].id %>`)"
+                      data-id="<%= kelas[i].id %>">
+                      <span class="glyphicon glyphicon-remove"></span>
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<!-- include  add modal -->
+<%- include add_modal.ejs %>
+
+<!-- include  edit modal -->
+<%- include edit_modal.ejs %>
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  const flashData = $('.flash-data').data('flashdata');
+  const flashStatus = $('.flash-data').data('flashstatus');
+  if (flashData && flashStatus) {
+    swal({
+      position: 'top-end',
+      icon: flashStatus,
+      text: flashData,
+      buttons: false,
+      timer: 2000
+    });
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#kelas').DataTable()
+
+    // redirect halaman kelas
+    function halamankelas() {
+      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/kelas')
+    }
+
+    // function simpan
+    $('#simpan_kelas').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/kelas/create",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Data Kelas",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(sukses => {
+            halamankelas();
+          });
+        },
+      })
+    })
+
+    //showing data to e edit modal 
+    $('#kelas').on('click', '.edit', function () {
+      const id = $(this).data('id');
+      const nama = $(this).data('nama');
+      const tingkat = $(this).data('tingkat');
+
+      $('#edit-modal').modal('show');
+      $('.id').val(id);
+      $('.nama').val(nama);
+      $('.tingkat').val(tingkat);
+    });
+  })
+
+  // Delete Kelas 
+  function delete_kelas(id) {
+    let idKelas = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Kelas ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(() => {
+      swal({
+        title: "Informasi",
+        text: "Success Hapus Data Kelas",
+        position: 'top-left',
+        icon: 'success',
+        buttons: false,
+        timer: 2000
+      }).then(() => {
+        window.location.assign(`/admin/kelas/delete/${idKelas}`);
+      });
+    });
+  }
+
+
+</script>

@@ -1,0 +1,105 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<div class="content-wrapper">
+  <section class="content-header">
+    <!-- tambahkan di setiap page yang membutuhkan notifikasi -->
+    <% if(alert.message != '') { %>
+    <div class="flash-data" data-flashdata="<%= alert.message %>" data-flashstatus="<%= alert.status %>"></div>
+    <% } %>
+  </section>
+
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-edit"></i> Validasi Nilai Keterampilan</h3>
+            <div class="pull-right">
+              <a href="/wali-kelas/validasi/" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Kembali
+              </a>
+            </div>
+          </div>
+          <div class="box-body">
+            <form action="/wali-kelas/validasi/show-nilai-keterampilan/update" method="POST">
+              <div style="margin: 0 20px 20px 20px;">
+                <input type="submit" class="btn btn-success" value="Simpan" />
+              </div>
+              <table id="validasi_nilai" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Latihan</th>
+                    <th>Mid</th>
+                    <th>Uas</th>
+                    <th>Nilai Akhir</th>
+                    <th>Nilai</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <form id="simpan_validasi"> -->
+                  <% var no = 0; %>
+                  <% for (let i = 0; i < kelompok_siswa.length; i++ ) { %>
+                  <% for (let x = 0; x < nilai_keterampilan.length; x++ ) { %>
+                  <%  if(kelompok_siswa[i].SiswaId === nilai_keterampilan[x].SiswaId){ %>
+                  <tr>
+                    <td>
+                      <%= no + 1 %>
+                      <input type="hidden" name="id" value="<%= nilai_keterampilan[x].id %>" />
+                      <input type="hidden" name="MatpelId" value="<%= nilai_keterampilan[x].MatpelId %>" />
+                    </td>
+                    <td><%= nilai_keterampilan[x].Siswa.nama %></td>
+                    <td><%= nilai_keterampilan[x].latihan %></td>
+                    <td><%= nilai_keterampilan[x].uts %></td>
+                    <td><%= nilai_keterampilan[x].uas %></td>
+                    <td><%= nilai_keterampilan[x].nilai_akhir %></td>
+                    <td><%= nilai_keterampilan[x].nilai %></td>
+                    <td>
+                      <%  if(nilai_keterampilan[x].status === "Nonactive"){ %>
+                      <small class="label bg-red"><%= nilai_keterampilan[x].status %></small>
+                      <% } else { %>
+                      <small class="label bg-green"><%= nilai_keterampilan[x].status %></small>
+                      <% } %>
+                    </td>
+                  </tr>
+                  <% } %>
+                  <% } %>
+                  <% } %>
+                </tbody>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#validasi_nilai').DataTable()
+  })
+</script>
+
+<!-- page script -->
+<script>
+  const flashData = $('.flash-data').data('flashdata');
+  const flashStatus = $('.flash-data').data('flashstatus');
+  if (flashData && flashStatus) {
+    swal({
+      position: 'top-end',
+      icon: flashStatus,
+      text: flashData,
+      buttons: false,
+      timer: 2000
+    });
+  }
+</script>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Cetak Raport</title>
+  <style type="text/css">
+    body {
+      font-family: arial;
+      font-size: 11pt;
+      width: 8.5in
+    }
+
+    .table {
+      border-collapse: collapse;
+      border: solid 1px #999;
+      width: 100%
+    }
+
+    .table tr td,
+    .table tr th {
+      border: solid 1px #000;
+      padding: 3px;
+    }
+
+    .table tr th {
+      font-weight: bold;
+      text-align: center
+    }
+
+    .rgt {
+      text-align: right;
+    }
+
+    .ctr {
+      text-align: center;
+    }
+
+    .tbl {
+      font-weight: bold
+    }
+
+    table tr td {
+      vertical-align: top
+    }
+
+    .font_kecil {
+      font-size: 12px
+    }
+  </style>
+
+</head>
+
+<body>
+  <table>
+    <thead>
+      <!-- biar bisa ganti lembar otomatis -->
+    </thead>
+
+    <tbody>
+      <tr>
+        <td colspan="6" style="text-align: center; font-weight: bold">
+          <p>
+            <h3>HASIL PENCAPAIAN KOMPETENSI PESERTA DIDIK</h3>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td width="20%">Nama Sekolah</td>
+        <td width="1%">:</td>
+        <td width="50%" class="tbl">SMP NEGERI ABUNG SURAKARTA</td>
+        <td width="20%">Kelas</td>
+        <td width="1%">:</td>
+        <td width="19%" class="tbl"><%= siswa.Kela.nama %></td>
+      </tr>
+      <tr>
+        <td>Alamat Madrasah</td>
+        <td>:</td>
+        <td class="tbl">Jl. Pendidikan No.24</td>
+        <td>Semester</td>
+        <td>:</td>
+        <td class="tbl"><%= siswa.Tahun.semester %></td>
+      </tr>
+      <tr>
+        <td>Nama Siswa</td>
+        <td>:</td>
+        <td class="tbl"><%= siswa.Siswa.nama %></td>
+        <td>Tahun Pelajaran</td>
+        <td>:</td>
+        <td class="tbl"><%= siswa.Tahun.tahun %></td>
+      </tr>
+      <tr>
+        <td>NIS / NISN</td>
+        <td>:</td>
+        <td class="tbl"><%= siswa.Siswa.nis %></td>
+        <!-- <td colspan="3">15312376</td> -->
+      </tr>
+      <tr>
+        <td colspan="6"><br><br></td>
+      </tr>
+      <tr>
+        <td colspan="6"><b>A. Sikap</b></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <table style="margin-left: 15px">
+            <tr>
+              <td width="3%"><b>1.</b></td>
+              <td width="97%"><b>Sikap Spiritual</b></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td style="border: solid 1px #000; padding: 10px">Deskripsi : <%= nilai_sikap.ket_spiritual %></td>
+            </tr>
+            <tr>
+              <td width="3%"><b>2.</b></td>
+              <td width="97%"><b>Sikap Sosial</b></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td style="border: solid 1px #000; padding: 10px">Deskripsi : <%= nilai_sikap.ket_sosial %></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6"><b>B. Pengetahuan dan Keterampilan</b></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <table class="table">
+            <thead>
+              <tr>
+                <th colspan="2" rowspan="2" width="30%">Mata Pelajaran</th>
+                <th rowspan="2" width="10%">KKM</th>
+                <th colspan="3">Pengetahuan</th>
+                <th colspan="3">Keterampilan</th>
+              </tr>
+              <tr>
+                <th width="5%">Angka</th>
+                <th width="5%">Predikat</th>
+                <th width="25%">Deskripsi</th>
+                <th width="5%">Angka</th>
+                <th width="5%">Predikat</th>
+                <th width="25%">Deskripsi</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="9"><b>KELOMPOK A</b></td>
+              </tr>
+              <% no = 0 %>
+              <% for(var i = 0; i < kelompok_a.length; i++) { %>
+              <tr>
+                <td class="ctr"><%= no += 1 %></td>
+                <td><%= kelompok_a[i].nama %></td>
+                <td><%= kelompok_a[i].nilaikkm %></td>
+                <% if(nilai_pengetahuan.length > 0) { %>
+                <% for(var x = 0; x < nilai_pengetahuan.length; x++) { %>
+                <% if(kelompok_a[i].id == nilai_pengetahuan[x].MatpelId) { %>
+                <td class="ctr"><%= nilai_pengetahuan[x].nilai_akhir %></td>
+                <td class="ctr"><%= nilai_pengetahuan[x].nilai %></td>
+                <td class="ctr"><%= nilai_pengetahuan[x].ket %></td>
+                <% } else { %>
+
+                <% } %>
+                <% } %>
+                <% } else{ %>
+
+                <% } %>
+                <% if(nilai_keterampilan.length > 0) { %>
+                <% for(var z = 0; z < nilai_keterampilan.length; z++) { %>
+                <% if(kelompok_a[i].id == nilai_keterampilan[z].MatpelId) { %>
+                <td class="ctr"><%= nilai_keterampilan[z].nilai_akhir %></td>
+                <td class="ctr"><%= nilai_keterampilan[z].nilai %></td>
+                <td class="ctr"><%= nilai_keterampilan[z].ket %></td>
+                <% } else { %>
+
+                <% } %>
+                <% } %>
+                <% } else{ %>
+
+                <% } %>
+              </tr>
+              <% } %>
+
+              <tr>
+                <td colspan="9"><b>KELOMPOK B</b></td>
+              </tr>
+
+              <% for(var i = 0; i < kelompok_b.length; i++) { %>
+              <tr>
+                <td class="ctr"><%= no += 1 %></td>
+                <td><%= kelompok_b[i].nama %></td>
+                <td><%= kelompok_b[i].nilaikkm %></td>
+                <% if(nilai_pengetahuan.length > 0) { %>
+                <% for(var x = 0; x < nilai_pengetahuan.length; x++) { %>
+                <% if(kelompok_b[i].id == nilai_pengetahuan[x].MatpelId) { %>
+                <td class="ctr"><%= nilai_pengetahuan[x].nilai_akhir %></td>
+                <td class="ctr"><%= nilai_pengetahuan[x].nilai %></td>
+                <td class="ctr"><%= nilai_pengetahuan[x].ket %></td>
+                <% } else { %>
+
+                <% } %>
+                <% } %>
+                <% } else{ %>
+
+                <% } %>
+                <% if(nilai_keterampilan.length > 0) { %>
+                <% for(var z = 0; z < nilai_keterampilan.length; z++) { %>
+                <% if(kelompok_b[i].id == nilai_keterampilan[z].MatpelId) { %>
+                <td class="ctr"><%= nilai_keterampilan[z].nilai_akhir %></td>
+                <td class="ctr"><%= nilai_keterampilan[z].nilai %></td>
+                <td class="ctr"><%= nilai_keterampilan[z].ket %></td>
+                <% } else { %>
+
+                <% } %>
+                <% } %>
+                <% } else{ %>
+
+                <% } %>
+              </tr>
+              <% } %>
+
+              <tr>
+                <td colspan="9"></td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <center><i>Nilai</i></center>
+                </td>
+                <td colspan="6">
+                  <!-- nilai total -->
+                  <i><%= nilaiTotalSiswa %></i>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <center><i>Peringkat Kelas</i></center>
+                </td>
+                <td colspan="6">
+                  <!-- nilai total -->
+                  <i><%= rangkingSiswa %></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6"><br><b>C. Ekstrakurikuler</b></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="5%">No</th>
+                <th width="30%">Nama Kegiatan</th>
+                <th width="10%">Nilai</th>
+                <th width="55%">Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- lopping ektrakulikuler  -->
+              <% if(view !== "Kosong"){ %>
+              <% for (let i = 0; i < ekstra.length; i++ ) { %>
+              <tr>
+                <td><%= i + 1 %></td>
+                <td>
+                  <%= ekstra[i].Ekstrakulikuller.nama %>
+                </td>
+                <td>
+                  <%= ekstra[i].nilai %>
+                </td>
+                <td>
+                  <%= ekstra[i].desk %>
+                </td>
+              </tr>
+              <% } %>
+              <% } %>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6"><br><b>D. Prestasi</b></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="10%">No</th>
+                <th width="90%">Prestasi Yang Telah Dicapai</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <!-- lopping ektrakulikuler  -->
+              <% for (let i = 0; i < prestasi.length; i++ ) { %>
+              <tr>
+                <td><%= i + 1 %></td>
+                <td>
+                  <%= prestasi[i].ket %> <%= prestasi[i].jenis %>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td><br><b>E. Catatan Wali Kelas</b></td>
+      </tr>
+      <tr>
+        <table class="table">
+          <thead>
+            <tr>
+              <td style="border: solid 1px #000; padding: 10px" width="100%" height="40px"></td>
+            </tr>
+          </thead>
+        </table>
+      </tr>
+
+      <tr>
+        <td><br><b>F. Tanggapan Orang Tua / Wali</b></td>
+      </tr>
+      <tr>
+        <table class="table">
+          <thead>
+            <tr>
+              <td style="border: solid 1px #000; padding: 10px" width="100%" height="40px"></td>
+            </tr>
+          </thead>
+        </table>
+      </tr>
+      </td>
+      </tr>
+
+      <!-- absen selesai -->
+      <tr>
+        <td colspan="6"><br><b>G. Ketidakhadiran</b></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <table width="100%">
+            <tr>
+              <td width="40%">
+                <table class="table" width="100%">
+                  <tr>
+                    <td width="60%">Sakit</td>
+                    <td width="40%" class="ctr"><%= absen.s %> &nbsp; hari</td>
+                  </tr>
+                  <tr>
+                    <td>Izin</td>
+                    <td class="ctr"><%= absen.i %> &nbsp; hari</td>
+                  </tr>
+                  <tr>
+                    <td>Tanpa Keterangan</td>
+                    <td class="ctr"><%= absen.a %> &nbsp; hari</td>
+                  </tr>
+                </table>
+              </td>
+              <td width="60%">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</body>

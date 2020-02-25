@@ -1,0 +1,67 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-edit"></i> Input Nilai Sikap dan Spritual</h3>
+          </div>
+
+          <div class="box-body">
+            <form id="update_form">
+              <div style="margin: 0 20px 20px 20px;">
+                <input type="submit" class="btn btn-success" value="Simpan" />
+              </div>
+              <%- include table_input_nilai_sikap.ejs %>
+            </form>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#input-nilai-sikap').DataTable()
+    // update all form
+    $('#update_form').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/wali-kelas/input-nilai-sikap",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Nilai Sikap",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(() => {
+            window.location.replace(window.location.protocol + "//" + window.location.host + '/wali-kelas/input-nilai-sikap')
+          })
+        }
+      })
+    })
+
+  })
+</script>

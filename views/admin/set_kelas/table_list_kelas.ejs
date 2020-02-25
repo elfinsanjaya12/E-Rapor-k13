@@ -1,0 +1,31 @@
+<table id="list-kelas" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Kelas</th>
+      <th>Nama Kelas</th>
+      <th>Kouta</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < kelas.length; i++ ) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td><%= kelas[i].tingkat %></td>
+      <td>
+        <%= kelas[i].nama %>
+      </td>
+      <td>
+        <%= kelas[i].kouta %> / 32
+      </td>
+      <td>
+        <a href="/admin/set-kelas/<%= kelas[i].id %>" class="btn btn-success btn-sm">
+          <span class="glyphicon glyphicon-plus"></span>
+          Tambah Siswa
+        </a>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

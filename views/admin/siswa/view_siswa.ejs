@@ -1,0 +1,92 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <section class="content-header">
+    <% if(action === "view" && alert.message != '') { %>
+    <br>
+    <div class="alert alert-<%= alert.status %>">
+      <h4><i class="icon fa fa-info-circle"></i> <%= alert.message %></h4>
+    </div>
+    <% } %>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="callout callout-info">
+      <h4><i class="icon fa fa-info-circle"></i> Informasi Penting !!!</h4>
+      <p>Untuk Login Siswa gunakan <b>USERNAME dan password NIS </b></p>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <% if(action === "view") { %>
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#activity" data-toggle="tab">Lihat Siswa</a></li>
+            <li><a href="#input-siswa" data-toggle="tab">Input Siswa</a></li>
+          </ul>
+          <div class="tab-content">
+            <%- include tab_table_siswa.ejs %>
+            <!-- include input siswa -->
+            <%- include tab_input_siswa.ejs %>
+            <!-- include input siswa -->
+
+          </div>
+          <!-- /.tab-content -->
+        </div>
+        <% } else { %>
+        <!-- include tab edit -->
+        <%- include tab_edit_siswa.ejs %>
+        <% } %>
+        <!-- /.nav-tabs-view -->
+      </div>
+    </div>
+  </section>
+</div>
+<!-- /.content -->
+
+
+
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#siswa').DataTable()
+    $(document).ready(function () { setTimeout(function () { $(".alert").fadeIn('slow'); }, 1500); });
+    // angka 3000 dibawah ini artinya pesan akan hilang dalam 3 detik setelah muncul
+    setTimeout(function () { $(".alert").fadeOut('slow'); }, 4000);
+
+    // redirect halaman siswa
+    function halamansiswa() {
+      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/siswa')
+    }
+  })
+
+  // Delete guru 
+  function delete_siswa(id) {
+    let idsiswa = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data siswa ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Success",
+          text: "Success Hapus Data siswa",
+          icon: "success",
+          buttons: false,
+          timer: 2000
+        }).then(suksesDelete => {
+          window.location.assign(`/admin/siswa/delete/${idsiswa}`);
+        });
+      }
+    });
+  }
+
+
+</script>

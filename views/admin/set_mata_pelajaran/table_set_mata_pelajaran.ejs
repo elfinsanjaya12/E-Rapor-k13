@@ -1,0 +1,33 @@
+<table id="kelompok" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama Guru</th>
+      <th>Mata Pelajaran</th>
+      <th>Kelas</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < matpel_guru.length; i++ ) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td>
+        <%= matpel_guru[i].Guru.nama %>
+      </td>
+      <td>
+        <%= matpel_guru[i].MataPelajaran.nama %>
+      </td>
+      <td>
+        <%= matpel_guru[i].Kela.nama %>
+      </td>
+      <td>
+        <button class="btn btn-danger btn-sm" onclick="delete_set_matpel_guru(`<%= matpel_guru[i].id %>`)">
+          <span class="glyphicon glyphicon-remove"></span>
+          Hapus
+        </button>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

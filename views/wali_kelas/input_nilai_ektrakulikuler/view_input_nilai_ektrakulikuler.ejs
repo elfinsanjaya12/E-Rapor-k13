@@ -1,0 +1,119 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-edit"></i> Nilai Ekstrakurikuler</h3>
+          </div>
+          <div class="content">
+            <ul class="list-group" id="list_kd">
+              <% for (let i = 0; i < ekstra.length; i++ ) { %>
+              <li class="list-group-item" onclick="list_siswa(`<%= ekstra[i].id %>`)">
+                <a href="#"><i class="fa fa-chevron-right"></i>
+                  <%= ekstra[i].nama %>
+                </a>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="card box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-edit"></i> Input Nilai Ekstrakurikuler</h3>
+          </div>
+          <div class="content">
+            <form id="tbsimpan">
+              <input type="hidden" name="id_ekstra" id="id_ekstra" value="">
+              <div id="load_nilai">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#tbsimpan').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/wali-kelas/ekstra",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Data Ektrakulikuler",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(() => {
+            window.location.replace(window.location.protocol + "//" + window.location.host + '/wali-kelas/ekstra')
+          })
+        }
+      })
+    })
+
+  });
+
+  function list_siswa(id) {
+    // nama_ekstra = nama;
+    if (id == 0) {
+      $("#load_nilai").html('<div class="alert alert-warning">Silakan pilih KD di samping</div>');
+    }
+    else {
+      $("#id_ekstra").val(id);
+
+
+      $("#load_nilai").html("Mohon menunggu, sedang mengambil data dari server di Amerika sana, sehingga agak lama... :D");
+      $.ajax({
+        url: `/wali-kelas/ekstra/json`,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+          var html = '';
+          html = '<table class="table table-bordered"><thead><tr><th>No</th><th>Nama</th><th>Nilai</th></tr></thead><tbody>';
+          for (let i = 0; i < data.kelompok_siswa.length; i++) {
+            html += '<tr>';
+            html += `<td> ${i + 1} </td><input type="hidden" name="id" class="form-control" value="${data.kelompok_siswa[i].id}" />`;
+            html += `<td> ${data.kelompok_siswa[i].Siswa.nama} </td>`;
+            html += `<td><div class="form-group"><select required name="nilai" class="form-control"><option value="${data.kelompok_siswa[i].nilai}" class="bg-blue">${data.kelompok_siswa[i].nilai}</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></div></td>`
+            // html += `<td><input type="text" name="desk" class="form-control" value="${data.kelompok_siswa[i].desk}" /></td>`;
+            html += '</tr>';
+          }
+          html += '</body></table><button type="submit" class="btn btn-primary">Simpan</button>';
+          $('#load_nilai').html(html);
+        }
+      });
+
+    }
+    // return false;
+  }
+  function ganti_deskripsi(id) {
+    var nilai = $("#nilai_" + id).val();
+    var desk = "";
+    if (nilai === "A") {
+      desk = "Memuaskan, aktif megikuti kegiatan " + nama_ekstra + " mingguan";
+    } else if (nilai === "B") {
+      desk = "Cukup memuaskan, aktif mengikuti kegiatan " + nama_ekstra + " mingguan";
+    } else if (nilai === "C") {
+      desk = "Kurang memuaskan, pasif mengikuti kegiatan " + nama_ekstra + " mingguan";
+    } else {
+      desk = "-";
+    }
+    $("#desk_" + id).val(desk);
+  }
+</script>

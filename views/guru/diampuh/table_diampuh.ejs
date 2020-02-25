@@ -1,0 +1,31 @@
+<table id="diampuh" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class="text-center">No</th>
+      <th class="text-center">Mata Pelajaran</th>
+      <th class="text-center">Kelas</th>
+      <th class="text-center">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < diampuh.length; i++ ) { %>
+    <tr class="text-center">
+      <td><%= i + 1 %></td>
+      <td><%= diampuh[i].MataPelajaran.kode %></td>
+      <td><%= diampuh[i].Kela.nama %></td>
+      <td>
+        <a href="/guru/matpel/pengetahuan/<%= diampuh[i].KelasId %>/<%= diampuh[i].MatpelId %>"
+          class="btn btn-success btn-sm">
+          <span class="fa fa-eye"></span>
+          Nilai Pengetahuan
+        </a>
+        <a href="/guru/matpel/keterampilan/<%= diampuh[i].KelasId %>/<%= diampuh[i].MatpelId %>"
+          class="btn btn-success btn-sm">
+          <span class="fa fa-eye"></span>
+          Nilai Keterampilan
+        </a>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

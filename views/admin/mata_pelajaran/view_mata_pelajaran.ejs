@@ -1,0 +1,110 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-link"></i></i> <span style="margin-left: 10px;"> Data Mata Pelajaran
+              </span></h3>
+          </div>
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add">
+                <i class="icon fa fa-plus"></i> Tambah
+              </button>
+            </div>
+            <!-- include table  -->
+            <%- include table_mata_pelajaran.ejs %>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<!-- iclude modal add -->
+<%- include add_modal.ejs %>
+
+<!-- include modal edit -->
+<%- include edit_modal.ejs %>
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#mata_pelajaran').DataTable()
+
+    // function simpan
+    $('#simpan_matpel').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/mata-pelajaran",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Data Mata Pelajaran",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(() => {
+            // console.log(suksesDelete)
+            window.location.assign(`/admin/mata-pelajaran`);
+          });
+        },
+      })
+    })
+
+    //showing data to edit modal      
+    $('#mata_pelajaran').on('click', '.edit', function () {
+      var id = $(this).data('id');
+      var kode = $(this).data('kode');
+      var nama = $(this).data('nama');
+      var nilaikkm = $(this).data('nilaikkm');
+      $('#modal-edit').modal('show');
+      $('.nama').val(nama);
+      $('.kode').val(kode);
+      $('.nilaikkm').val(nilaikkm);
+      $('.id').val(id);
+    });
+  })
+  // detele Mata Pelajaran 
+  function delete_matpel(id) {
+
+    let idMatpel = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Mata Pelajaran ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(() => {
+      swal({
+        title: "Informasi",
+        text: "Success Hapus Data Mata Pelajaran",
+        position: 'top-left',
+        icon: 'success',
+        buttons: false,
+        timer: 2000
+      }).then(() => {
+        window.location.assign(`/admin/mata-pelajaran/delete/${idMatpel}`);
+      });
+    });
+  }
+
+</script>

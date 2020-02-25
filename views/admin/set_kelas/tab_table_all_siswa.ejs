@@ -1,0 +1,36 @@
+<div class="tab-pane" id="input-siswa">
+  <div class="box-body table-responsive no-padding">
+    <table id="all_siswa" class="table table-hover">
+      <thead>
+        <th>No.</th>
+        <th>Nisn</th>
+        <th>Nama</th>
+        <th>Aksi</th>
+      </thead>
+      <tbody>
+        <% for (var i = 0; i < all_siswa.length; i++) { %>
+        <tr>
+          <td>
+            <%= i+1 %>
+          </td>
+          <td>
+            <%= all_siswa[i].nisn %>
+          </td>
+          <td>
+            <%= all_siswa[i].nama %>
+          </td>
+          <td>
+            <button class="btn btn-success btn-sm" onclick="add_siswa_in_kelompok(
+              `<%= id_kelas %>`,
+              `<%= all_siswa[i].id %>`
+              )">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add Siswa
+            </button>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

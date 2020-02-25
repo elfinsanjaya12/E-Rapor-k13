@@ -1,0 +1,35 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-user-plus"></i> Tambah Set Kelas</h3>
+            <div class="pull-right">
+              <a href="/admin/set-kelas" class="btn btn-success btn-xs">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Kembali
+              </a>
+            </div>
+          </div>
+          <div class="box-body">
+            <%- include table_list_kelas.ejs %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#list-kelas').DataTable()
+  })
+</script>

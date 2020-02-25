@@ -1,0 +1,112 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-user-plus"></i> Data kelas</h3>
+          </div>
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
+                <span class="glyphicon glyphicon-plus"></span>
+                Tambah
+              </button>
+            </div>
+
+            <%- include tab_kelas.ejs %>
+
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#kelas').DataTable()
+
+    // redirect halaman kelas
+    function halamankelas() {
+      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/kelas')
+    }
+
+    // function simpan
+    $('#simpan_kelas').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/kelas/create",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Kelas",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(sukses => {
+            halamankelas();
+          });
+        },
+      })
+    })
+
+    //showing data to e edit modal 
+    $('#kelas').on('click', '.edit', function () {
+      const id = $(this).data('id');
+      const nama = $(this).data('nama');
+      const tingkat = $(this).data('tingkat');
+
+      $('#edit-modal').modal('show');
+      $('.id').val(id);
+      $('.nama').val(nama);
+      $('.tingkat').val(tingkat);
+    });
+  })
+
+  // Delete guru 
+  function delete_kelas(id) {
+    let idKelas = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Kelas ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(() => {
+      swal({
+        title: "Informasi",
+        text: "Success Hapus Data Kelas",
+        position: 'top-left',
+        icon: 'success',
+        buttons: false,
+        timer: 2000
+      }).then(() => {
+        window.location.assign(`/admin/kelas/delete/${idKelas}`);
+      });
+    });
+  }
+
+
+</script>

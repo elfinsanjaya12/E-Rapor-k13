@@ -1,0 +1,222 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <% if(alert.message != '') { %>
+    <br>
+    <div class="alert alert-<%= alert.status %> alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-check"></i> <%= alert.message %></h4>
+    </div>
+    <% } %>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="callout callout-info">
+      <h4><i class="icon fa fa-info-circle"></i> Informasi Penting !!!</h4>
+      <p>1. Untuk Login Guru (PNS) gunakan <b>username : NIP dan password : guru123 </b></p>
+      <p>2. Untuk Login Guru (Honor) gunakan <b>username : NIK dan password : guru123 </b></p>
+      <p>3. <b>PASTIKAN GURU SUDAH AKTIF!! </b></p>
+    </div>
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-user"></i> <span style="margin-left: 10px;"> Data Guru </span></h3>
+          </div>
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                <i class="icon fa fa-plus"></i> Tambah
+              </button>
+            </div>
+            <table id="guru" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nip dan Nik</th>
+                  <th>Username</th>
+                  <th>Nama</th>
+                  <th>Status User</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let i = 0; i < guru.length; i++ ) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td><%= guru[i].nip %></td>
+                  <td>
+                    <%= guru[i].User.username %>
+                  </td>
+                  <td>
+                    <%= guru[i].nama %>
+                  </td>
+                  <td>
+                    <span class="pull-right-container">
+                      <% if(guru[i].User.status === "Active") { %>
+                      <small class="label pull-center bg-green"> <%= guru[i].User.status %></small>
+                      <% } else { %>
+                      <small class="label pull-center bg-yellow"> <%= guru[i].User.status %></small>
+                      <% }  %>
+                    </span>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                      data-nip="<%= guru[i].nip %>" data-id="<%= guru[i].id %>" data-nama="<%= guru[i].nama %>"
+                      data-jk="<%= guru[i].jk %>">
+                      <span class="glyphicon glyphicon-pencil"></span>
+                      Edit
+                    </a>
+                    <button class="btn btn-danger btn-sm" onclick="delete_guru(`<%= guru[i].id %>`)"
+                      data-id="<%= guru[i].id %>">
+                      <span class="glyphicon glyphicon-remove"></span>
+                      Delete
+                    </button>
+                    <% if(guru[i].User.status === "Active") { %>
+                    <button class="btn btn-primary btn-sm" onclick="update_status(`<%= guru[i].id %>`)"
+                      data-id="<%= guru[i].id %>">
+                      <span class="glyphicon glyphicon-user"></span>
+                      Nonactive User
+                    </button>
+                    <% } else { %>
+                    <button class="btn btn-warning btn-sm" onclick="update_status(`<%= guru[i].id %>`)"
+                      data-id="<%= guru[i].id %>">
+                      <span class="glyphicon glyphicon-user"></span>
+                      Active User
+                    </button>
+                    <% } %>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+<!-- iclude modal add -->
+<%- include add_modal.ejs %>
+
+<!-- include modal edit -->
+<%- include edit_modal.ejs %>
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#guru').DataTable()
+    $(document).ready(function () { setTimeout(function () { $(".alert").fadeIn('slow'); }, 1500); });
+    // angka 3000 dibawah ini artinya pesan akan hilang dalam 3 detik setelah muncul
+    setTimeout(function () { $(".alert").fadeOut('slow'); }, 4000);
+
+    // redirect halaman guru
+    function successTambah() {
+      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/guru')
+    }
+
+    // function simpan
+    // $('#simpan_guru').on('submit', function (event) {
+    //   event.preventDefault();
+    //   $.ajax({
+    //     url: "/admin/guru",
+    //     method: "POST",
+    //     data: $(this).serialize(),
+    //     success: function () {
+    //       swal({
+    //         title: "Informasi",
+    //         text: "Success Tambah Data Guru",
+    //         position: 'top-left',
+    //         icon: 'success',
+    //         buttons: false,
+    //         timer: 2000
+    //       }).then(suksesDelete => {
+    //         // console.log(suksesDelete)
+    //         successTambah();
+    //       });
+    //     },
+    //   })
+    // })
+  })
+
+  // Delete guru 
+  function delete_guru(id) {
+    let idGuru = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Guru ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Success",
+          text: "Success Delete Data Guru",
+          icon: "success",
+          buttons: false,
+          timer: 2000
+        }).then(suksesDelete => {
+          window.location.assign(`/admin/guru/delete/${idGuru}`);
+        });
+      }
+    });
+  }
+
+  //showing data to edit modal      
+  $('#guru').on('click', '.edit', function () {
+    var id = $(this).data('id');
+    var nip = $(this).data('nip');
+    var nama = $(this).data('nama');
+    var jk = $(this).data('jk');
+
+    $('#EditModal').modal('show');
+    $('.nama').val(nama);
+    $('.nip').val(nip);
+    $("select").val(jk);
+    $('.id').val(id);
+  });
+
+  // Change Status 
+  function update_status(id) {
+    let idGuru = id;
+    swal({
+      title: "Yakin Ingin Ubah Status?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Success",
+          text: "Success Ubah Status",
+          icon: "success",
+          buttons: false,
+          timer: 2000
+        }).then(suksesChange => {
+          window.location.assign(`/admin/guru/status/${idGuru}`);
+        });
+      }
+    });
+  }
+
+
+
+</script>

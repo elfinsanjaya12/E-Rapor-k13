@@ -1,0 +1,84 @@
+<html>
+
+<head>
+  <title>Sign In Admin</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="Login Admin">
+  <meta name="author" content="code@Home">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="/adminlte/bower_components/Ionicons/css/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/adminlte/dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="/adminlte/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row header-sign-in">
+      <div class="col-md-10 offset-md-1 form-sign-in">
+        <% if(alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+          <h4><i class="icon fa fa-info-circle"></i> <%= alert.message %></h4>
+        </div>
+        <% } %>
+        <div class="row">
+          <div class="col-md-6 d-none d-sm-block">
+            <img class="icon-header" height="276" src="assets/images/illustration_login.png" alt="">
+          </div>
+          <div class="col-md-4">
+            <p class="title-form">
+              Sign In
+            </p>
+            <form action="/signin/action" method="post">
+              <div class="form-group content-sign-in">
+                <label class="title-input-type-primary-tiketsaya" for="username">Username</label>
+                <input type="text" class="form-control input-type-primary-tiketsaya" id="username" name="username"
+                  aria-describedby="username" placeholder="Enter username" required>
+              </div>
+              <div class="form-group">
+                <label class="title-input-type-primary-tiketsaya" for="password">Password</label>
+                <input type="password" class="form-control input-type-primary-tiketsaya" id="password" name="password"
+                  placeholder="Password" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-primary-tiketsaya">Sign In</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- jQuery 3 -->
+  <script src="/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- DataTables -->
+  <script src="/adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="/adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+  <!-- SlimScroll -->
+  <script src="/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+  <!-- FastClick -->
+  <script src="/adminlte/bower_components/fastclick/lib/fastclick.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/adminlte/dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/adminlte/dist/js/demo.js"></script>
+</body>
+
+</html>

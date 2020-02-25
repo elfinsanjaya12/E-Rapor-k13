@@ -1,0 +1,123 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-calendar"></i> Data Tahun</h3>
+          </div>
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
+                <i class="fa fa-plus"></i> Tambah
+              </button>
+            </div>
+            <!-- include table tahun -->
+            <%- include table_tahun.ejs %>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<!-- iclude modal add -->
+<%- include add_modal.ejs %>
+
+<!-- iclude modal edit -->
+<%- include edit_modal.ejs %>
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#tahun').DataTable()
+
+    // redirect halaman tahun
+    function halamanTahun() {
+      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/tahun')
+    }
+
+    // function simpan
+    $('#simpan_tahun').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/tahun/create",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Informasi",
+            text: "Success Tambah Data Tahun",
+            position: 'top-left',
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(sukses => {
+            halamanTahun();
+          });
+        },
+      })
+    })
+
+    //showing data to e edit modal 
+    $('#tahun').on('click', '.edit', function () {
+      const id = $(this).data('id');
+      const nip = $(this).data('nip');
+      const kepala_sekolah = $(this).data('kepala');
+      const tgl_raport = $(this).data('tgl');
+      const tahun = $(this).data('tahun');
+      const semester = $(this).data('semester');
+      console.log(tahun)
+
+
+      $('#edit-modal').modal('show');
+      $('.id').val(id);
+      $('.nip').val(nip);
+      $('.kepala_sekolah').val(kepala_sekolah);
+      $('.tgl_raport').val(tgl_raport);
+      $('.tahun').val(tahun);
+      $('.semester').val(semester);
+    });
+  })
+
+  // Change Status 
+  function update_status(id) {
+    let idTahun = id;
+    swal({
+      title: "Yakin Ingin Ubah Status?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Informasi",
+          text: "Success Ubah Setatus",
+          position: 'top-left',
+          icon: 'success',
+          buttons: false,
+          timer: 2000
+        }).then(suksesChange => {
+          window.location.assign(`/admin/tahun/status/${idTahun}`);
+        });
+      }
+    });
+  }
+
+</script>

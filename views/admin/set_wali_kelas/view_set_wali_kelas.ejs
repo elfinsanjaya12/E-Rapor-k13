@@ -1,0 +1,130 @@
+<%- include ../../partials/admin_layout/header.ejs %>
+<%- include ../../partials/admin_layout/sidebar.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+  <section class="content-header">
+    <% if(alert.message != '') { %>
+    <br>
+    <div class="alert alert-<%= alert.status %> alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-check"></i> <%= alert.message %></h4>
+    </div>
+    <% } %>
+  </section>
+
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-user-secret"></i> Set Wali Kelas</h3>
+          </div>
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">
+                <span class="glyphicon glyphicon-plus"></span>
+                Tambah
+              </button>
+            </div>
+            <!-- include table set wali kelas -->
+            <%- include table_set_wali_kelas %>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+<!-- include add modal -->
+<%- include add_modal.ejs %>
+
+<!-- include edit modal -->
+<%- include edit_modal.ejs %>
+
+
+<%- include ../../partials/admin_layout/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#ekstra').DataTable()
+
+    // redirect halaman ekstra
+    function halamanEkstra() {
+      window.location.replace(window.location.protocol + "//" + window.location.host + '/admin/ekstra')
+    }
+
+    // function simpan
+    $('#simpan_ekstra').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/ekstra/create",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Success",
+            text: "Success Tambah Wali Kelas",
+            icon: 'success',
+            buttons: false,
+            timer: 2000
+          }).then(sukses => {
+            halamanEkstra();
+          });
+        },
+      })
+    })
+
+    //showing data to e edit modal 
+    $('#ekstra').on('click', '.edit', function () {
+      const id = $(this).data('id');
+      const KelasId = $(this).data('KelasId');
+      const GuruId = $(this).data('GuruId');
+
+
+      $('#edit-modal').modal('show');
+      $('.id').val(id);
+      $("select").val(KelasId);
+      $("select").val(GuruId);
+    });
+  })
+
+  // Delete guru 
+  function delete_set_wali_kelas(id) {
+
+    swal({
+      title: "Yakin Ingin Menghapus Wali Kelas ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+          title: "Success",
+          text: "Success Hapus Wali Kelas",
+          icon: "success",
+          buttons: false,
+          timer: 2000
+        }).then(suksesDelete => {
+          window.location.assign(`/admin/set-wali-kelas/delete/${id}`);
+        });
+      }
+    });
+  }
+
+
+</script>

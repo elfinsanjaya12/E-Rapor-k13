@@ -1,0 +1,53 @@
+<table id="tahun" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Tahun</th>
+      <th>Kepala Sekolah</th>
+      <th>Tgl Raport</th>
+      <th>Semester</th>
+      <th>Status</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let i = 0; i < tahun.length; i++ ) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td><%= tahun[i].tahun %></td>
+      <td>
+        <%= tahun[i].kepala_sekolah %>
+      </td>
+      <td>
+        <%= tahun[i].tgl_raport %>
+      </td>
+      <td>
+        <%= tahun[i].semester %>
+      </td>
+      <td>
+        <span class="pull-right-container">
+          <% if(tahun[i].status === "Active") { %>
+          <small class="label pull-center bg-green"> <%= tahun[i].status %></small>
+          <% } else { %>
+          <small class="label pull-center bg-red"> <%= tahun[i].status %></small>
+          <% }  %>
+        </span>
+      </td>
+
+      <td>
+        <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit" data-nip="<%= tahun[i].nip %>"
+          data-id="<%= tahun[i].id %>" data-kepala="<%= tahun[i].kepala_sekolah %>"
+          data-tgl="<%= tahun[i].tgl_raport %>" data-semester="<%= tahun[i].semester %>"
+          data-tahun="<%= tahun[i].tahun %>">
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+        </a>
+        <button class="btn btn-info btn-sm" onclick="update_status(`<%= tahun[i].id %>`)" data-id="<%= tahun[i].id %>">
+          <span class="glyphicon glyphicon-star"></span>
+          Active
+        </button>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

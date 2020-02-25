@@ -1,0 +1,263 @@
+<div class="nav-tabs-custom">
+  <ul class="nav nav-tabs">
+    <li><a href="#tab-edit-siswa" data-toggle="tab">Edit Siswa</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="active tab-pane" id="tab-edit-siswa">
+      <form action="/admin/siswa/update/<%= siswa.id %>" method="post">
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="nis" class="control-label">NIS</label>
+              <input type="number" name="nis" class="form-control" id="nis" value="<%= siswa.nis %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="nisn" class="control-label">NISN</label>
+              <input type="number" name="nisn" class="form-control" id="nisn" value="<%= siswa.nisn %>" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="nama" class="control-label">Nama</label>
+              <input type="text" name="nama" class="form-control" id="nama" value="<%= siswa.nama %>" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <!-- select -->
+            <div class="form-group">
+              <label>Jenis Kelamin</label>
+              <select required name="jk" class="form-control">
+                <option value=<%= siswa.jk %>>--- <%= siswa.jk %> ---</option>
+                <option value="pria">Pria</option>
+                <option value="wanita">Wanita</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="tmpt_lahir" class="control-label">Tempat Lahir</label>
+              <input type="text" name="tmpt_lahir" class="form-control" id="tmpt_lahir" value="<%= siswa.tmpt_lahir %>"
+                required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="tgl_lahir" class="control-label">Tgl Lahir</label>
+              <input type="date" name="tgl_lahir" class="form-control" id="tgl_lahir" value="<%= siswa.tgl_lahir %>"
+                required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <!-- select -->
+            <div class="form-group">
+              <label>Agama</label>
+              <select required name="agama" class="form-control">
+                <option value=<%= siswa.agama %>>--- <%= siswa.agama %> ---</option>
+                <option value="Islam">Islam</option>
+                <option value="Katolik">Katolik</option>
+                <option value="Kristen">Kristen</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Buddha">Buddha</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7">
+            <div class="form-group">
+              <label for="alamat" class="control-label">Alamat</label>
+              <input type="text" name="alamat" class="form-control" id="alamat" value="<%= siswa.alamat %>" required>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="no_telp" class="control-label">No. Telp</label>
+              <input type="text" name="no_telp" class="form-control" id="no_telp" value="<%= siswa.no_telp %>" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7">
+            <div class="form-group">
+              <label for="asal_sekolah" class="control-label">Sekolah Asal</label>
+              <input type="text" name="asal_sekolah" class="form-control" id="asal_sekolah"
+                value="<%= siswa.asal_sekolah %>" required>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="alamat_asal_sekolah" class="control-label">Alamat Sekolah Asal</label>
+              <input type="text" name="alamat_asal_sekolah" class="form-control" id="alamat_asal_sekolah"
+                value="<%= siswa.alamat_asal_sekolah %>" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="diterima_kelas" class="control-label">Diterima di kelas</label>
+              <!-- select -->
+              <select required name="diterima_kelas" id="diterima_kelas" class="form-control">
+                <option value=<%= siswa.diterima_kelas %>>--- <%= siswa.diterima_kelas %> ---</option>
+                <option value="7">VII</option>
+                <option value="8">VIII</option>
+                <option value="9">IX</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="tgl_diterima" class="control-label">Diterima Tgl</label>
+              <input type="date" name="tgl_diterima" class="form-control" id="tgl_diterima"
+                value="<%= siswa.tgl_diterima %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="no_ijazah" class="control-label">No. Ijazah</label>
+              <input type="text" name="no_ijazah" class="form-control" id="no_ijazah" value="<%= siswa.no_ijazah %>"
+                required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="tahun_ijazah" class="control-label">Thn Ijazah</label>
+              <!-- <input type="text" name="tahun_ijazah" class="form-control" id="tahun_ijazah"
+                value="<%= siswa.tahun_ijazah %>"> -->
+              <select required name="tahun_ijazah" class="form-control">
+                <!-- <option value="">--- Tahun Ijazah ---</option> -->
+                <option value=<%= siswa.tahun_ijazah %>>--- <%= siswa.tahun_ijazah %> ---</option>
+                <option value="2016-2017">2016-2017</option>
+                <option value="2017-2018">2017-2018</option>
+                <option value="2018-2019">2018-2019</option>
+                <option value="2019-2020">2019-2020</option>
+                <option value="2020-2021">2020-2021</option>
+                <option value="2021-2022">2021-2022</option>
+                <option value="2022-2023">2022-2023</option>
+                <option value="2023-2024">2023-2024</option>
+                <option value="2024-2025">2024-2025</option>
+                <option value="2025-2026">2025-2026</option>
+                <option value="2026-2027">2026-2027</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="kode" class="control-label">No. SKHUN</label>
+              <input type="text" name="no_skhu" class="form-control" id="no_skhu" value="<%= siswa.no_skhu %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="tahun_skhu" class="control-label" style="font-size: 10px">Thn SKHUN</label>
+              <!-- <input type="text" name="tahun_skhu" class="form-control" id="tahun_skhu" value="<%= siswa.tahun_skhu %>"
+                required> -->
+              <select required name="tahun_skhu" class="form-control">
+                <!-- <option value="">--- Tahun Ijazah ---</option> -->
+                <option value=<%= siswa.tahun_skhu %>>--- <%= siswa.tahun_skhu %> ---</option>
+                <option value="2016-2017">2016-2017</option>
+                <option value="2017-2018">2017-2018</option>
+                <option value="2018-2019">2018-2019</option>
+                <option value="2019-2020">2019-2020</option>
+                <option value="2020-2021">2020-2021</option>
+                <option value="2021-2022">2021-2022</option>
+                <option value="2022-2023">2022-2023</option>
+                <option value="2023-2024">2023-2024</option>
+                <option value="2024-2025">2024-2025</option>
+                <option value="2025-2026">2025-2026</option>
+                <option value="2026-2027">2026-2027</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="ortu_ayah" class="control-label">Nama Ayah</label>
+              <input type="text" name="ortu_ayah" class="form-control" id="ortu_ayah" value="<%= siswa.ortu_ayah %>"
+                required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="ortu_ibu" class="control-label">Nama Ibu</label>
+              <input type="text" name="ortu_ibu" class="form-control" id="ortu_ibu" value="<%= siswa.ortu_ibu %>"
+                required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="alamat_ortu" class="control-label">Alamat Ortu</label>
+              <input type="text" name="alamat_ortu" class="form-control" id="alamat_ortu"
+                value="<%= siswa.alamat_ortu %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="no_ortu" class="control-label">Telp Ortu</label>
+              <input type="number" name="no_ortu" class="form-control" id="no_ortu" value="<%= siswa.no_ortu %>"
+                required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="pkj_ortu_ayah" class="control-label">Pekerjaan Ayah</label>
+              <input type="text" name="pkj_ortu_ayah" class="form-control" id="pkj_ortu_ayah"
+                value="<%= siswa.pkj_ortu_ayah %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="pkj_ortu_bu" class="control-label">Pekerjaan Ibu</label>
+              <input type="text" name="pkj_ortu_bu" class="form-control" id="pkj_ortu_bu"
+                value="<%= siswa.pkj_ortu_bu %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="wali" class="control-label">Nama wali</label>
+              <input type="text" name="wali" class="form-control" id="wali" value="<%= siswa.wali %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="alamat_wali" class="control-label">Alamat Wali</label>
+              <input type="text" name="alamat_wali" class="form-control" id="alamat_wali"
+                value="<%= siswa.alamat_wali %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="no_wali" class="control-label">No. Wali</label>
+              <input type="text" name="no_wali" class="form-control" id="no_wali" value="<%= siswa.no_wali %>" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="pkj_wali" class="control-label">Pekerjaan Wali</label>
+              <input type="text" name="pkj_wali" class="form-control" id="pkj_wali" value="<%= siswa.pkj_wali %>"
+                required>
+            </div>
+          </div>
+        </div>
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary pull-left">
+            Simpan
+          </button>
+        </div>
+
+      </form>
+    </div>
+    <!-- /.tab-pane -->
+  </div>
+  <!-- /.tab-content -->
+</div>

@@ -1,0 +1,88 @@
+<%- include ../../partials/wali_kelas_layout/header.ejs %>
+<%- include ../../partials/wali_kelas_layout/sidebar.ejs %>
+<div class="content-wrapper">
+  <section class="content-header">
+    <!-- tambahkan di setiap page yang membutuhkan notifikasi -->
+    <% if(alert.message != '') { %>
+    <div class="flash-data" data-flashdata="<%= alert.message %>" data-flashstatus="<%= alert.status %>"></div>
+    <% } %>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-solid box-primary">
+          <div class=" box-header">
+            <h3 class="box-title"><i class="fa fa-user"></i> Profil</h3>
+          </div>
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-3">
+                <!-- <div class="box box-solid box-primary">
+                  <div class=" box-header">
+                    <h3 class="box-title"><i class="fa fa-user"></i> Biodata</h3>
+                  </div>
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="nis" class="control-label">NIP</label>
+                      <input type="text" name="nis" class="form-control" id="nis" value="<%= guru.nip %>" required>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+              <div class="col-md-6">
+                <div class="box box-solid box-primary">
+                  <div class=" box-header">
+                    <h3 class="box-title"><i class="fa fa-key"></i> Ubah Password</h3>
+                  </div>
+                  <div class="box-body">
+                    <form role="form" action="/wali-kelas/profile/change-password" method="POST">
+                      <!-- <div class="form-group">
+                        <label for="password" class="control-label">Password</label>
+                        <input type="text" name="password" class="form-control" id="password" required>
+                      </div> -->
+                      <div class="form-group">
+                        <label for="password_baru" class="control-label">Password Baru</label>
+                        <input type="password" name="password_baru" class="form-control" id="password_baru" required>
+                      </div>
+                      <div class="form-group">
+                        <input type="hidden" name="id" class="form-control" id="id" value="<%= user.id %>" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="konfirmasi_password" class="control-label">Konfirmasi Password</label>
+                        <input type="password" name="konfirmasi_password" class="form-control" id="konfirmasi_password"
+                          required>
+                      </div>
+
+                      <button type="submit" class="btn btn-primary pull-left">
+                        Simpan
+                      </button>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+</div>
+
+
+<%- include ../../partials/wali_kelas_layout/footer.ejs %>
+
+<script>
+  const flashData = $('.flash-data').data('flashdata');
+  const flashStatus = $('.flash-data').data('flashstatus');
+  console.log(flashData);
+  console.log(flashStatus);
+  if (flashData && flashStatus) {
+    swal({
+      position: 'top-end',
+      icon: flashStatus,
+      text: flashData,
+      buttons: false,
+      timer: 2000
+    });
+  }
+</script>
