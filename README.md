@@ -1,4 +1,4 @@
-<h2 align="center">E-Raport Online</h2>
+<h2 align="center">E-Rapor Online</h2>
 
 ## using technology
 
